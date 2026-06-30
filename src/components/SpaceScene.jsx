@@ -24,9 +24,15 @@ function SceneController({
   const ambientLightRef = useRef();
   const pointLight1Ref = useRef();
   const pointLight2Ref = useRef();
+  const currentSp = useRef(0.0);
 
   useFrame((state) => {
-    const sp = scrollProgress.current;
+    const targetSp = window.cosmicScrollProgress !== undefined ? window.cosmicScrollProgress : 0.0;
+    currentSp.current = THREE.MathUtils.lerp(currentSp.current, targetSp, 0.08);
+    const sp = currentSp.current;
+    
+    // Sync the passed-in ref so other components can read it
+    scrollProgress.current = sp;
 
     let targetZ = 14;
     let targetY = 0;

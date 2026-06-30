@@ -335,20 +335,15 @@ export default function App() {
 
   // GSAP ScrollTrigger setup
   useEffect(() => {
-    // 1. Scrub scrollProgress ref from 0.0 to 1.0 (gsap.fromTo prevents freezing/squashing on engine switch)
-    gsap.fromTo(scrollProgress,
-      { current: 0.0 },
-      {
-        current: 1.0,
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 0.5,
-          onUpdate: (self) => {
-            const progress = self.progress;
-            setScrollProgressPercent(Math.floor(progress * 100));
+    // 1. Setup ScrollTrigger to track progress and sync to window global
+    ScrollTrigger.create({
+      trigger: containerRef.current,
+      start: "top top",
+      end: "bottom bottom",
+      onUpdate: (self) => {
+        const progress = self.progress;
+        window.cosmicScrollProgress = progress; // Directly write progress to global
+        setScrollProgressPercent(Math.floor(progress * 100));
 
           // A. Calculate Stage Index based on the redesigned scroll sequence
           // Stage 0: 0.0 - 0.15 (Hero)
@@ -447,8 +442,7 @@ export default function App() {
             setIsCtaHovered(false);
           }
         }
-      }
-    });
+      });
 
     // 2.5 Exit Timeline (scroll-scrubbed: stays settled first, then fades out rapidly before first card at 0.15)
     const exitTimeline = gsap.timeline({
