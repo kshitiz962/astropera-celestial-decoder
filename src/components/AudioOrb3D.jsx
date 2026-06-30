@@ -157,7 +157,6 @@ export default function AudioOrb3D({ onToggleActive, rippleOrigin, rippleProgres
       <Html 
         position={[0, 0.85, 0]} 
         center 
-        distanceFactor={6}
         style={{ pointerEvents: 'none' }}
       >
         <div 
@@ -166,9 +165,9 @@ export default function AudioOrb3D({ onToggleActive, rippleOrigin, rippleProgres
             whiteSpace: 'nowrap',
             textTransform: 'uppercase',
             fontVariant: 'small-caps',
-            fontSize: '9px',
+            fontSize: '11px',
             letterSpacing: '0.15em',
-            padding: '0.45rem 1rem',
+            padding: '0.5rem 1.2rem',
             borderRadius: '999px',
             fontFamily: "var(--font-mono)",
             background: 'rgba(18, 16, 24, 0.65)',

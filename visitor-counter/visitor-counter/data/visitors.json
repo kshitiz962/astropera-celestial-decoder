@@ -1,5 +1,5 @@
 {
-  "totalVisits": 288,
+  "totalVisits": 290,
   "uniqueVisitors": 2,
   "visitorIds": [
     "70acb5b04adc4f322250e60aa6d518109825f9f738b416731c97415a552d2954",
@@ -1443,6 +1443,16 @@
     },
     {
       "timestamp": "2026-06-30T13:14:39.764Z",
+      "isNew": false,
+      "page": "/"
+    },
+    {
+      "timestamp": "2026-06-30T13:17:59.034Z",
+      "isNew": false,
+      "page": "/"
+    },
+    {
+      "timestamp": "2026-06-30T13:21:01.933Z",
       "isNew": false,
       "page": "/"
     }
