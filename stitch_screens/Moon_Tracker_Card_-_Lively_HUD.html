@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ASTROPERA | Moon Tracker</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400..900;1,400..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @keyframes rotate-sigil {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes phase-shift {
+            0% { opacity: 0.3; transform: scale(0.95); filter: blur(2px); }
+            50% { opacity: 1; transform: scale(1); filter: blur(0px); }
+            100% { opacity: 0.3; transform: scale(0.95); filter: blur(2px); }
+        }
+        @keyframes cosmic-drift {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+        .animate-rotate-sigil {
+            animation: rotate-sigil 120s linear infinite;
+        }
+        .animate-phase {
+            animation: phase-shift 8s ease-in-out infinite;
+        }
+        .inner-glow-top {
+            box-shadow: inset 0 1px 0 0 rgba(255, 246, 223, 0.1);
+        }
+        .cyan-glow {
+            filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.4));
+        }
+        .cyan-glow-intense {
+            filter: drop-shadow(0 0 15px rgba(34, 211, 238, 0.6));
+        }
+        .obsidian-glass {
+            background: linear-gradient(135deg, rgba(2, 20, 28, 0.9) 0%, rgba(1, 8, 12, 0.95) 100%);
+            position: relative;
+        }
+        .obsidian-glass::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url("https://www.transparenttextures.com/patterns/carbon-fibre.png");
+            opacity: 0.05;
+            pointer-events: none;
+        }
+        .cosmic-dust {
+            background: radial-gradient(circle at 20% 30%, rgba(34, 211, 238, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(34, 211, 238, 0.05) 0%, transparent 40%);
+            animation: cosmic-drift 20s alternate infinite ease-in-out;
+        }
+        .sacred-grid {
+            background-image: 
+                linear-gradient(to right, rgba(34, 211, 238, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(34, 211, 238, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .bracket-corner {
+            width: 24px;
+            height: 24px;
+            border-top: 1px solid rgba(34, 211, 238, 0.5);
+            border-left: 1px solid rgba(34, 211, 238, 0.5);
+        }
+        .cold-light {
+            background: radial-gradient(circle at center, rgba(34, 211, 238, 0.15) 0%, transparent 70%);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                "outline-variant": "#4d4732",
+                "tertiary": "#22D3EE",
+                "on-secondary-fixed": "#1c0062",
+                "tertiary-fixed": "#22D3EE",
+                "on-tertiary-fixed": "#002020",
+                "on-tertiary-container": "#006a6b",
+                "on-surface-variant": "#d0c6ab",
+                "on-background": "#e5e2e1",
+                "surface-bright": "#3a3939",
+                "primary-fixed": "#ffe16d",
+                "surface-container-low": "#1c1b1b",
+                "primary": "#fff6df",
+                "tertiary-fixed-dim": "#26dcdd",
+                "on-secondary-fixed-variant": "#4719c9",
+                "on-secondary-container": "#b8aaff",
+                "surface-container-high": "#2a2a2a",
+                "on-tertiary-fixed-variant": "#004f50",
+                "inverse-primary": "#705d00",
+                "on-surface": "#e5e2e1",
+                "outline": "#999077",
+                "background": "#131313",
+                "on-tertiary": "#003737",
+                "on-primary-fixed-variant": "#544600",
+                "surface-tint": "#e9c400",
+                "on-primary-container": "#705e00",
+                "inverse-surface": "#e5e2e1",
+                "on-primary-fixed": "#221b00",
+                "on-error": "#690005",
+                "surface-container": "#201f1f",
+                "inverse-on-surface": "#313030",
+                "on-secondary": "#30009b",
+                "on-error-container": "#ffdad6",
+                "surface": "#131313",
+                "surface-container-highest": "#353534",
+                "secondary-fixed-dim": "#cabeff",
+                "secondary-container": "#4719c9",
+                "primary-fixed-dim": "#e9c400",
+                "tertiary-container": "#4af0f1",
+                "secondary-fixed": "#e6deff",
+                "secondary": "#cabeff",
+                "error": "#ffb4ab",
+                "primary-container": "#ffd700",
+                "surface-container-lowest": "#0e0e0e",
+                "surface-dim": "#131313",
+                "on-primary": "#3a3000",
+                "surface-variant": "#353534",
+                "error-container": "#93000a"
+              },
+              "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+              },
+              "spacing": {
+                "margin-mobile": "16px",
+                "margin-desktop": "64px",
+                "stack-sm": "8px",
+                "stack-lg": "48px",
+                "gutter": "24px",
+                "stack-md": "24px",
+                "unit": "4px"
+              },
+              "fontFamily": {
+                "headline-md": ["Bodoni Moda"],
+                "body-md": ["JetBrains Mono"],
+                "body-lg": ["JetBrains Mono"],
+                "label-caps": ["JetBrains Mono"],
+                "headline-lg": ["Bodoni Moda"],
+                "display-lg": ["Bodoni Moda"],
+                "mono-data": ["JetBrains Mono"]
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden">
+<!-- Top Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-surface/40 backdrop-blur-xl border-b border-outline-variant/20 inner-glow-top flex justify-between items-center px-margin-desktop h-20">
+<div class="font-display-lg text-primary tracking-tighter text-display-lg-mobile md:text-display-lg">ASTROPERA</div>
+<div class="hidden md:flex gap-8 items-center font-label-mono text-label-mono uppercase tracking-widest">
+<a class="text-primary border-b-2 border-primary pb-1" href="#">COMMAND</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">CONTROL</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">COMMS</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">GEAR</a>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:bg-primary/10 p-2 rounded-full transition-all">notifications</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:bg-primary/10 p-2 rounded-full transition-all">settings</span>
+<div class="w-10 h-10 border border-primary/30 p-0.5 rounded-sm">
+<img alt="Commander Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjni2aeGQLctpdN0odMGIKdCJOVvvfgVdmXhnhTatyALOIiMGWhkBqjd-1cxXCIT9-ao51_m65dRL9UKQOxkeMAuqF2QrKdQ-DeOjMfxnm6NDphKgN2_obFzOxgCjG8SMXrec-hDAlPDFWNLCUpYADXDFI2AAhPp1TwbkBev3SNBw6KbbPqq87srZswp8Kx4nLcbDBC3eu_tJZISsGW_2koeW1Z3G8ZL2uZCIFAotpOdsRCCofgSmRebrZEW_JPok6kS_FCXDuss8"/>
+</div>
+</div>
+</nav>
+<!-- Sidebar (Visible on Desktop) -->
+<aside class="hidden md:flex flex-col py-6 gap-2 fixed left-0 top-20 h-[calc(100vh-120px)] w-64 z-40 bg-surface-container-low/60 backdrop-blur-3xl border-r border-outline-variant/10 font-label-mono text-label-mono">
+<div class="px-6 mb-8">
+<div class="text-primary font-display-lg text-2xl uppercase">Orbital Hud</div>
+<div class="text-[10px] text-tertiary tracking-widest opacity-70">V0.8.2 ACTIVE</div>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-3 text-on-surface-variant p-4 hover:bg-surface-variant/20 hover:translate-x-1 transition-transform duration-200 cursor-pointer">
+<span class="material-symbols-outlined">target</span>
+<span>OBJECTIVES</span>
+</div>
+<div class="flex items-center gap-3 text-primary bg-primary/10 border-l-2 border-primary p-4 hover:translate-x-1 transition-transform duration-200 cursor-pointer">
+<span class="material-symbols-outlined">rocket_launch</span>
+<span>FLEET</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant p-4 hover:bg-surface-variant/20 hover:translate-x-1 transition-transform duration-200 cursor-pointer">
+<span class="material-symbols-outlined">radar</span>
+<span>SCAN</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant p-4 hover:bg-surface-variant/20 hover:translate-x-1 transition-transform duration-200 cursor-pointer">
+<span class="material-symbols-outlined">strategy</span>
+<span>TACTICAL</span>
+</div>
+</div>
+<div class="mt-auto px-6">
+<button class="w-full py-3 border border-primary text-primary font-bold text-xs tracking-widest hover:bg-primary hover:text-background transition-all uppercase">
+                SYNC ORBIT
+            </button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="pt-32 pb-24 px-margin-mobile md:pl-80 md:pr-margin-desktop min-h-screen sacred-grid relative">
+<div class="max-w-4xl mx-auto flex flex-col gap-12">
+<!-- Header Section -->
+<div class="border-l-4 border-tertiary pl-6">
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary uppercase">Lunar Dynamics</h1>
+<p class="font-body-lg text-on-surface-variant max-w-xl">Real-time telemetry and metaphysical mapping of the Moon's influence on planetary operational capacity.</p>
+</div>
+<!-- The Moon Tracker Card -->
+<div class="relative group w-full max-w-md mx-auto md:mx-0">
+<!-- Background Layer -->
+<div class="absolute -inset-4 bg-tertiary/20 blur-3xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+<div class="relative obsidian-glass border border-tertiary/30 w-full p-8 overflow-hidden rounded-sm shadow-2xl">
+<!-- Cosmic Dust Background -->
+<div class="absolute inset-0 cosmic-dust opacity-40 pointer-events-none"></div>
+<div class="absolute inset-0 cold-light pointer-events-none"></div>
+<!-- Rotating Sigil Background -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[160%] h-[160%] pointer-events-none opacity-20">
+<svg class="w-full h-full animate-rotate-sigil stroke-tertiary fill-none" viewbox="0 0 100 100">
+<circle cx="50" cy="50" r="48" stroke-dasharray="1 4" stroke-width="0.2"></circle>
+<circle cx="50" cy="50" r="38" stroke-dasharray="2 6" stroke-width="0.3"></circle>
+<path d="M50 0 V100 M0 50 H100" opacity="0.5" stroke-width="0.1"></path>
+<path d="M15 15 L85 85 M15 85 L85 15" opacity="0.5" stroke-width="0.1"></path>
+<circle cx="50" cy="50" r="25" stroke-width="0.2"></circle>
+</svg>
+</div>
+<!-- Brackets and Accents -->
+<div class="absolute top-0 left-0 bracket-corner"></div>
+<div class="absolute bottom-0 right-0 bracket-corner rotate-180"></div>
+<div class="absolute top-6 right-6 font-mono-data text-tertiary opacity-80 text-lg font-bold tracking-tighter">L-IV // PHASE_04</div>
+<!-- Card Header -->
+<div class="relative z-10 flex flex-col items-center mb-10">
+<!-- Moon Medallion -->
+<div class="relative w-32 h-32 mb-6">
+<div class="absolute inset-0 bg-tertiary/30 rounded-full blur-2xl cyan-glow-intense animate-pulse"></div>
+<div class="relative w-full h-full flex items-center justify-center rounded-full border-2 border-tertiary/40 bg-surface-container-lowest/80 backdrop-blur-md shadow-[0_0_50px_rgba(34,211,238,0.3)]">
+<!-- High Fidelity Crescent Moon Sigil -->
+<svg class="w-20 h-20 text-tertiary cyan-glow-intense animate-phase" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8V4z"></path>
+</svg>
+</div>
+<!-- Dynamic Orbit Rings -->
+<div class="absolute -inset-6 border border-tertiary/20 rounded-full animate-spin-slow opacity-60" style="animation-duration: 25s; border-style: dashed;"></div>
+<div class="absolute -inset-2 border border-tertiary/10 rounded-full animate-spin-slow" style="animation-duration: 15s; animation-direction: reverse;"></div>
+</div>
+<h2 class="font-headline-lg text-primary text-center tracking-[0.3em] uppercase mb-1 drop-shadow-sm">Moon Tracker</h2>
+<div class="flex items-center gap-2">
+<div class="w-8 h-[1px] bg-tertiary/40"></div>
+<div class="w-2 h-2 rounded-full border border-tertiary bg-tertiary/20"></div>
+<div class="w-8 h-[1px] bg-tertiary/40"></div>
+</div>
+</div>
+<!-- Card Body -->
+<div class="relative z-10 space-y-6">
+<div class="text-center">
+<p class="font-body-md text-on-surface-variant leading-relaxed max-w-[280px] mx-auto italic opacity-90">
+        Aligning operational consciousness with the celestial transit of the L-IV sector.
+    </p>
+</div>
+<!-- HUD Telemetry Readouts -->
+<div class="grid grid-cols-2 gap-px bg-tertiary/20 border border-tertiary/20 rounded-sm overflow-hidden">
+<div class="bg-surface-container-lowest/40 backdrop-blur-md p-4 flex flex-col items-center gap-1 group/data">
+<span class="font-mono-data text-[10px] tracking-widest text-tertiary/60 uppercase">Illumination</span>
+<div class="flex items-baseline gap-1">
+<span class="text-tertiary font-bold text-xl cyan-glow">82.4</span>
+<span class="text-tertiary/60 text-[10px]">%</span>
+</div>
+<div class="w-full h-1 bg-tertiary/10 mt-1 overflow-hidden">
+<div class="h-full bg-tertiary/60 w-[82.4%] shadow-[0_0_8px_#22D3EE]"></div>
+</div>
+</div>
+<div class="bg-surface-container-lowest/40 backdrop-blur-md p-4 flex flex-col items-center gap-1 group/data">
+<span class="font-mono-data text-[10px] tracking-widest text-tertiary/60 uppercase">Transit</span>
+<span class="text-tertiary font-bold text-xl cyan-glow tracking-tight">AQUARIUS</span>
+<div class="flex gap-1 mt-1 opacity-40">
+<div class="w-1.5 h-1.5 rounded-full bg-tertiary"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-tertiary/30"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-tertiary/30"></div>
+</div>
+</div>
+</div>
+<div class="bg-tertiary/5 border border-tertiary/10 p-3 rounded-sm">
+<div class="flex justify-between items-center mb-1">
+<span class="font-mono-data text-[9px] text-tertiary/50 uppercase tracking-widest">Tidal Influence</span>
+<span class="font-mono-data text-[9px] text-tertiary uppercase">High-Band</span>
+</div>
+<div class="flex items-end gap-0.5 h-4">
+<div class="flex-1 bg-tertiary/40 h-[40%]"></div>
+<div class="flex-1 bg-tertiary/60 h-[60%] shadow-[0_0_5px_#22D3EE]"></div>
+<div class="flex-1 bg-tertiary/80 h-[90%] shadow-[0_0_8px_#22D3EE]"></div>
+<div class="flex-1 bg-tertiary h-[70%] shadow-[0_0_5px_#22D3EE]"></div>
+<div class="flex-1 bg-tertiary/40 h-[30%]"></div>
+<div class="flex-1 bg-tertiary/20 h-[50%]"></div>
+<div class="flex-1 bg-tertiary/40 h-[80%]"></div>
+<div class="flex-1 bg-tertiary/60 h-[40%]"></div>
+</div>
+</div>
+</div>
+<!-- Card Footer CTA -->
+<div class="relative z-10 mt-10 flex justify-center">
+<button class="group/btn relative px-10 py-4 overflow-hidden border border-tertiary/50 hover:border-tertiary transition-all duration-500 shadow-[inset_0_0_15px_rgba(34,211,238,0.1)]">
+<div class="absolute inset-0 bg-gradient-to-t from-tertiary/10 to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity"></div>
+<div class="absolute -inset-1 bg-tertiary/5 blur-md opacity-0 group-hover/btn:opacity-100 transition-opacity"></div>
+<div class="flex items-center gap-4 relative">
+<div class="w-1.5 h-1.5 rounded-full bg-tertiary cyan-glow-intense animate-pulse shadow-[0_0_10px_#22D3EE]"></div>
+<span class="font-label-caps text-tertiary uppercase tracking-[0.25em] text-sm">Track Phase</span>
+<span class="material-symbols-outlined text-tertiary text-lg group-hover/btn:translate-x-1 transition-transform">arrow_right_alt</span>
+</div>
+</button>
+</div>
+<!-- Technical Readout Overlay -->
+<div class="absolute bottom-3 left-6 font-mono-data text-[8px] text-tertiary/40 uppercase tracking-widest flex gap-4">
+<span>LAT: 12.042°</span>
+<span>LON: 18.991°</span>
+<span>STRENGTH: NOMINAL</span>
+</div>
+</div>
+</div>
+<!-- Additional Context Section -->
+<div class="grid md:grid-cols-2 gap-8 mt-12">
+<div class="p-6 border border-outline-variant/20 bg-surface-container-low backdrop-blur-sm relative overflow-hidden group">
+<div class="absolute inset-0 bg-tertiary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+<div class="flex items-center gap-2 mb-4 text-primary relative">
+<span class="material-symbols-outlined text-sm text-tertiary">auto_awesome</span>
+<span class="font-label-caps uppercase text-xs tracking-wider">Manifestation Ritual</span>
+</div>
+<p class="text-body-md text-on-surface-variant mb-4 relative">Under the current Waxing Gibbous, focus on amplification of system-wide processing and organizational structure.</p>
+<div class="h-1 w-full bg-surface-variant/30 overflow-hidden relative">
+<div class="h-full bg-tertiary w-4/5 shadow-[0_0_8px_#22D3EE]"></div>
+</div>
+</div>
+<div class="p-6 border border-outline-variant/20 bg-surface-container-low backdrop-blur-sm relative overflow-hidden group">
+<div class="absolute inset-0 bg-tertiary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+<div class="flex items-center gap-2 mb-4 text-primary relative">
+<span class="material-symbols-outlined text-sm text-tertiary">timeline</span>
+<span class="font-label-caps uppercase text-xs tracking-wider">Astro-Telemetry</span>
+</div>
+<p class="text-body-md text-on-surface-variant mb-4 relative">Signal strength from L-IV station is optimal. No solar interference detected in the current lunar sector.</p>
+<div class="flex gap-1.5 relative h-4 items-end">
+<div class="w-1 bg-tertiary h-full opacity-80"></div>
+<div class="w-1 bg-tertiary h-[60%] opacity-60"></div>
+<div class="w-1 bg-tertiary h-[85%] opacity-90"></div>
+<div class="w-1 bg-tertiary/30 h-[40%]"></div>
+<div class="w-1 bg-tertiary h-[70%] opacity-70"></div>
+<div class="w-1 bg-tertiary h-[30%] opacity-40"></div>
+<div class="w-1 bg-tertiary h-[95%] opacity-100 shadow-[0_0_5px_#22D3EE]"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="fixed bottom-0 w-full z-50 h-10 bg-surface-container-lowest/80 backdrop-blur-md border-t border-outline-variant/30 flex justify-between items-center px-margin-desktop font-mono-data text-[10px] uppercase text-secondary">
+<div class="text-on-surface-variant/60">© 2142 ASTROPERA COMMAND</div>
+<div class="flex gap-8 items-center">
+<span class="hover:text-tertiary transition-colors cursor-pointer flex items-center gap-1"><span class="w-1 h-1 bg-green-500 rounded-full animate-pulse"></span> LIFE SUPPORT: 98%</span>
+<span class="hover:text-tertiary transition-colors cursor-pointer">FUEL: 42.1% UNIT</span>
+<span class="text-tertiary font-bold tracking-widest">ORBIT STABLE</span>
+</div>
+</footer>
+<script>
+    // Parallax effect for the card
+    document.querySelector('.group')?.addEventListener('mousemove', (e) => {
+        const card = e.currentTarget;
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = (y - centerY) / 30;
+        const rotateY = (centerX - x) / 30;
+        
+        card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.01)`;
+    });
+
+    document.querySelector('.group')?.addEventListener('mouseleave', (e) => {
+        e.currentTarget.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1)';
+    });
+</script>
+</body></html>

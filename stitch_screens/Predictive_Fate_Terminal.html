@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Future Projections | Cosmic Oracle</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&amp;family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(19, 19, 19, 0.7);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(153, 144, 119, 0.2);
+        }
+        .sacred-header {
+            border-top: 1px solid #e9c400;
+            position: relative;
+        }
+        .sacred-header::after {
+            content: '◆';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #e9c400;
+            font-size: 10px;
+            background: #131313;
+            padding: 0 4px;
+        }
+        .glow-point {
+            background: radial-gradient(circle, rgba(38, 220, 221, 0.15) 0%, rgba(38, 220, 221, 0) 70%);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 2px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #4d4732;
+        }
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(1000%); }
+        }
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, rgba(233, 196, 0, 0.1), transparent);
+            animation: scanline 8s linear infinite;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#d2fffe",
+                        "on-tertiary-container": "#006a6b",
+                        "tertiary-fixed-dim": "#26dcdd",
+                        "primary": "#fff6df",
+                        "error-container": "#93000a",
+                        "surface-container": "#201f1f",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-secondary-fixed-variant": "#4719c9",
+                        "on-primary-container": "#705e00",
+                        "on-surface": "#e5e2e1",
+                        "on-surface-variant": "#d0c6ab",
+                        "surface-variant": "#353534",
+                        "surface-dim": "#131313",
+                        "surface-bright": "#3a3939",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-tint": "#e9c400",
+                        "primary-fixed-dim": "#e9c400",
+                        "on-secondary": "#30009b",
+                        "inverse-on-surface": "#313030",
+                        "primary-container": "#ffd700",
+                        "secondary-fixed-dim": "#cabeff",
+                        "on-primary-fixed-variant": "#544600",
+                        "on-primary-fixed": "#221b00",
+                        "on-error-container": "#ffdad6",
+                        "secondary-container": "#4719c9",
+                        "secondary-fixed": "#e6deff",
+                        "tertiary-container": "#4af0f1",
+                        "on-tertiary-fixed": "#002020",
+                        "on-secondary-container": "#b8aaff",
+                        "on-tertiary-fixed-variant": "#004f50",
+                        "background": "#131313",
+                        "surface-container-highest": "#353534",
+                        "inverse-primary": "#705d00",
+                        "surface": "#131313",
+                        "outline-variant": "#4d4732",
+                        "outline": "#999077",
+                        "error": "#ffb4ab",
+                        "on-primary": "#3a3000",
+                        "tertiary-fixed": "#56f9f9",
+                        "inverse-surface": "#e5e2e1",
+                        "primary-fixed": "#ffe16d",
+                        "on-background": "#e5e2e1",
+                        "on-tertiary": "#003737",
+                        "secondary": "#cabeff",
+                        "on-error": "#690005",
+                        "on-secondary-fixed": "#1c0062"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "unit": "4px",
+                        "stack-lg": "48px",
+                        "margin-desktop": "64px",
+                        "stack-md": "24px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["JetBrains Mono"],
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-md": ["Bodoni Moda"],
+                        "headline-lg": ["Bodoni Moda"],
+                        "mono-data": ["JetBrains Mono"],
+                        "body-lg": ["JetBrains Mono"],
+                        "display-lg": ["Bodoni Moda"],
+                        "headline-lg-mobile": ["Bodoni Moda"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.15em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                        "headline-lg": ["40px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "mono-data": ["13px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-desktop py-4 bg-surface/80 backdrop-blur-xl dark:bg-surface/80 border-b border-primary/20 bg-clip-padding backdrop-filter">
+<div class="flex items-center gap-stack-lg">
+<span class="font-display-lg text-headline-md text-primary-fixed-dim tracking-tighter">Cosmic Oracle</span>
+<div class="hidden md:flex items-center gap-6">
+<a class="font-body-md text-body-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Birth Charts</a>
+<a class="font-body-md text-body-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Daily Oracles</a>
+<a class="font-body-md text-body-md uppercase tracking-widest text-primary border-b-2 border-primary pb-1" href="#">Future Projections</a>
+<a class="font-body-md text-body-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Star Maps</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary hover:bg-primary-container/10 p-2 transition-all duration-300">account_circle</button>
+</div>
+</nav>
+<!-- Sidebar & Main Content Wrapper -->
+<div class="flex pt-20 h-screen overflow-hidden">
+<!-- SideNavBar -->
+<aside class="hidden lg:flex flex-col h-full w-80 fixed left-0 border-r border-outline-variant/10 bg-surface-container-lowest py-stack-md z-40">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-12 h-12 rounded-full border border-primary/30 flex items-center justify-center overflow-hidden">
+<img alt="User Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDna2OPrP8dYVj8qBZTl3Q_otPsrZMiORtwjtEwFFpjUPIkUNNuiDu3kQOtqKOT1oLm23OPL2Pd0aXQPzceObcPotyWDcqf-Dh4l3lEgvDtAIcjzyJHpJlmFtcRffIL7KGReeDRfVIAEPh4VmUY6NXIzxlF0yiODQD8mrjP__2WNph1f_wZX1LZdkhHTfBun8gcWZVPnwbxKFKFJw3OzUFVkoLg7R3u-ceX6nGZgCYzjgFoRdpAdEFrGfOR7RFy5IE66uv8bXCO9wM"/>
+</div>
+<div>
+<p class="font-headline-md text-primary text-lg">Master Astronomer</p>
+<p class="font-mono-data text-on-surface-variant text-[11px] uppercase tracking-wider">Ascendant in Scorpio</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant hover:bg-secondary-container/20 translate-x-1 transition-transform duration-300 font-mono-data" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span>Saved Ascendants</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 bg-secondary-container text-on-secondary-container border-l-4 border-primary-fixed-dim font-mono-data" href="#">
+<span class="material-symbols-outlined">notifications_active</span>
+<span>Celestial Alerts</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant hover:bg-secondary-container/20 translate-x-1 transition-transform duration-300 font-mono-data" href="#">
+<span class="material-symbols-outlined">history_edu</span>
+<span>Ecliptic History</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant hover:bg-secondary-container/20 translate-x-1 transition-transform duration-300 font-mono-data" href="#">
+<span class="material-symbols-outlined">diamond</span>
+<span>Sacred Geometry</span>
+</a>
+</nav>
+<div class="px-6 mt-auto space-y-4">
+<button class="w-full py-3 border border-primary text-primary font-mono-data text-xs uppercase tracking-widest hover:bg-primary/10 transition-colors">
+                    Upgrade to Zenith
+                </button>
+<div class="space-y-1">
+<a class="flex items-center gap-4 py-2 text-on-surface-variant text-sm font-mono-data" href="#">
+<span class="material-symbols-outlined text-sm">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-4 py-2 text-on-surface-variant text-sm font-mono-data" href="#">
+<span class="material-symbols-outlined text-sm">logout</span>
+<span>Log Out</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 lg:ml-80 h-full overflow-y-auto custom-scrollbar px-margin-mobile md:px-margin-desktop pb-24">
+<!-- Hero Title -->
+<header class="py-stack-lg border-b border-outline-variant/10 mb-stack-lg relative overflow-hidden">
+<div class="absolute inset-0 glow-point opacity-50"></div>
+<div class="relative z-10">
+<p class="font-mono-data text-tertiary-fixed-dim text-xs uppercase tracking-[0.3em] mb-2">Technical Destiny Analysis</p>
+<h1 class="font-display-lg text-headline-lg lg:text-display-lg text-primary tracking-tighter">Future Projections</h1>
+<div class="flex items-center gap-4 mt-4 font-mono-data text-xs text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-tertiary-fixed-dim animate-pulse"></span> SYSTEM: LIVE</span>
+<span>LAT: 40.7128° N</span>
+<span>LNG: 74.0060° W</span>
+</div>
+</div>
+</header>
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-gutter">
+<!-- Left Column: Timeline -->
+<div class="xl:col-span-4 space-y-stack-md">
+<div class="glass-panel p-stack-md sacred-header">
+<h2 class="font-mono-data text-xs uppercase tracking-widest text-primary mb-6">Upcoming Celestial Events</h2>
+<div class="relative pl-6 space-y-8 border-l border-outline-variant/20">
+<!-- Event 1 -->
+<div class="relative">
+<div class="absolute -left-[29px] top-0 w-3 h-3 bg-background border border-primary-fixed-dim"></div>
+<p class="font-mono-data text-[10px] text-tertiary-fixed-dim mb-1">2024.11.14 // 02:44 AM</p>
+<h3 class="font-headline-md text-lg text-primary mb-2">Saturn Direct in Pisces</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">Structural boundaries dissolve. High probability of karmic recalculation in sector 7.</p>
+<div class="mt-2 flex gap-2">
+<span class="px-2 py-0.5 bg-surface-container-high text-[10px] font-mono-data border border-outline-variant/30 text-on-surface-variant">KARMA_RECAL</span>
+<span class="px-2 py-0.5 bg-surface-container-high text-[10px] font-mono-data border border-outline-variant/30 text-on-surface-variant">PHASE_SHIFT</span>
+</div>
+</div>
+<!-- Event 2 -->
+<div class="relative">
+<div class="absolute -left-[29px] top-0 w-3 h-3 bg-background border border-outline-variant/50"></div>
+<p class="font-mono-data text-[10px] text-on-surface-variant mb-1">2024.11.21 // 11:15 AM</p>
+<h3 class="font-headline-md text-lg text-primary mb-2">Pluto enters Aquarius</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">The 20-year cycle of digital evolution begins. Data sovereignty becomes sacred.</p>
+</div>
+<!-- Event 3 -->
+<div class="relative">
+<div class="absolute -left-[29px] top-0 w-3 h-3 bg-background border border-error"></div>
+<p class="font-mono-data text-[10px] text-error mb-1">2024.11.25 // 04:12 PM</p>
+<h3 class="font-headline-md text-lg text-error mb-2">Mercury Retrograde</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">Signal degradation imminent. Prohibit major contract signatures.</p>
+</div>
+</div>
+</div>
+<div class="glass-panel p-stack-md flex flex-col items-center justify-center text-center py-12 relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-br from-primary-container/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined text-4xl text-primary mb-4">astrophotography_off</span>
+<h4 class="font-headline-md text-primary mb-2">Deep Void Scanning</h4>
+<p class="text-xs text-on-surface-variant font-mono-data uppercase tracking-widest max-w-[200px]">Unlock long-term trajectory mapping for 2025-2030</p>
+<button class="mt-6 px-8 py-2 bg-primary text-on-primary font-mono-data text-[10px] uppercase tracking-[0.2em] hover:bg-primary/90 transition-all active:scale-95">Initiate Scan</button>
+</div>
+</div>
+<!-- Right Column: Chart & Actions -->
+<div class="xl:col-span-8 space-y-stack-md">
+<!-- Chart Area -->
+<div class="glass-panel p-stack-md sacred-header min-h-[500px] flex flex-col">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h2 class="font-mono-data text-xs uppercase tracking-widest text-primary mb-1">Fate Variance Indicator (FVI)</h2>
+<p class="text-[10px] font-mono-data text-on-surface-variant">Real-time Personal Energy Entropy: <span class="text-tertiary-fixed-dim">0.824 Δ</span></p>
+</div>
+<div class="flex gap-2">
+<button class="p-1 border border-outline-variant/30 hover:bg-surface-variant/30"><span class="material-symbols-outlined text-sm">zoom_in</span></button>
+<button class="p-1 border border-outline-variant/30 hover:bg-surface-variant/30"><span class="material-symbols-outlined text-sm">share</span></button>
+<button class="p-1 border border-outline-variant/30 hover:bg-surface-variant/30"><span class="material-symbols-outlined text-sm">settings_input_component</span></button>
+</div>
+</div>
+<!-- Mock Stock Chart for Destiny -->
+<div class="flex-1 relative border-l border-b border-outline-variant/20 mb-4 overflow-hidden">
+<div class="scanline absolute z-20"></div>
+<!-- Grid Lines -->
+<div class="absolute inset-0 grid grid-cols-6 grid-rows-4 pointer-events-none">
+<div class="border-r border-t border-outline-variant/5"></div><div class="border-r border-t border-outline-variant/5"></div><div class="border-r border-t border-outline-variant/5"></div><div class="border-r border-t border-outline-variant/5"></div><div class="border-r border-t border-outline-variant/5"></div><div class="border-r border-t border-outline-variant/5"></div>
+<div class="border-r border-t border-outline-variant/5"></div><div class="border-r border-t border-outline-variant/5"></div><div class="border-r border-t border-outline-variant/5"></div><div class="border-r border-t border-outline-variant/5"></div><div class="border-r border-t border-outline-variant/5"></div><div class="border-r border-t border-outline-variant/5"></div>
+<div class="border-r border-t border-outline-variant/5"></div><div class="border-r border-t border-outline-variant/5"></div><div class="border-r border-t border-outline-variant/5"></div><div class="border-r border-t border-outline-variant/5"></div><div class="border-r border-t border-outline-variant/5"></div><div class="border-r border-t border-outline-variant/5"></div>
+<div class="border-r border-t border-outline-variant/5"></div><div class="border-r border-t border-outline-variant/5"></div><div class="border-r border-t border-outline-variant/5"></div><div class="border-r border-t border-outline-variant/5"></div><div class="border-r border-t border-outline-variant/5"></div><div class="border-r border-t border-outline-variant/5"></div>
+</div>
+<!-- The SVG Chart Line -->
+<svg class="absolute inset-0 w-full h-full preserve-3d" viewbox="0 0 1000 400">
+<defs>
+<lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#e9c400" stop-opacity="0.3"></stop>
+<stop offset="100%" stop-color="#e9c400" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<path d="M0,350 Q100,320 150,360 T300,200 T450,250 T600,100 T750,150 T900,50 T1000,80" fill="none" stroke="#e9c400" stroke-width="1.5"></path>
+<path d="M0,350 Q100,320 150,360 T300,200 T450,250 T600,100 T750,150 T900,50 T1000,80 V400 H0 Z" fill="url(#chartGradient)"></path>
+<!-- Points of Interest -->
+<circle class="animate-pulse" cx="300" cy="200" fill="#e9c400" r="4"></circle>
+<circle cx="600" cy="100" fill="#26dcdd" r="4"></circle>
+<circle cx="900" cy="50" fill="#e9c400" r="4"></circle>
+</svg>
+<!-- Labels -->
+<div class="absolute bottom-2 left-2 font-mono-data text-[10px] text-on-surface-variant">NOV 1</div>
+<div class="absolute bottom-2 left-1/4 font-mono-data text-[10px] text-on-surface-variant">NOV 8</div>
+<div class="absolute bottom-2 left-1/2 font-mono-data text-[10px] text-on-surface-variant">NOV 15</div>
+<div class="absolute bottom-2 left-3/4 font-mono-data text-[10px] text-on-surface-variant">NOV 22</div>
+<div class="absolute bottom-2 right-2 font-mono-data text-[10px] text-on-surface-variant">NOV 30</div>
+<div class="absolute top-10 right-4 font-mono-data text-[10px] text-tertiary-fixed-dim bg-background/80 px-2 py-1 border border-tertiary-fixed-dim/20">
+                                PEAK ENLIGHTENMENT: NOV 26
+                            </div>
+</div>
+<!-- Actionable Omens -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+<div class="p-4 border border-outline-variant/20 bg-surface-container-low hover:border-primary transition-all group">
+<div class="flex justify-between items-start mb-3">
+<span class="font-mono-data text-[10px] text-tertiary-fixed-dim tracking-widest">ACTIVE OMEN</span>
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-lg">shield_moon</span>
+</div>
+<h4 class="font-headline-md text-primary mb-1">Incoming Signal Interference</h4>
+<p class="text-xs text-on-surface-variant mb-4">Electromagnetic shifts detected in your home sector. Psychic shields recommended.</p>
+<button class="w-full py-2 bg-primary text-on-primary font-mono-data text-[10px] uppercase tracking-widest group-hover:bg-primary-fixed transition-colors">Prepare &amp; Shield</button>
+</div>
+<div class="p-4 border border-outline-variant/20 bg-surface-container-low hover:border-tertiary-fixed-dim transition-all group">
+<div class="flex justify-between items-start mb-3">
+<span class="font-mono-data text-[10px] text-primary-fixed-dim tracking-widest">TRANSCENDENCE OPS</span>
+<span class="material-symbols-outlined text-primary-fixed-dim text-lg">self_improvement</span>
+</div>
+<h4 class="font-headline-md text-primary mb-1">Solar Aperture Alignment</h4>
+<p class="text-xs text-on-surface-variant mb-4">Optimal window for manifestation logic. 94% success rate predicted.</p>
+<button class="w-full py-2 border border-primary text-primary font-mono-data text-[10px] uppercase tracking-widest hover:bg-primary/10 transition-colors">Meditate &amp; Sync</button>
+</div>
+</div>
+</div>
+<!-- Additional Metadata Widgets -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="glass-panel p-4">
+<p class="font-mono-data text-[10px] text-on-surface-variant uppercase tracking-widest mb-2">Entropy Index</p>
+<div class="flex items-end gap-2">
+<span class="text-2xl font-mono-data text-primary">14.2%</span>
+<span class="text-[10px] text-error font-mono-data mb-1">▲ 0.4</span>
+</div>
+</div>
+<div class="glass-panel p-4">
+<p class="font-mono-data text-[10px] text-on-surface-variant uppercase tracking-widest mb-2">Karma Balance</p>
+<div class="flex items-end gap-2">
+<span class="text-2xl font-mono-data text-tertiary-fixed-dim">+842</span>
+<span class="text-[10px] text-tertiary-fixed-dim font-mono-data mb-1">STABLE</span>
+</div>
+</div>
+<div class="glass-panel p-4">
+<p class="font-mono-data text-[10px] text-on-surface-variant uppercase tracking-widest mb-2">Void Density</p>
+<div class="flex items-end gap-2">
+<span class="text-2xl font-mono-data text-primary">LOW</span>
+<span class="text-[10px] text-on-surface-variant font-mono-data mb-1">CLEAR SKIES</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="fixed bottom-0 w-full z-50 px-margin-desktop py-stack-sm bg-surface-container-high/90 backdrop-blur-md border-t border-primary/20 flex flex-col md:flex-row justify-between items-center gap-stack-sm">
+<div class="flex items-center gap-4">
+<span class="font-label-caps text-label-caps text-primary uppercase tracking-widest">© 2024 Cosmic Oracle</span>
+<span class="hidden md:inline font-mono-data text-on-surface-variant text-[10px] uppercase">Planetary Positions: Mercury 14° R, Moon Waxing Crescent.</span>
+</div>
+<div class="flex gap-6">
+<a class="font-mono-data text-mono-data uppercase text-on-surface-variant hover:text-tertiary-fixed transition-colors" href="#">Privacy Policy</a>
+<a class="font-mono-data text-mono-data uppercase text-on-surface-variant hover:text-tertiary-fixed transition-colors" href="#">Astronomical Data Sources</a>
+<a class="font-mono-data text-mono-data uppercase text-on-surface-variant hover:text-tertiary-fixed transition-colors" href="#">Contact High Council</a>
+</div>
+</footer>
+<!-- Interactive Layer for Micro-interactions -->
+<script>
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            // Subtle parallax effect on glow points if any
+            const glows = document.querySelectorAll('.glow-point');
+            glows.forEach(glow => {
+                glow.style.transform = `translate(${(x - 0.5) * 20}px, ${(y - 0.5) * 20}px)`;
+            });
+        });
+
+        // Simulating technical readouts
+        setInterval(() => {
+            const entros = document.querySelectorAll('.entropy-value');
+            entros.forEach(el => {
+                const val = (Math.random() * 100).toFixed(2);
+                el.innerText = val + '%';
+            });
+        }, 3000);
+    </script>
+</body></html>

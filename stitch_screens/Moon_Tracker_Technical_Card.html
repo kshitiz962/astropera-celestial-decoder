@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ASTROPERA | Moon Tracker</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400..900;1,400..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @keyframes rotate-sigil {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-rotate-sigil {
+            animation: rotate-sigil 120s linear infinite;
+        }
+        .inner-glow-top {
+            box-shadow: inset 0 1px 0 0 rgba(255, 246, 223, 0.1);
+        }
+        .cyan-glow {
+            filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.4));
+        }
+        .cyan-glow-intense {
+            filter: drop-shadow(0 0 15px rgba(34, 211, 238, 0.6));
+        }
+        .obsidian-gradient {
+            background: radial-gradient(circle at center, #02141c 0%, #01080c 100%);
+        }
+        .sacred-grid {
+            background-image: 
+                linear-gradient(to right, rgba(34, 211, 238, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(34, 211, 238, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .bracket-corner {
+            width: 24px;
+            height: 24px;
+            border-top: 1px solid #22D3EE;
+            border-left: 1px solid #22D3EE;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                "outline-variant": "#4d4732",
+                "tertiary": "#22D3EE", // Override for Lunar Cyan
+                "on-secondary-fixed": "#1c0062",
+                "tertiary-fixed": "#22D3EE",
+                "on-tertiary-fixed": "#002020",
+                "on-tertiary-container": "#006a6b",
+                "on-surface-variant": "#d0c6ab",
+                "on-background": "#e5e2e1",
+                "surface-bright": "#3a3939",
+                "primary-fixed": "#ffe16d",
+                "surface-container-low": "#1c1b1b",
+                "primary": "#fff6df",
+                "tertiary-fixed-dim": "#26dcdd",
+                "on-secondary-fixed-variant": "#4719c9",
+                "on-secondary-container": "#b8aaff",
+                "surface-container-high": "#2a2a2a",
+                "on-tertiary-fixed-variant": "#004f50",
+                "inverse-primary": "#705d00",
+                "on-surface": "#e5e2e1",
+                "outline": "#999077",
+                "background": "#131313",
+                "on-tertiary": "#003737",
+                "on-primary-fixed-variant": "#544600",
+                "surface-tint": "#e9c400",
+                "on-primary-container": "#705e00",
+                "inverse-surface": "#e5e2e1",
+                "on-primary-fixed": "#221b00",
+                "on-error": "#690005",
+                "surface-container": "#201f1f",
+                "inverse-on-surface": "#313030",
+                "on-secondary": "#30009b",
+                "on-error-container": "#ffdad6",
+                "surface": "#131313",
+                "surface-container-highest": "#353534",
+                "secondary-fixed-dim": "#cabeff",
+                "secondary-container": "#4719c9",
+                "primary-fixed-dim": "#e9c400",
+                "tertiary-container": "#4af0f1",
+                "secondary-fixed": "#e6deff",
+                "secondary": "#cabeff",
+                "error": "#ffb4ab",
+                "primary-container": "#ffd700",
+                "surface-container-lowest": "#0e0e0e",
+                "surface-dim": "#131313",
+                "on-primary": "#3a3000",
+                "surface-variant": "#353534",
+                "error-container": "#93000a"
+              },
+              "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+              },
+              "spacing": {
+                "margin-mobile": "16px",
+                "margin-desktop": "64px",
+                "stack-sm": "8px",
+                "stack-lg": "48px",
+                "gutter": "24px",
+                "stack-md": "24px",
+                "unit": "4px"
+              },
+              "fontFamily": {
+                "headline-md": ["Bodoni Moda"],
+                "body-md": ["JetBrains Mono"],
+                "body-lg": ["JetBrains Mono"],
+                "label-caps": ["JetBrains Mono"],
+                "headline-lg": ["Bodoni Moda"],
+                "display-lg": ["Bodoni Moda"],
+                "mono-data": ["JetBrains Mono"]
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden">
+<!-- Top Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-surface/40 backdrop-blur-xl border-b border-outline-variant/20 inner-glow-top flex justify-between items-center px-margin-desktop h-20 w-full">
+<div class="font-display-lg text-primary tracking-tighter text-display-lg-mobile md:text-display-lg">ASTROPERA</div>
+<div class="hidden md:flex gap-8 items-center font-label-mono text-label-mono uppercase tracking-widest">
+<a class="text-primary border-b-2 border-primary pb-1" href="#">COMMAND</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">CONTROL</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">COMMS</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">GEAR</a>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:bg-primary/10 p-2 rounded-full transition-all">notifications</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:bg-primary/10 p-2 rounded-full transition-all">settings</span>
+<div class="w-10 h-10 border border-primary/30 p-0.5 rounded-sm">
+<img alt="Commander Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjni2aeGQLctpdN0odMGIKdCJOVvvfgVdmXhnhTatyALOIiMGWhkBqjd-1cxXCIT9-ao51_m65dRL9UKQOxkeMAuqF2QrKdQ-DeOjMfxnm6NDphKgN2_obFzOxgCjG8SMXrec-hDAlPDFWNLCUpYADXDFI2AAhPp1TwbkBev3SNBw6KbbPqq87srZswp8Kx4nLcbDBC3eu_tJZISsGW_2koeW1Z3G8ZL2uZCIFAotpOdsRCCofgSmRebrZEW_JPok6kS_FCXDuss8"/>
+</div>
+</div>
+</nav>
+<!-- Sidebar (Visible on Desktop) -->
+<aside class="hidden md:flex flex-col py-6 gap-2 fixed left-0 top-20 h-[calc(100vh-120px)] w-64 z-40 bg-surface-container-low/60 backdrop-blur-3xl border-r border-outline-variant/10 font-label-mono text-label-mono">
+<div class="px-6 mb-8">
+<div class="text-primary font-display-lg text-2xl">ORBITAL HUD</div>
+<div class="text-[10px] text-tertiary tracking-widest opacity-70">V0.8.2 ACTIVE</div>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-3 text-on-surface-variant p-4 hover:bg-surface-variant/20 hover:translate-x-1 transition-transform duration-200 cursor-pointer">
+<span class="material-symbols-outlined">target</span>
+<span>OBJECTIVES</span>
+</div>
+<div class="flex items-center gap-3 text-primary bg-primary/10 border-l-2 border-primary p-4 hover:translate-x-1 transition-transform duration-200 cursor-pointer">
+<span class="material-symbols-outlined">rocket_launch</span>
+<span>FLEET</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant p-4 hover:bg-surface-variant/20 hover:translate-x-1 transition-transform duration-200 cursor-pointer">
+<span class="material-symbols-outlined">radar</span>
+<span>SCAN</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant p-4 hover:bg-surface-variant/20 hover:translate-x-1 transition-transform duration-200 cursor-pointer">
+<span class="material-symbols-outlined">strategy</span>
+<span>TACTICAL</span>
+</div>
+</div>
+<div class="mt-auto px-6">
+<button class="w-full py-3 border border-primary text-primary font-bold text-xs tracking-widest hover:bg-primary hover:text-background transition-all uppercase">
+                SYNC ORBIT
+            </button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="pt-32 pb-24 px-margin-mobile md:pl-80 md:pr-margin-desktop min-h-screen sacred-grid relative">
+<div class="max-w-4xl mx-auto flex flex-col gap-12">
+<!-- Header Section -->
+<div class="border-l-4 border-tertiary pl-6">
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary uppercase">Lunar Dynamics</h1>
+<p class="font-body-lg text-on-surface-variant max-w-xl">Real-time telemetry and metaphysical mapping of the Moon's influence on planetary operational capacity.</p>
+</div>
+<!-- The Moon Tracker Card -->
+<div class="relative group w-full max-w-md mx-auto md:mx-0">
+<!-- Background Layer -->
+<div class="absolute -inset-2 bg-tertiary/10 blur-2xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+<div class="relative obsidian-gradient border border-tertiary/20 w-full p-8 overflow-hidden">
+<!-- Rotating Sigil Background -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] pointer-events-none opacity-10">
+<svg class="w-full h-full animate-rotate-sigil stroke-tertiary fill-none" viewbox="0 0 100 100">
+<circle cx="50" cy="50" r="45" stroke-dasharray="1 3"></circle>
+<circle cx="50" cy="50" r="35" stroke-dasharray="0.5 5"></circle>
+<path d="M50 5 L50 95 M5 50 L95 50 M18 18 L82 82 M18 82 L82 18" stroke-width="0.2"></path>
+<circle cx="50" cy="50" r="10" stroke-width="0.5"></circle>
+<!-- Inner Lunar Nodes -->
+<circle cx="50" cy="15" fill="#22D3EE" r="1"></circle>
+<circle cx="50" cy="85" fill="#22D3EE" r="1"></circle>
+<circle cx="15" cy="50" fill="#22D3EE" r="1"></circle>
+<circle cx="85" cy="50" fill="#22D3EE" r="1"></circle>
+</svg>
+</div>
+<!-- Brackets and Accents -->
+<div class="absolute top-0 left-0 bracket-corner opacity-60"></div>
+<div class="absolute top-4 right-4 font-mono-data text-tertiary opacity-80 text-xl font-bold">IV</div>
+<!-- Card Header -->
+<div class="relative z-10 flex flex-col items-center mb-12">
+<!-- Moon Medallion -->
+<div class="relative w-24 h-24 mb-6">
+<div class="absolute inset-0 bg-tertiary/20 rounded-full blur-xl cyan-glow"></div>
+<div class="relative w-full h-full flex items-center justify-center rounded-full border border-tertiary/40 bg-surface-container-lowest shadow-[0_0_30px_rgba(34,211,238,0.2)]">
+<span class="material-symbols-outlined text-tertiary text-5xl cyan-glow-intense" style="font-variation-settings: 'FILL' 1;">brightness_4</span>
+</div>
+<!-- Orbit Ring -->
+<div class="absolute -inset-4 border border-dashed border-tertiary/20 rounded-full animate-spin-slow" style="animation-duration: 20s;"></div>
+</div>
+<h2 class="font-headline-lg text-primary text-center tracking-[0.2em] uppercase mb-2">MOON TRACKER</h2>
+<div class="w-12 h-0.5 bg-tertiary mx-auto"></div>
+</div>
+<!-- Card Body -->
+<div class="relative z-10 space-y-6">
+<p class="font-body-md text-on-surface-variant text-center leading-relaxed">
+                            Observe the lunar cycle’s illumination, transit energy, and recommended manifestation rituals.
+                        </p>
+<div class="grid grid-cols-2 gap-4 border-t border-b border-tertiary/10 py-4 font-mono-data text-[10px] tracking-widest text-tertiary/70 uppercase">
+<div class="flex flex-col items-center gap-1 border-r border-tertiary/10">
+<span>Illumination</span>
+<span class="text-tertiary font-bold text-sm">82.4%</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<span>Transit</span>
+<span class="text-tertiary font-bold text-sm">Aquarius</span>
+</div>
+</div>
+</div>
+<!-- Card Footer CTA -->
+<div class="relative z-10 mt-8 flex justify-center">
+<button class="group/btn relative px-8 py-3 overflow-hidden border border-tertiary/40 hover:border-tertiary transition-all duration-300">
+<div class="absolute inset-0 bg-tertiary/0 group-hover/btn:bg-tertiary/10 transition-colors"></div>
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-tertiary cyan-glow-intense animate-pulse"></div>
+<span class="font-label-caps text-tertiary uppercase">Track Phase</span>
+</div>
+</button>
+</div>
+<!-- Technical Readout Overlay -->
+<div class="absolute bottom-2 left-4 font-mono-data text-[8px] text-tertiary/30 opacity-50 uppercase tracking-tighter">
+                        Lat: 0.000° / Long: 0.000° / Ref: L-IV
+                    </div>
+</div>
+</div>
+<!-- Additional Context Section -->
+<div class="grid md:grid-cols-2 gap-8 mt-12">
+<div class="p-6 border border-outline-variant/20 bg-surface-container-low backdrop-blur-sm">
+<div class="flex items-center gap-2 mb-4 text-primary">
+<span class="material-symbols-outlined text-sm">auto_awesome</span>
+<span class="font-label-caps uppercase text-xs">Manifestation Ritual</span>
+</div>
+<p class="text-body-md text-on-surface-variant mb-4">Under the current Waxing Gibbous, focus on amplification of system-wide processing and organizational structure.</p>
+<div class="h-1 w-full bg-surface-variant overflow-hidden">
+<div class="h-full bg-tertiary w-4/5"></div>
+</div>
+</div>
+<div class="p-6 border border-outline-variant/20 bg-surface-container-low backdrop-blur-sm">
+<div class="flex items-center gap-2 mb-4 text-primary">
+<span class="material-symbols-outlined text-sm">timeline</span>
+<span class="font-label-caps uppercase text-xs">Astro-Telemetry</span>
+</div>
+<p class="text-body-md text-on-surface-variant mb-4">Signal strength from L-IV station is optimal. No solar interference detected in the current lunar sector.</p>
+<div class="flex gap-1">
+<div class="w-1 h-3 bg-tertiary"></div>
+<div class="w-1 h-2 bg-tertiary"></div>
+<div class="w-1 h-4 bg-tertiary"></div>
+<div class="w-1 h-2 bg-tertiary/30"></div>
+<div class="w-1 h-5 bg-tertiary"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="fixed bottom-0 w-full z-50 h-10 bg-surface-container-lowest/80 backdrop-blur-md border-t border-outline-variant/30 flex justify-between items-center px-margin-desktop font-code-sm text-code-sm uppercase text-secondary">
+<div class="text-on-surface-variant/60">© 2142 ASTROPERA COMMAND</div>
+<div class="flex gap-8 items-center">
+<span class="hover:text-secondary transition-colors cursor-pointer">LIFE SUPPORT: 98%</span>
+<span class="hover:text-secondary transition-colors cursor-pointer">FUEL: 42.1% UNIT</span>
+<span class="text-secondary-fixed">ORBIT STABLE</span>
+</div>
+</footer>
+<script>
+        // Micro-interactions for the moon tracker
+        document.querySelector('.group')?.addEventListener('mousemove', (e) => {
+            const card = e.currentTarget;
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 25;
+            const rotateY = (centerX - x) / 25;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        document.querySelector('.group')?.addEventListener('mouseleave', (e) => {
+            e.currentTarget.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+        });
+    </script>
+</body></html>

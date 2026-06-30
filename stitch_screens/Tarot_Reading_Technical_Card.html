@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ASTROPERA | TAROT ORACLE</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400..900;1,400..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --solar-orange: #FF6B35;
+            --obsidian-deep: #0c0402;
+            --obsidian-glow: #1e0a04;
+        }
+        body {
+            background-color: var(--obsidian-deep);
+            color: #e5e2e1;
+            overflow-x: hidden;
+        }
+        .inner-glow-top {
+            box-shadow: inset 0 1px 0 0 rgba(255, 107, 53, 0.2);
+        }
+        .solar-glow-border {
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .solar-glow-border:hover {
+            border-color: rgba(255, 107, 53, 0.8);
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.15);
+        }
+        .sigil-rotate {
+            animation: sigilRotate 60s linear infinite;
+        }
+        @keyframes sigilRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .medallion-pulse {
+            animation: pulse 4s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(255, 107, 53, 0.4)); }
+            50% { filter: drop-shadow(0 0 15px rgba(255, 107, 53, 0.8)); }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline-variant": "#4d4732",
+                      "tertiary": "#d2fffe",
+                      "on-secondary-fixed": "#1c0062",
+                      "tertiary-fixed": "#56f9f9",
+                      "on-tertiary-fixed": "#002020",
+                      "on-tertiary-container": "#006a6b",
+                      "on-surface-variant": "#d0c6ab",
+                      "on-background": "#e5e2e1",
+                      "surface-bright": "#3a3939",
+                      "primary-fixed": "#ffe16d",
+                      "surface-container-low": "#1c1b1b",
+                      "primary": "#fff6df",
+                      "tertiary-fixed-dim": "#26dcdd",
+                      "on-secondary-fixed-variant": "#4719c9",
+                      "on-secondary-container": "#b8aaff",
+                      "surface-container-high": "#2a2a2a",
+                      "on-tertiary-fixed-variant": "#004f50",
+                      "inverse-primary": "#705d00",
+                      "on-surface": "#e5e2e1",
+                      "outline": "#999077",
+                      "background": "#131313",
+                      "on-tertiary": "#003737",
+                      "on-primary-fixed-variant": "#544600",
+                      "surface-tint": "#e9c400",
+                      "on-primary-container": "#705e00",
+                      "inverse-surface": "#e5e2e1",
+                      "on-primary-fixed": "#221b00",
+                      "on-error": "#690005",
+                      "surface-container": "#201f1f",
+                      "inverse-on-surface": "#313030",
+                      "on-secondary": "#30009b",
+                      "on-error-container": "#ffdad6",
+                      "surface": "#131313",
+                      "surface-container-highest": "#353534",
+                      "secondary-fixed-dim": "#cabeff",
+                      "secondary-container": "#4719c9",
+                      "primary-fixed-dim": "#e9c400",
+                      "tertiary-container": "#4af0f1",
+                      "secondary-fixed": "#e6deff",
+                      "secondary": "#cabeff",
+                      "error": "#ffb4ab",
+                      "primary-container": "#ffd700",
+                      "surface-container-lowest": "#0e0e0e",
+                      "surface-dim": "#131313",
+                      "on-primary": "#3a3000",
+                      "surface-variant": "#353534",
+                      "error-container": "#93000a",
+                      "solar": "#FF6B35"
+              },
+              "fontFamily": {
+                      "headline-md": ["Bodoni Moda"],
+                      "body-md": ["JetBrains Mono"],
+                      "body-lg": ["JetBrains Mono"],
+                      "label-caps": ["JetBrains Mono"],
+                      "headline-lg": ["Bodoni Moda"],
+                      "display-lg": ["Bodoni Moda"],
+                      "label-mono": ["JetBrains Mono"]
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="font-body-md text-on-surface selection:bg-solar/30">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/40 backdrop-blur-xl border-b border-outline-variant/20 flex justify-between items-center px-margin-desktop h-20 w-full">
+<div class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-tighter">
+            ASTROPERA
+        </div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant hover:text-on-surface transition-colors" href="#">COMMAND</a>
+<a class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant hover:text-on-surface transition-colors" href="#">CONTROL</a>
+<a class="font-label-mono text-label-mono uppercase tracking-widest text-primary border-b-2 border-primary pb-1" href="#">COMMS</a>
+<a class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant hover:text-on-surface transition-colors" href="#">GEAR</a>
+</div>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:bg-primary/10 p-2 transition-all duration-300">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:bg-primary/10 p-2 transition-all duration-300">settings</span>
+<div class="w-10 h-10 rounded-full border border-primary/20 overflow-hidden">
+<img alt="Commander Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhEoNe2rERKGG4b0REDAViV3wvzopTiX7BiICHJ1I4oNfwlYmBdb4EjI8O_w7MfieyWWxMWCR6Y2sFZF25X2uzzlqwJUu0wSbQorfIparns3OGqbpIclHUjdr73QS2hZ5StuWxI3oW-5s276aJ7kHIkff1I0198Dclxp9fN6B-xIop-bJjMLWhu-PTMsd0IywoLU8IO-ITxAjDlwj2aOy6jGezcFKNdpJFOoN8jygy3CoZb-f2MkejYsPCvaTN6qlNWIHtsfV2oTc"/>
+</div>
+</div>
+</nav>
+<!-- SideNavBar (Hidden on smaller screens as per Platform & Layout Anchor) -->
+<aside class="hidden md:flex fixed left-0 top-20 h-[calc(100vh-120px)] w-64 z-40 bg-surface-container-low/60 backdrop-blur-3xl border-r border-outline-variant/10 flex-col py-6 gap-2">
+<div class="px-6 mb-8">
+<div class="font-label-mono text-label-mono text-primary/60 uppercase text-[10px] tracking-[0.2em]">System Core</div>
+<div class="font-headline-md text-headline-md text-primary">ORBITAL HUD</div>
+<div class="font-label-mono text-label-mono text-[10px] text-on-surface-variant/40">V0.8.2 ACTIVE</div>
+</div>
+<nav class="flex flex-col">
+<div class="flex items-center gap-3 text-on-surface-variant p-4 hover:bg-surface-variant/20 hover:translate-x-1 transition-transform duration-200 cursor-pointer">
+<span class="material-symbols-outlined">target</span>
+<span class="font-label-mono text-label-mono uppercase">OBJECTIVES</span>
+</div>
+<div class="flex items-center gap-3 text-primary bg-primary/10 border-l-2 border-primary p-4 hover:translate-x-1 transition-transform duration-200 cursor-pointer">
+<span class="material-symbols-outlined">rocket_launch</span>
+<span class="font-label-mono text-label-mono uppercase">FLEET</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant p-4 hover:bg-surface-variant/20 hover:translate-x-1 transition-transform duration-200 cursor-pointer">
+<span class="material-symbols-outlined">radar</span>
+<span class="font-label-mono text-label-mono uppercase">SCAN</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant p-4 hover:bg-surface-variant/20 hover:translate-x-1 transition-transform duration-200 cursor-pointer">
+<span class="material-symbols-outlined">strategy</span>
+<span class="font-label-mono text-label-mono uppercase">TACTICAL</span>
+</div>
+</nav>
+<div class="mt-auto px-4">
+<button class="w-full py-4 border border-primary/30 text-primary font-label-mono uppercase tracking-widest hover:bg-primary/10 transition-all">
+                SYNC ORBIT
+            </button>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="pt-32 pb-20 px-margin-mobile md:px-margin-desktop md:ml-64 min-h-screen relative overflow-hidden">
+<!-- Atmospheric Background Element -->
+<div class="absolute inset-0 z-0 opacity-20 pointer-events-none">
+
+</div>
+<div class="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-gutter max-w-7xl mx-auto">
+<!-- Section Header -->
+<div class="col-span-1 md:col-span-12 mb-stack-lg">
+<div class="flex items-center gap-4 mb-2">
+<span class="h-[1px] w-12 bg-solar"></span>
+<span class="font-label-mono text-solar tracking-[0.3em] uppercase">Celestial Instrument</span>
+</div>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-white">ORACLE MODULE</h1>
+</div>
+<!-- THE TAROT CARD COMPONENT -->
+<div class="col-span-1 md:col-span-6 lg:col-span-5">
+<div class="relative group solar-glow-border bg-gradient-to-br from-[#1e0a04] to-[#0c0402] p-8 md:p-12 min-h-[500px] flex flex-col justify-between overflow-hidden">
+<!-- Sigil Background (Rotating) -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] opacity-10 pointer-events-none">
+<svg class="sigil-rotate w-full h-full text-solar fill-none stroke-current stroke-[0.5px]" viewbox="0 0 100 100">
+<circle cx="50" cy="50" r="48"></circle>
+<polygon points="50,2 98,50 50,98 2,50"></polygon>
+<polygon points="50,5 82,21 95,50 82,79 50,95 18,79 5,50 18,21"></polygon>
+<circle cx="50" cy="50" r="20"></circle>
+</svg>
+</div>
+<!-- Corner Accents -->
+<div class="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-solar/40 group-hover:border-solar transition-colors duration-500"></div>
+<div class="absolute top-6 right-6 font-label-mono text-solar tracking-widest text-lg opacity-60 group-hover:opacity-100 transition-opacity">II</div>
+<!-- Central Medallion -->
+<div class="relative flex flex-col items-center justify-center mt-8">
+<div class="relative w-24 h-24 rounded-full bg-solar/10 border border-solar/30 flex items-center justify-center medallion-pulse">
+<span class="material-symbols-outlined text-solar text-4xl" data-icon="sparkles" style="font-variation-settings: 'FILL' 1;">spark</span>
+</div>
+</div>
+<!-- Content Area -->
+<div class="relative mt-auto text-center">
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-white mb-4 tracking-wider uppercase">TAROT READING</h2>
+<p class="font-body-md text-on-surface-variant leading-relaxed max-w-sm mx-auto mb-8">
+                            Draw 3 cards from our 3D Major Arcana deck to consult the celestial oracle of Past, Present, and Future.
+                        </p>
+<!-- CTA Button -->
+<button class="relative group/btn inline-flex items-center gap-3 px-8 py-4 border border-solar text-solar font-label-mono uppercase tracking-widest hover:bg-solar hover:text-black transition-all duration-300">
+<span class="relative z-10">Consult Deck</span>
+<div class="w-2 h-2 rounded-full bg-solar group-hover/btn:bg-black shadow-[0_0_10px_rgba(255,107,53,0.8)] animate-pulse"></div>
+</button>
+</div>
+<!-- Decorative Foot -->
+<div class="absolute bottom-4 left-1/2 -translate-x-1/2 w-1/3 h-[1px] bg-gradient-to-r from-transparent via-solar/20 to-transparent"></div>
+</div>
+</div>
+<!-- Supporting Tech Readout Cards -->
+<div class="col-span-1 md:col-span-6 lg:col-span-7 flex flex-col gap-gutter">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter flex-grow">
+<!-- Current Transit Card -->
+<div class="solar-glow-border bg-surface-container-lowest/40 backdrop-blur-md p-6 flex flex-col justify-between">
+<div>
+<div class="font-label-mono text-[10px] text-solar mb-2 uppercase tracking-widest">Current Alignment</div>
+<h3 class="font-headline-md text-white mb-4">Sun in Scorpio</h3>
+<div class="space-y-3">
+<div class="flex justify-between border-b border-outline-variant/10 pb-2">
+<span class="text-on-surface-variant font-label-mono text-xs">Degree</span>
+<span class="text-primary font-mono-data text-xs">24° 12'</span>
+</div>
+<div class="flex justify-between border-b border-outline-variant/10 pb-2">
+<span class="text-on-surface-variant font-label-mono text-xs">Intensity</span>
+<span class="text-primary font-mono-data text-xs">High</span>
+</div>
+</div>
+</div>
+<div class="mt-6 flex gap-2">
+<div class="h-1 flex-grow bg-solar/20 overflow-hidden">
+<div class="h-full bg-solar w-[65%]"></div>
+</div>
+</div>
+</div>
+<!-- Fleet Status Card -->
+<div class="solar-glow-border bg-surface-container-lowest/40 backdrop-blur-md p-6 flex flex-col justify-between">
+<div>
+<div class="font-label-mono text-[10px] text-solar mb-2 uppercase tracking-widest">Fleet Telemetry</div>
+<h3 class="font-headline-md text-white mb-4">Void Connection</h3>
+<div class="text-on-surface-variant font-label-mono text-xs leading-relaxed">
+                                SIGNAL STRENGTH: <span class="text-solar">98.4%</span><br/>
+                                LATENCY: <span class="text-solar">12ms</span><br/>
+                                ENCRYPTION: <span class="text-solar">RSA-4096</span>
+</div>
+</div>
+<div class="mt-4">
+<img class="w-full h-16 object-cover opacity-60" data-alt="A technical astronomical graph showing golden data lines and coordinate points over a deep obsidian space background. The visual style is high-fidelity aerospace readout with delicate golden hair-lines and technical monospaced text. The lighting is low-key with subtle orange neon glows at key data nodes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAySg3ygmNqPTsIgb_Nd-zVP9w_P_8vRnZhITakEUtRMu7OyxHoF9iHRQb1T-kFz5Glsd7ldTO1oPT6wKRp0j-JDELqs5vRfrC7bWWadpLM3VT1lN4fumjIlQGVioc9Kv2eUrhzz1Rfl7QLqgzc3_SnvBaABhxENxWDMxDtvWXPqcBzFp2zUk4bHMJQYonM8mlRPFWhdnlJE7qXa958zM7Th8cwJMx5mpkfBlKVhBK3p6NNYpcc57kU-QVqcRGVSdqNHitbVY-84PU"/>
+</div>
+</div>
+</div>
+<!-- Secondary Visual Card -->
+<div class="solar-glow-border bg-surface-container-lowest/40 backdrop-blur-md p-8 relative overflow-hidden h-64 group">
+<img class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:scale-105 transition-transform duration-1000" data-alt="A cinematic, deep space photography style image of a glowing orange nebula in the constellation of Scorpio. The scene is dominated by rich amber and burnt orange gases swirling around distant white stars. The composition follows brutalist grid lines with sharp technical brackets framing the central celestial body. The mood is one of profound mystery and cosmic awe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtSO2-eENpCxUb66lxk5yc9AglG_1HXw-RQtXW8K7tcMVZKkmD8MwuWtWpvbGVme3eorhs_QQIIkZ_V8xdkJGslZnR_eJ5B6-HLvNho2RJUDRIUQXozO_fnalo5wk_od8-hXTZ2M5gfudL1LOhJRN6tE1l31s9UFwoM2z_Oa8DS7B7K_l_JjudBTJkEhXYd-o95Fpg7u0WNclNhMOZpKXGhsXPXBUlIaV75jEywmVnjwoGrCla3ZPxTyb7s-enB7d2LyMr74CyFyU"/>
+<div class="relative z-10 h-full flex flex-col justify-end">
+<div class="font-label-mono text-xs text-solar mb-1">DATASTREAM ACTIVE</div>
+<div class="font-headline-md text-white uppercase tracking-wider">Synchronize with the Great Below</div>
+</div>
+<div class="absolute top-4 right-4">
+<span class="material-symbols-outlined text-solar animate-spin" style="animation-duration: 10s;">settings</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="fixed bottom-0 w-full z-50 h-10 bg-surface-container-lowest/80 backdrop-blur-md border-t border-outline-variant/30 flex justify-between items-center px-margin-desktop w-full">
+<div class="font-label-mono text-[10px] text-on-surface-variant/60 uppercase">
+            © 2142 ASTROPERA COMMAND
+        </div>
+<div class="flex gap-8">
+<span class="font-label-mono text-[10px] text-secondary hover:text-solar transition-colors cursor-default">LIFE SUPPORT: 98%</span>
+<span class="font-label-mono text-[10px] text-secondary hover:text-solar transition-colors cursor-default">FUEL: 42.1% UNIT</span>
+<span class="font-label-mono text-[10px] text-secondary hover:text-solar transition-colors cursor-default">ORBIT STABLE</span>
+</div>
+</footer>
+<script>
+        // Micro-interactions for the Tarot Card
+        const tarotCard = document.querySelector('.solar-glow-border');
+        
+        tarotCard.addEventListener('mousemove', (e) => {
+            const rect = tarotCard.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 20;
+            const rotateY = (centerX - x) / 20;
+            
+            tarotCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+        
+        tarotCard.addEventListener('mouseleave', () => {
+            tarotCard.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+        });
+    </script>
+</body></html>

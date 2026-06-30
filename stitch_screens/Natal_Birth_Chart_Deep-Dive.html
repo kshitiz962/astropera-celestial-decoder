@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Birth Chart Analysis | Cosmic Oracle</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    :root {
+      --celestial-gold: #e9c400;
+      --stellar-violet: #4719c9;
+      --nebula-teal: #26dcdd;
+    }
+    body {
+      background-color: #131313;
+      color: #e5e2e1;
+      overflow-x: hidden;
+    }
+    .mystical-glass {
+      background: rgba(20, 19, 19, 0.6);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(233, 196, 0, 0.15);
+      position: relative;
+    }
+    .sacred-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--celestial-gold), transparent);
+    }
+    .glow-point {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      background: radial-gradient(circle, rgba(38, 220, 221, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .geometric-grid {
+      background-image: 
+        linear-gradient(rgba(71, 25, 201, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(71, 25, 201, 0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .hairline-cross {
+      position: relative;
+    }
+    .hairline-cross::after, .hairline-cross::before {
+      content: '';
+      position: absolute;
+      background: rgba(233, 196, 0, 0.3);
+    }
+    .hairline-cross::before { width: 1px; height: 10px; top: -5px; left: 50%; }
+    .hairline-cross::after { height: 1px; width: 10px; left: -5px; top: 50%; }
+
+    .aspect-web-container {
+      aspect-ratio: 1/1;
+      position: relative;
+    }
+  </style>
+</head>
+<body class="font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- TOP NAVIGATION BAR -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-desktop py-4 bg-surface/80 backdrop-blur-xl dark:bg-surface/80 border-b border-primary/20 bg-clip-padding backdrop-filter backdrop-blur-2xl">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-headline-md text-primary-fixed-dim tracking-tighter uppercase">Cosmic Oracle</span>
+</div>
+<nav class="hidden md:flex gap-stack-lg items-center">
+<a class="font-body-md text-body-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Birth Charts</a>
+<a class="font-body-md text-body-md uppercase tracking-widest text-primary border-b-2 border-primary pb-1" href="#">Daily Oracles</a>
+<a class="font-body-md text-body-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Future Projections</a>
+<a class="font-body-md text-body-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Star Maps</a>
+</nav>
+<div class="flex items-center gap-stack-md">
+<button class="material-symbols-outlined text-primary hover:scale-95 transition-transform duration-200" data-icon="search">search</button>
+<button class="material-symbols-outlined text-primary hover:scale-95 transition-transform duration-200" data-icon="account_circle">account_circle</button>
+</div>
+</header>
+<!-- SIDE NAVIGATION (Desktop Only) -->
+<aside class="hidden lg:flex flex-col h-screen w-80 fixed left-0 border-r border-outline-variant/10 bg-surface-container-lowest py-stack-md z-40">
+<div class="px-6 mb-stack-lg">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full border border-primary/30 flex items-center justify-center overflow-hidden">
+<img alt="User Avatar" class="w-10 h-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsjiF1nxfHxxPjBHGhSe8j43_F2PjntxXSKXmdCF_Emr204TvS0usizC2E4WBiUudau0gpeal47pqxa3ECa_MFZSQvtZVtqD2xd2wowSbDEuktHt5EODCXAMSRt4iQ4hqaAOIZQW4Za1IprtlGcipdj82vKDuSoprbIPaDR9gXsrI5BCI0D8ijstunSIapX22woyOq009mqwCF7v6iaMTQ22eAVtR6jcN6mbee5O3S3r6VVpcElJfgWIuW_6iqP7i6zDWDi0tF1DA"/>
+</div>
+<div>
+<p class="font-headline-md text-primary text-body-md leading-none">Master Astronomer</p>
+<p class="font-mono-data text-mono-data text-outline">Ascendant in Scorpio</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 flex flex-col">
+<div class="group px-6 py-4 flex items-center gap-4 bg-secondary-container text-on-secondary-container rounded-none border-l-4 border-primary-fixed-dim translate-x-1 transition-transform duration-300">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-mono-data text-mono-data">Saved Ascendants</span>
+</div>
+<div class="group px-6 py-4 flex items-center gap-4 text-on-surface-variant hover:bg-surface-variant/30 transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="notifications_active">notifications_active</span>
+<span class="font-mono-data text-mono-data">Celestial Alerts</span>
+</div>
+<div class="group px-6 py-4 flex items-center gap-4 text-on-surface-variant hover:bg-surface-variant/30 transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
+<span class="font-mono-data text-mono-data">Ecliptic History</span>
+</div>
+<div class="group px-6 py-4 flex items-center gap-4 text-on-surface-variant hover:bg-surface-variant/30 transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="diamond">diamond</span>
+<span class="font-mono-data text-mono-data">Sacred Geometry</span>
+</div>
+</nav>
+<div class="mt-auto px-6 space-y-4">
+<button class="w-full py-3 border border-primary-fixed-dim text-primary-fixed-dim font-mono-data uppercase tracking-widest hover:bg-primary-fixed-dim hover:text-on-primary transition-all duration-300">
+        Upgrade to Zenith
+      </button>
+<div class="pt-4 border-t border-outline-variant/10">
+<div class="flex items-center gap-4 py-2 text-on-surface-variant hover:text-tertiary-fixed transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-mono-data text-mono-data">Settings</span>
+</div>
+<div class="flex items-center gap-4 py-2 text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-mono-data text-mono-data">Log Out</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- MAIN CANVAS -->
+<main class="lg:pl-80 pt-24 pb-stack-lg min-h-screen geometric-grid">
+<div class="max-w-[1400px] mx-auto px-margin-mobile md:px-margin-desktop py-stack-md">
+<!-- HERO HEADER -->
+<header class="mb-stack-lg">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h1 class="font-display-lg text-headline-lg lg:text-display-lg text-primary leading-tight">Birth Chart <br/><span class="italic text-tertiary-fixed-dim">Analysis</span></h1>
+<p class="font-mono-data text-mono-data text-outline mt-4 max-w-xl">
+              LAT: 51.5074° N | LON: 0.1278° W | EPOCH: J2000.0 <br/>
+              Technical extraction of cosmic data points for the entity identified as ARCHETYPE_77.
+            </p>
+</div>
+<div class="flex flex-col items-end">
+<div class="text-right">
+<span class="font-mono-data text-primary text-label-caps block mb-1">CURRENT ALIGNMENT</span>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-nebula-teal animate-pulse"></span>
+<span class="font-headline-md text-tertiary-fixed-dim">Sol in Sagittarius</span>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- BENTO GRID SYSTEM -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- PLANETARY HUD (Left Column) -->
+<section class="lg:col-span-4 space-y-gutter">
+<div class="mystical-glass p-stack-md rounded-lg sacred-header overflow-hidden">
+<div class="glow-point top-0 right-0"></div>
+<h3 class="font-headline-md text-primary mb-stack-md flex justify-between items-center">
+<span>Technical Data</span>
+<span class="material-symbols-outlined text-outline" data-icon="analytics">analytics</span>
+</h3>
+<div class="space-y-4 font-mono-data">
+<!-- HUD ITEM -->
+<div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
+<span class="text-on-surface-variant">SUN</span>
+<span class="text-primary font-bold">04° 12' SAG</span>
+</div>
+<div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
+<span class="text-on-surface-variant">MOON</span>
+<span class="text-primary font-bold">18° 55' ARI</span>
+</div>
+<div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
+<span class="text-on-surface-variant">MERCURY (R)</span>
+<span class="text-tertiary-fixed-dim font-bold">14° 02' CAP</span>
+</div>
+<div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
+<span class="text-on-surface-variant">VENUS</span>
+<span class="text-primary font-bold">29° 44' LIB</span>
+</div>
+<div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
+<span class="text-on-surface-variant">MARS</span>
+<span class="text-primary font-bold">22° 18' SCO</span>
+</div>
+<div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
+<span class="text-on-surface-variant">ASCENDANT</span>
+<span class="text-secondary-fixed-dim font-bold">11° 09' SCO</span>
+</div>
+</div>
+<div class="mt-8">
+<img class="w-full h-48 object-cover rounded grayscale opacity-50 contrast-125 border border-primary/20" data-alt="A highly detailed close-up of a deep-space nebula with intricate swirling gases and distant pinpoints of light. The aesthetic is mystical and technical, using a palette of deep blacks and muted stellar violets. The lighting is ethereal and atmospheric, emphasizing the vast and ancient nature of the cosmos within the design system's dark-mode philosophy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBGkRtZoXYGAdZsqfY9JQfRwwZoYzSBm8XZJ4-wRB4vy-0HQvEC08FqfuEIzN5yHW33_C2V_btbhnQPhKBUxFt0M04CtTyKoMPDkz4O2VSYehBlIlVCE6_34rX21B8Jxz7PI80DysuETlpUp0TbeZp87sbRlGd-uwqTlTrsuTmFZSJe9mBxXSiWyWZww-JG71zp3fAJThaHzWs2oVqPKnm2ZSUIWtXBdrUolRTlM98BsloNlMIIZR0haTL-2JeGy2ApW6VuJCrjwk"/>
+</div>
+</div>
+<!-- SACRED ASPECTS WEB -->
+<div class="mystical-glass p-stack-md rounded-lg sacred-header">
+<h3 class="font-headline-md text-primary mb-stack-md">Sacred Aspects</h3>
+<div class="aspect-web-container border border-primary/10 rounded-full flex items-center justify-center relative bg-surface-container-low/40">
+<!-- Placeholder for Geometric Web Component -->
+
+<div class="z-10 text-center">
+<div class="font-display-lg text-headline-lg text-primary tracking-tighter">72%</div>
+<div class="font-mono-data text-mono-data text-outline">HARMONIC DENSITY</div>
+</div>
+<!-- Simulated intersection markers -->
+<div class="absolute top-1/4 left-1/4 hairline-cross"></div>
+<div class="absolute bottom-1/3 right-1/4 hairline-cross"></div>
+</div>
+<div class="mt-stack-md space-y-2">
+<div class="flex items-center gap-3 p-2 bg-primary-container/5 rounded">
+<span class="material-symbols-outlined text-tertiary-fixed-dim" data-icon="change_history">change_history</span>
+<p class="font-mono-data text-mono-data"><span class="text-primary">Sun Trine Moon</span> — Harmonic Flow</p>
+</div>
+<div class="flex items-center gap-3 p-2 border border-outline-variant/10 rounded">
+<span class="material-symbols-outlined text-error" data-icon="square">square</span>
+<p class="font-mono-data text-mono-data"><span class="text-primary">Mars Square Pluto</span> — Volatile Force</p>
+</div>
+</div>
+</div>
+</section>
+<!-- PLANETARY CARDS (Right Column) -->
+<section class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- MARS CARD -->
+<article class="mystical-glass rounded-lg sacred-header overflow-hidden group">
+<div class="absolute top-4 right-4 font-mono-data text-outline text-xs">ID: PLANET_04</div>
+<div class="p-stack-md">
+<div class="flex items-center gap-4 mb-stack-md">
+<div class="w-14 h-14 border border-primary/20 flex items-center justify-center text-primary-fixed-dim text-3xl font-bold">♂</div>
+<div>
+<h4 class="font-headline-md text-primary italic">Mars</h4>
+<p class="font-mono-data text-secondary-fixed-dim">Scorpio | 8th House</p>
+</div>
+</div>
+<p class="font-body-md text-on-surface-variant leading-relaxed">
+                Mars in Scorpio grants a profound intensity to the entity's will. Desires are subterranean, powerful, and absolute. There is a technical precision to their actions, driven by a need for transformation rather than mere conquest. 
+              </p>
+<div class="mt-6 pt-6 border-t border-outline-variant/20 flex justify-between items-center">
+<span class="font-mono-data text-label-caps text-outline">DIGNITY: DOMICILE</span>
+<button class="px-4 py-2 border border-primary/20 text-primary uppercase text-xs tracking-widest hover:bg-primary/10 transition-all">Expand Interpretation</button>
+</div>
+</div>
+</article>
+<!-- VENUS CARD -->
+<article class="mystical-glass rounded-lg sacred-header overflow-hidden group">
+<div class="absolute top-4 right-4 font-mono-data text-outline text-xs">ID: PLANET_02</div>
+<div class="p-stack-md">
+<div class="flex items-center gap-4 mb-stack-md">
+<div class="w-14 h-14 border border-primary/20 flex items-center justify-center text-tertiary-fixed-dim text-3xl font-bold">♀</div>
+<div>
+<h4 class="font-headline-md text-primary italic">Venus</h4>
+<p class="font-mono-data text-secondary-fixed-dim">Libra | 12th House</p>
+</div>
+</div>
+<p class="font-body-md text-on-surface-variant leading-relaxed">
+                Aesthetics are filtered through the prism of the unconscious. Beauty is found in the hidden and the ephemeral. Relationships serve as bridges to the mystical, often requiring periods of isolation to recalibrate emotional frequency.
+              </p>
+<div class="mt-6 pt-6 border-t border-outline-variant/20 flex justify-between items-center">
+<span class="font-mono-data text-label-caps text-outline">DIGNITY: DOMICILE</span>
+<button class="px-4 py-2 border border-primary/20 text-primary uppercase text-xs tracking-widest hover:bg-primary/10 transition-all">Expand Interpretation</button>
+</div>
+</div>
+</article>
+<!-- MERCURY CARD -->
+<article class="mystical-glass rounded-lg sacred-header overflow-hidden group">
+<div class="absolute top-4 right-4 font-mono-data text-outline text-xs">ID: PLANET_01</div>
+<div class="p-stack-md">
+<div class="flex items-center gap-4 mb-stack-md">
+<div class="w-14 h-14 border border-primary/20 flex items-center justify-center text-error text-3xl font-bold">☿</div>
+<div>
+<h4 class="font-headline-md text-primary italic">Mercury</h4>
+<p class="font-mono-data text-secondary-fixed-dim">Capricorn | 3rd House</p>
+</div>
+</div>
+<p class="font-body-md text-on-surface-variant leading-relaxed">
+<span class="text-error-container bg-error text-on-error px-1 mr-1">RETROGRADE</span>
+                Communication is structured and architecturally sound. The mind processes data through rigid filters, ensuring that every word is a brick in a greater monument of logic. Internalized delays lead to eventual crystalline clarity.
+              </p>
+<div class="mt-6 pt-6 border-t border-outline-variant/20 flex justify-between items-center">
+<span class="font-mono-data text-label-caps text-outline">PHASE: RX-STATION</span>
+<button class="px-4 py-2 border border-primary/20 text-primary uppercase text-xs tracking-widest hover:bg-primary/10 transition-all">Expand Interpretation</button>
+</div>
+</div>
+</article>
+<!-- SATURN CARD -->
+<article class="mystical-glass rounded-lg sacred-header overflow-hidden group">
+<div class="absolute top-4 right-4 font-mono-data text-outline text-xs">ID: PLANET_06</div>
+<div class="p-stack-md">
+<div class="flex items-center gap-4 mb-stack-md">
+<div class="w-14 h-14 border border-primary/20 flex items-center justify-center text-primary text-3xl font-bold">♄</div>
+<div>
+<h4 class="font-headline-md text-primary italic">Saturn</h4>
+<p class="font-mono-data text-secondary-fixed-dim">Aquarius | 4th House</p>
+</div>
+</div>
+<p class="font-body-md text-on-surface-variant leading-relaxed">
+                The Great Malefic acts as a cosmic surveyor of the foundation. Boundaries are set with cold, revolutionary precision. The private life is a laboratory for social change, requiring discipline and the shedding of archaic traditions.
+              </p>
+<div class="mt-6 pt-6 border-t border-outline-variant/20 flex justify-between items-center">
+<span class="font-mono-data text-label-caps text-outline">DIGNITY: TRIPLICITY</span>
+<button class="px-4 py-2 border border-primary/20 text-primary uppercase text-xs tracking-widest hover:bg-primary/10 transition-all">Expand Interpretation</button>
+</div>
+</div>
+</article>
+<!-- HOUSE ANALYSIS TABLE -->
+<div class="md:col-span-2 mystical-glass p-stack-md rounded-lg sacred-header mt-4">
+<h3 class="font-headline-md text-primary mb-stack-md flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+              House Custodians &amp; Domains
+            </h3>
+<div class="overflow-x-auto">
+<table class="w-full text-left font-mono-data">
+<thead>
+<tr class="border-b border-primary/20 text-outline text-xs uppercase tracking-tighter">
+<th class="py-4">House</th>
+<th>Sign</th>
+<th>Ruler</th>
+<th class="hidden sm:table-cell">Intensity</th>
+<th class="text-right">Interpretation</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<tr class="group hover:bg-primary/5 transition-colors">
+<td class="py-4 text-primary">01 HOUSE</td>
+<td>SCORPIO</td>
+<td>MARS/PLUTO</td>
+<td class="hidden sm:table-cell">
+<div class="w-24 h-1 bg-surface-variant overflow-hidden">
+<div class="w-4/5 h-full bg-nebula-teal"></div>
+</div>
+</td>
+<td class="text-right"><button class="material-symbols-outlined text-outline group-hover:text-primary" data-icon="north_east">north_east</button></td>
+</tr>
+<tr class="group hover:bg-primary/5 transition-colors">
+<td class="py-4 text-primary">02 HOUSE</td>
+<td>SAGITTARIUS</td>
+<td>JUPITER</td>
+<td class="hidden sm:table-cell">
+<div class="w-24 h-1 bg-surface-variant overflow-hidden">
+<div class="w-1/3 h-full bg-primary-fixed-dim"></div>
+</div>
+</td>
+<td class="text-right"><button class="material-symbols-outlined text-outline group-hover:text-primary" data-icon="north_east">north_east</button></td>
+</tr>
+<tr class="group hover:bg-primary/5 transition-colors">
+<td class="py-4 text-primary">03 HOUSE</td>
+<td>CAPRICORN</td>
+<td>SATURN</td>
+<td class="hidden sm:table-cell">
+<div class="w-24 h-1 bg-surface-variant overflow-hidden">
+<div class="w-2/3 h-full bg-nebula-teal"></div>
+</div>
+</td>
+<td class="text-right"><button class="material-symbols-outlined text-outline group-hover:text-primary" data-icon="north_east">north_east</button></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- FOOTER -->
+<footer class="w-full px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-stack-sm bg-surface-container-high/90 backdrop-blur-md border-t border-primary/20 py-stack-sm mt-stack-lg relative z-40">
+<div class="text-primary font-label-caps text-label-caps flex flex-col md:flex-row items-center gap-6">
+<span class="tracking-widest">© 2024 Cosmic Oracle.</span>
+<span class="text-outline hidden lg:inline">Planetary Positions: Mercury 14° R, Moon Waxing Crescent.</span>
+</div>
+<div class="flex gap-stack-md font-mono-data text-mono-data uppercase">
+<a class="text-on-surface-variant hover:text-tertiary-fixed transition-colors" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-tertiary-fixed transition-colors" href="#">Astronomical Data Sources</a>
+<a class="text-on-surface-variant hover:text-tertiary-fixed transition-colors" href="#">Contact High Council</a>
+</div>
+</footer>
+<!-- ATMOSPHERIC BACKGROUND SCRIPTS -->
+<script>
+    // Subtle Mouse-glow effect
+    document.addEventListener('mousemove', (e) => {
+      const x = (e.clientX / window.innerWidth) * 100;
+      const y = (e.clientY / window.innerHeight) * 100;
+      document.body.style.setProperty('--mouse-x', `${x}%`);
+      document.body.style.setProperty('--mouse-y', `${y}%`);
+    });
+  </script>
+</body></html>

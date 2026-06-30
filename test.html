@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Astropera Observatory - Diagnostic & Responsive Test Suite</title>
+  <style>
+    :root {
+      --bg-dark: #050816;
+      --accent-purple: #8b5cf6;
+      --accent-gold: #ffd700;
+      --text-white: #f1f5f9;
+      --text-dim: #94a3b8;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-white);
+      overflow-x: hidden;
+    }
+
+    header {
+      max-width: 1200px;
+      margin: 0 auto 32px;
+      border-bottom: 1px dashed rgba(139, 92, 246, 0.25);
+      padding-bottom: 20px;
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif, sans-serif;
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: 0.1em;
+      color: var(--text-white);
+    }
+
+    h1 span {
+      color: var(--accent-gold);
+    }
+
+    p.subtitle {
+      margin: 6px 0 0;
+      font-size: 13px;
+      color: var(--text-dim);
+      font-family: monospace;
+    }
+
+    .device-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      justify-content: center;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .device-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .device-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 11px;
+      color: var(--accent-gold);
+      font-family: monospace;
+    }
+
+    .device-screen {
+      border: 2px solid rgba(255, 255, 255, 0.12);
+      background: #000;
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.15);
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Device sizes */
+    .iphone-se {
+      width: 320px;
+      height: 568px;
+    }
+
+    .iphone-12 {
+      width: 390px;
+      height: 844px;
+    }
+
+    .desktop-small {
+      width: 800px;
+      height: 500px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #050816;
+    }
+
+    .info-footer {
+      max-width: 1200px;
+      margin: 48px auto 0;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-dim);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 24px;
+    }
+
+    .refresh-btn {
+      background: rgba(139, 92, 246, 0.15);
+      border: 1px solid var(--accent-purple);
+      color: var(--text-white);
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-family: monospace;
+      font-size: 12px;
+      transition: all 0.3s ease;
+      margin-top: 12px;
+    }
+
+    .refresh-btn:hover {
+      background: var(--accent-purple);
+      box-shadow: 0 0 12px rgba(139, 92, 246, 0.4);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>ASTROPERA <span>//</span> OBSERVATORY DIAGNOSTICS</h1>
+    <p class="subtitle">STATUS: LOCALHOST dev server running. Testing cross-platform scaling & interaction models.</p>
+    <button class="refresh-btn" onclick="reloadFrames()">↻ Synchronize Frames</button>
+  </header>
+
+  <div class="device-grid">
+    <!-- iPhone SE viewport simulation -->
+    <div class="device-container">
+      <div class="device-header">
+        <span>DEVICE: iPhone SE</span>
+        <span>SIZE: 320 x 568</span>
+      </div>
+      <div class="device-screen iphone-se">
+        <iframe class="diagnostic-frame" src="http://localhost:5173/"></iframe>
+      </div>
+    </div>
+
+    <!-- iPhone 12/Pro viewport simulation -->
+    <div class="device-container">
+      <div class="device-header">
+        <span>DEVICE: iPhone 12 Pro / Galaxy S20</span>
+        <span>SIZE: 390 x 844</span>
+      </div>
+      <div class="device-screen iphone-12">
+        <iframe class="diagnostic-frame" src="http://localhost:5173/"></iframe>
+      </div>
+    </div>
+
+    <!-- Small Desktop viewport simulation -->
+    <div class="device-container">
+      <div class="device-header">
+        <span>DEVICE: Laptop / Notebook</span>
+        <span>SIZE: 800 x 500</span>
+      </div>
+      <div class="device-screen desktop-small">
+        <iframe class="diagnostic-frame" src="http://localhost:5173/"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-footer">
+    <p>ASTROPERA Observatory Diagnostics Engine. Press "↻ Synchronize Frames" to reload and match real-time edits.</p>
+  </div>
+
+  <script>
+    function reloadFrames() {
+      const frames = document.querySelectorAll('.diagnostic-frame');
+      frames.forEach(frame => {
+        frame.src = frame.src;
+      });
+    }
+  </script>
+</body>
+</html>

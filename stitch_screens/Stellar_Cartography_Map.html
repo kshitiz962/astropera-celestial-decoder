@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Geist:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --primary-glow: rgba(173, 198, 255, 0.15);
+            --secondary-glow: rgba(255, 249, 239, 0.1);
+        }
+
+        body {
+            background-color: #111417;
+            overflow: hidden; /* Fixed HUD feel */
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .inner-glow-top {
+            box-shadow: inset 0 1px 0 0 rgba(173, 198, 255, 0.1);
+        }
+
+        .bracket-l::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 8px;
+            border-top: 1px solid #adc6ff;
+            border-left: 1px solid #adc6ff;
+        }
+
+        .bracket-r::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 8px;
+            height: 8px;
+            border-bottom: 1px solid #adc6ff;
+            border-right: 1px solid #adc6ff;
+        }
+
+        .scan-line {
+            background: linear-gradient(to bottom, transparent, rgba(173, 198, 255, 0.05) 50%, transparent);
+            background-size: 100% 4px;
+        }
+
+        .grid-bg {
+            background-image: 
+                linear-gradient(to right, rgba(173, 198, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(173, 198, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        @keyframes pulse-orange {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 2px #ff571a); }
+            50% { opacity: 0.6; filter: drop-shadow(0 0 8px #ff571a); }
+        }
+
+        .anomaly-pulse {
+            animation: pulse-orange 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        .reticle-rotate {
+            animation: spin 10s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Flashlight effect */
+        .glass-card:hover .flashlight {
+            opacity: 1;
+        }
+        .flashlight {
+            pointer-events: none;
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle 120px at var(--x) var(--y), rgba(173, 198, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface": "#111417",
+                      "primary-fixed": "#d8e2ff",
+                      "on-primary-container": "#00285d",
+                      "on-primary": "#002e69",
+                      "on-error": "#690005",
+                      "surface-variant": "#323539",
+                      "surface-bright": "#37393d",
+                      "on-surface": "#e1e2e7",
+                      "surface-container-low": "#191c1f",
+                      "on-secondary": "#3a3000",
+                      "surface-container-high": "#282a2e",
+                      "on-tertiary-fixed-variant": "#852400",
+                      "on-tertiary": "#5e1700",
+                      "on-tertiary-fixed": "#3a0b00",
+                      "background": "#111417",
+                      "tertiary": "#ffb59e",
+                      "surface-container-highest": "#323539",
+                      "error": "#ffb4ab",
+                      "secondary-fixed-dim": "#e9c400",
+                      "error-container": "#93000a",
+                      "surface-tint": "#adc6ff",
+                      "inverse-surface": "#e1e2e7",
+                      "secondary-container": "#ffdb3c",
+                      "on-background": "#e1e2e7",
+                      "primary": "#adc6ff",
+                      "on-error-container": "#ffdad6",
+                      "surface-container": "#1d2023",
+                      "on-secondary-fixed": "#221b00",
+                      "surface-dim": "#111417",
+                      "on-primary-fixed": "#001a41",
+                      "secondary": "#fff9ef",
+                      "secondary-fixed": "#ffe16d",
+                      "surface-container-lowest": "#0c0e12",
+                      "on-surface-variant": "#c2c6d6",
+                      "tertiary-fixed": "#ffdbd0",
+                      "outline-variant": "#414754",
+                      "primary-container": "#4c8eff",
+                      "on-primary-fixed-variant": "#004494",
+                      "tertiary-fixed-dim": "#ffb59e",
+                      "outline": "#8c909f",
+                      "on-secondary-fixed-variant": "#544600",
+                      "tertiary-container": "#ff571a",
+                      "inverse-on-surface": "#2e3134",
+                      "primary-fixed-dim": "#adc6ff",
+                      "inverse-primary": "#005ac2",
+                      "on-tertiary-container": "#521300",
+                      "on-secondary-container": "#725f00"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "margin-desktop": "48px",
+                      "gutter": "24px",
+                      "grid-columns": "12",
+                      "margin-mobile": "16px"
+              },
+              "fontFamily": {
+                      "display-lg": ["Geist"],
+                      "code-sm": ["JetBrains Mono"],
+                      "display-lg-mobile": ["Geist"],
+                      "label-mono": ["JetBrains Mono"],
+                      "body-rt": ["Inter"],
+                      "headline-md": ["Geist"]
+              },
+              "fontSize": {
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "code-sm": ["11px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                      "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "label-mono": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                      "body-rt": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-rt antialiased">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/40 backdrop-blur-xl border-b border-outline-variant/20 inner-glow-top flex justify-between items-center px-margin-desktop h-20">
+<div class="flex items-center gap-8">
+<span class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-tighter">ASTROPERA</span>
+<nav class="hidden md:flex gap-6">
+<a class="font-label-mono text-label-mono uppercase tracking-widest text-primary border-b-2 border-primary pb-1" href="#">COMMAND</a>
+<a class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant hover:text-on-surface transition-colors" href="#">CONTROL</a>
+<a class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant hover:text-on-surface transition-colors" href="#">COMMS</a>
+<a class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant hover:text-on-surface transition-colors" href="#">GEAR</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative group">
+<span class="material-symbols-outlined text-primary cursor-pointer p-2 hover:bg-primary/10 transition-all duration-300 rounded-full">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-tertiary-container rounded-full ring-2 ring-background"></span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer p-2 hover:bg-primary/10 transition-all duration-300 rounded-full">settings</span>
+<div class="w-10 h-10 rounded-full border border-primary/30 overflow-hidden ml-2">
+<img alt="Commander Avatar" class="w-full h-full object-cover" data-alt="A futuristic portrait of a starship commander wearing high-tech aerospace gear. The aesthetic is sleek and cinematic, featuring dramatic electric blue lighting that highlights high-performance materials and integrated HUD reflective eyewear. The mood is authoritative and sharp, reflecting a luxury orbital vessel environment with deep space tones and minimalist brutality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3APNp7cJvzhP6p49m2mgXOb-IXcmf5ae1WFRBREYH02KJ8_Bp7j7b9Q7Dg1ZjKJwpCR_U7cXYqoKpwQZzAW0L0jExun5tWlppSoicoiKPoY8k13033j3bPMslqyMDkN3c2Y-rjqhZlOgTCIkKeWb9q-_eUX0nMQIMYFi-7hzieL_gkKvSkAN2Zzft7Wu8cPvPrUHIfQM6Ca0f2iiUF1EoW-UYsnbKockRx5gdidukEe1PH4O9EwEYUplBOFW6WjOE0ZIAtF8upSY"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-20 h-[calc(100vh-120px)] w-64 z-40 bg-surface-container-low/60 backdrop-blur-3xl border-r border-outline-variant/10 flex flex-col py-6 gap-2">
+<div class="px-6 mb-8">
+<h2 class="text-primary font-display-lg font-bold text-xl tracking-tight">ORBITAL HUD</h2>
+<p class="font-label-mono text-code-sm text-on-surface-variant opacity-60">V0.8.2 ACTIVE</p>
+</div>
+<nav class="flex-1">
+<a class="flex items-center gap-3 text-on-surface-variant p-4 hover:bg-surface-variant/20 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">target</span>
+<span class="font-label-mono text-label-mono uppercase">OBJECTIVES</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant p-4 hover:bg-surface-variant/20 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">rocket_launch</span>
+<span class="font-label-mono text-label-mono uppercase">FLEET</span>
+</a>
+<a class="flex items-center gap-3 text-primary bg-primary/10 border-l-2 border-primary p-4 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">radar</span>
+<span class="font-label-mono text-label-mono uppercase">SCAN</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant p-4 hover:bg-surface-variant/20 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">strategy</span>
+<span class="font-label-mono text-label-mono uppercase">TACTICAL</span>
+</a>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full py-4 bg-primary text-on-primary font-label-mono uppercase tracking-widest text-xs font-bold active:scale-95 transition-transform">
+                SYNC ORBIT
+            </button>
+</div>
+</aside>
+<!-- Main Canvas: Stellar Cartography -->
+<main class="ml-64 mt-20 h-[calc(100vh-120px)] relative overflow-hidden grid grid-cols-12">
+<!-- Star Map Visualization Background -->
+<div class="absolute inset-0 z-0 bg-[#0a0c10]">
+
+<div class="absolute inset-0 grid-bg opacity-20"></div>
+<!-- Map Decorative Elements -->
+<div class="absolute inset-0 pointer-events-none">
+<!-- Circular Grid -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-primary/10 rounded-full"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] border border-primary/5 rounded-full border-dashed"></div>
+<!-- Coordinate Labels -->
+<div class="absolute top-10 left-10 font-label-mono text-code-sm text-primary opacity-40">COORD // 0.0.1.X - 44.9</div>
+<div class="absolute bottom-10 right-10 font-label-mono text-code-sm text-primary opacity-40">SECTOR // DELTA-9</div>
+</div>
+<!-- Active Points on Map -->
+<div class="absolute top-[30%] left-[45%] group cursor-crosshair">
+<div class="relative w-12 h-12 flex items-center justify-center">
+<div class="absolute inset-0 border border-primary/40 reticle-rotate"></div>
+<div class="w-1 h-1 bg-primary shadow-[0_0_10px_#adc6ff]"></div>
+<div class="absolute -top-12 left-6 w-32 glass-card p-2 bg-surface/80 border border-outline-variant/30 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity">
+<p class="font-label-mono text-[10px] text-primary">OBJECT: AURORA-7</p>
+<p class="font-code-sm text-[9px] text-on-surface-variant">MAGNITUDE: 4.2 LY</p>
+</div>
+</div>
+</div>
+<div class="absolute top-[60%] left-[70%] group cursor-crosshair">
+<div class="relative w-16 h-16 flex items-center justify-center">
+<div class="absolute inset-0 border border-tertiary-container/40 reticle-rotate anomaly-pulse"></div>
+<div class="w-2 h-2 bg-tertiary-container shadow-[0_0_15px_#ff571a]"></div>
+<div class="absolute -top-12 left-8 w-40 glass-card p-2 bg-surface/80 border border-tertiary-container/30 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity">
+<p class="font-label-mono text-[10px] text-tertiary-container">ANOMALY: ERROR_V09</p>
+<p class="font-code-sm text-[9px] text-on-surface-variant">DETECTED: 4m AGO</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Left Panel: Sector Analysis -->
+<section class="col-span-3 z-10 p-6 flex flex-col gap-6 bg-surface-container-low/40 backdrop-blur-xl border-r border-outline-variant/10">
+<div class="relative glass-card border border-outline-variant/20 p-4 bracket-l bracket-r overflow-hidden group">
+<div class="flashlight"></div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface tracking-tight">SECTOR ANALYSIS</h3>
+<p class="font-label-mono text-code-sm text-primary opacity-60">REGISTRY: XJ-291</p>
+</div>
+<span class="material-symbols-outlined text-primary">data_exploration</span>
+</div>
+<div class="space-y-4">
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-mono text-[10px] text-on-surface-variant">
+<span>LUMINOSITY DENSITY</span>
+<span>88.2%</span>
+</div>
+<div class="h-1 bg-surface-variant/30 w-full overflow-hidden">
+<div class="h-full bg-primary w-[88%] shadow-[0_0_8px_#adc6ff]"></div>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-mono text-[10px] text-on-surface-variant">
+<span>GAS CLOUD SATURATION</span>
+<span>42.1%</span>
+</div>
+<div class="h-1 bg-surface-variant/30 w-full overflow-hidden">
+<div class="h-full bg-primary w-[42%] shadow-[0_0_8px_#adc6ff]"></div>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant/10">
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface/40 p-2 border border-outline-variant/10">
+<p class="font-label-mono text-[10px] text-on-surface-variant">STARS</p>
+<p class="font-display-lg text-lg text-primary">1,244</p>
+</div>
+<div class="bg-surface/40 p-2 border border-outline-variant/10">
+<p class="font-label-mono text-[10px] text-on-surface-variant">PLANETS</p>
+<p class="font-display-lg text-lg text-primary">8,902</p>
+</div>
+</div>
+</div>
+</div>
+<div class="flex-1 flex flex-col gap-2 overflow-hidden">
+<h4 class="font-label-mono text-code-sm text-on-surface-variant flex items-center gap-2">
+<span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                    SYSTEM FEED
+                </h4>
+<div class="flex-1 overflow-y-auto space-y-2 pr-2 scrollbar-hide">
+<div class="p-3 bg-surface-variant/10 border-l-2 border-primary/40 hover:bg-surface-variant/20 transition-colors cursor-pointer">
+<p class="font-code-sm text-[11px] text-on-surface">Pulsar frequency stable at 0.002Hz</p>
+<p class="font-code-sm text-[9px] text-on-surface-variant opacity-50">12:44:01 // T0</p>
+</div>
+<div class="p-3 bg-surface-variant/10 border-l-2 border-transparent hover:border-primary/20 transition-colors cursor-pointer">
+<p class="font-code-sm text-[11px] text-on-surface">Thermal signature detected in void</p>
+<p class="font-code-sm text-[9px] text-on-surface-variant opacity-50">12:43:52 // T0</p>
+</div>
+<div class="p-3 bg-surface-variant/10 border-l-2 border-transparent hover:border-primary/20 transition-colors cursor-pointer">
+<p class="font-code-sm text-[11px] text-on-surface">Auto-mapping of Nebula 8 completed</p>
+<p class="font-code-sm text-[9px] text-on-surface-variant opacity-50">12:43:10 // T0</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Panel: Anomaly Detection -->
+<section class="col-start-10 col-span-3 z-10 p-6 flex flex-col gap-6 bg-surface-container-low/40 backdrop-blur-xl border-l border-outline-variant/10">
+<div class="relative glass-card border border-tertiary-container/20 p-4 bracket-l bracket-r group">
+<div class="flashlight"></div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface tracking-tight">ANOMALIES</h3>
+<p class="font-label-mono text-code-sm text-tertiary-container">PRIORITY: HIGH</p>
+</div>
+<span class="material-symbols-outlined text-tertiary-container anomaly-pulse" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-3 p-3 bg-tertiary-container/5 border border-tertiary-container/20">
+<div class="flex-1">
+<p class="font-label-mono text-[10px] text-tertiary-container">SIGNAL GHOST // 02</p>
+<p class="font-code-sm text-[11px] text-on-surface">Recurrent echo in quadrant H-4</p>
+</div>
+<span class="material-symbols-outlined text-tertiary-container text-sm">error</span>
+</div>
+<div class="flex items-center gap-3 p-3 bg-surface/40 border border-outline-variant/20 opacity-50">
+<div class="flex-1">
+<p class="font-label-mono text-[10px] text-on-surface-variant">VOID DRIFT // 88</p>
+<p class="font-code-sm text-[11px] text-on-surface">Unidentified mass movement</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">visibility_off</span>
+</div>
+</div>
+</div>
+<div class="relative h-48 overflow-hidden border border-outline-variant/10">
+<img class="w-full h-full object-cover" data-alt="A cinematic high-resolution deep space photograph of a vibrant colorful nebula in shades of electric blue and rich orange. The composition features a dense field of distant glowing stars and faint interstellar dust clouds, illuminated by the intense light of a central cosmic event. The visual style is professional, high-fidelity, and evokes a feeling of advanced stellar cartography within a luxury aerospace cockpit." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6eDIg1iQFNA-Q1FgG0AChllHINWi_QC6o0qRh-NPpNBUxUzYPpqTs3lrOnyVH1puZP63Nsl7-azknjHM4p8JVHDH8VBi4IIyBvB6WvCb5eHfhPXTwOrDH3K_rD2dRF2sXW2eFmJrLrT-7kee5GQF1xrol3SDEKZoL9an6zEqDdOQ-wmXoJ-4uRpNLro8CZ2cqyexWlLgf1-IiZX9GmBYSpnv_pnWprG35QSjj4IVPe2PDNdRTSQAkbHdegnegC1bGELWN-7BB0cs"/>
+<div class="absolute inset-0 scan-line opacity-30"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent"></div>
+<div class="absolute bottom-2 left-2 right-2 flex justify-between">
+<span class="font-label-mono text-[10px] text-primary">VISUAL SCAN 09</span>
+<span class="font-label-mono text-[10px] text-on-surface-variant">FILTER: INFRARED</span>
+</div>
+</div>
+<div class="mt-auto space-y-4">
+<h4 class="font-label-mono text-code-sm text-on-surface-variant uppercase tracking-widest">Global Status</h4>
+<div class="flex gap-2">
+<div class="flex-1 h-12 bg-surface-variant/20 border border-outline-variant/20 flex flex-col items-center justify-center">
+<span class="font-code-sm text-[10px] opacity-60">CPU</span>
+<span class="font-label-mono text-primary">24%</span>
+</div>
+<div class="flex-1 h-12 bg-surface-variant/20 border border-outline-variant/20 flex flex-col items-center justify-center">
+<span class="font-code-sm text-[10px] opacity-60">RAM</span>
+<span class="font-label-mono text-primary">61%</span>
+</div>
+<div class="flex-1 h-12 bg-surface-variant/20 border border-outline-variant/20 flex flex-col items-center justify-center">
+<span class="font-code-sm text-[10px] opacity-60">NET</span>
+<span class="font-label-mono text-primary">9.2G</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Floating UI: Center Reticle Info (Mobile/Desktop Contextual) -->
+<div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-4">
+<button class="px-6 py-2 bg-primary/10 border border-primary text-primary font-label-mono text-xs uppercase tracking-widest hover:bg-primary/20 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">zoom_in</span>
+                RE-CENTER
+            </button>
+<button class="px-6 py-2 bg-surface/60 backdrop-blur-md border border-outline-variant/30 text-on-surface font-label-mono text-xs uppercase tracking-widest hover:bg-surface transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">layers</span>
+                LAYER SELECT
+            </button>
+</div>
+</main>
+<!-- Footer -->
+<footer class="fixed bottom-0 w-full z-50 h-10 bg-surface-container-lowest/80 backdrop-blur-md border-t border-outline-variant/30 flex justify-between items-center px-margin-desktop">
+<span class="font-code-sm text-code-sm uppercase text-on-surface-variant/60">© 2142 ASTROPERA COMMAND</span>
+<div class="flex gap-8">
+<span class="font-code-sm text-code-sm uppercase text-secondary">LIFE SUPPORT: 98%</span>
+<span class="font-code-sm text-code-sm uppercase text-secondary">FUEL: 42.1% UNIT</span>
+<span class="font-code-sm text-code-sm uppercase text-secondary-fixed">ORBIT STABLE</span>
+</div>
+</footer>
+<script>
+        // Micro-interaction: Mouse Flashlight Follow
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--x', `${x}px`);
+                card.style.setProperty('--y', `${y}px`);
+            });
+        });
+    </script>
+</body></html>

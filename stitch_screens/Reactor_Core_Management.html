@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ASTROPERA | Reactor Core Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Geist:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface": "#111417",
+                    "primary-fixed": "#d8e2ff",
+                    "on-primary-container": "#00285d",
+                    "on-primary": "#002e69",
+                    "on-error": "#690005",
+                    "surface-variant": "#323539",
+                    "surface-bright": "#37393d",
+                    "on-surface": "#e1e2e7",
+                    "surface-container-low": "#191c1f",
+                    "on-secondary": "#3a3000",
+                    "surface-container-high": "#282a2e",
+                    "on-tertiary-fixed-variant": "#852400",
+                    "on-tertiary": "#5e1700",
+                    "on-tertiary-fixed": "#3a0b00",
+                    "background": "#111417",
+                    "tertiary": "#ffb59e",
+                    "surface-container-highest": "#323539",
+                    "error": "#ffb4ab",
+                    "secondary-fixed-dim": "#e9c400",
+                    "error-container": "#93000a",
+                    "surface-tint": "#adc6ff",
+                    "inverse-surface": "#e1e2e7",
+                    "secondary-container": "#ffdb3c",
+                    "on-background": "#e1e2e7",
+                    "primary": "#adc6ff",
+                    "on-error-container": "#ffdad6",
+                    "surface-container": "#1d2023",
+                    "on-secondary-fixed": "#221b00",
+                    "surface-dim": "#111417",
+                    "on-primary-fixed": "#001a41",
+                    "secondary": "#fff9ef",
+                    "secondary-fixed": "#ffe16d",
+                    "surface-container-lowest": "#0c0e12",
+                    "on-surface-variant": "#c2c6d6",
+                    "tertiary-fixed": "#ffdbd0",
+                    "outline-variant": "#414754",
+                    "primary-container": "#4c8eff",
+                    "on-primary-fixed-variant": "#004494",
+                    "tertiary-fixed-dim": "#ffb59e",
+                    "outline": "#8c909f",
+                    "on-secondary-fixed-variant": "#544600",
+                    "tertiary-container": "#ff571a",
+                    "inverse-on-surface": "#2e3134",
+                    "primary-fixed-dim": "#adc6ff",
+                    "inverse-primary": "#005ac2",
+                    "on-tertiary-container": "#521300",
+                    "on-secondary-container": "#725f00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "margin-desktop": "48px",
+                    "gutter": "24px",
+                    "grid-columns": "12",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Geist"],
+                    "code-sm": ["JetBrains Mono"],
+                    "display-lg-mobile": ["Geist"],
+                    "label-mono": ["JetBrains Mono"],
+                    "body-rt": ["Inter"],
+                    "headline-md": ["Geist"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "code-sm": ["11px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "label-mono": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                    "body-rt": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #111417; color: #e1e2e7; overflow-x: hidden; }
+        .inner-glow-top { box-shadow: inset 0 1px 0 0 rgba(173, 198, 255, 0.1); }
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 10;
+            background: linear-gradient(0deg, rgba(173, 198, 255, 0) 0%, rgba(173, 198, 255, 0.05) 50%, rgba(173, 198, 255, 0) 100%);
+            opacity: 0.1;
+            position: absolute;
+            bottom: 100%;
+            animation: scanline 8s linear infinite;
+        }
+        @keyframes scanline {
+            0% { bottom: 100%; }
+            100% { bottom: -100px; }
+        }
+        .magma-pulse { animation: magma-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes magma-pulse {
+            0%, 100% { box-shadow: 0 0 15px rgba(255, 87, 26, 0.4); border-color: rgba(255, 87, 26, 0.8); }
+            50% { box-shadow: 0 0 40px rgba(255, 87, 26, 0.7); border-color: rgba(255, 87, 26, 1); }
+        }
+        .bracket-l::before { content: ''; position: absolute; top: -1px; left: -1px; width: 8px; height: 8px; border-top: 2px solid currentColor; border-left: 2px solid currentColor; }
+        .bracket-l::after { content: ''; position: absolute; bottom: -1px; right: -1px; width: 8px; height: 8px; border-bottom: 2px solid currentColor; border-right: 2px solid currentColor; }
+        .micro-dot-bg { background-image: radial-gradient(rgba(173, 198, 255, 0.1) 1px, transparent 0); background-size: 20px 20px; }
+        .flashlight-card:hover { background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(173, 198, 255, 0.08), transparent 40%); }
+    </style>
+</head>
+<body class="font-body-rt selection:bg-primary/30">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/40 backdrop-blur-xl border-b border-outline-variant/20 inner-glow-top flex justify-between items-center px-margin-desktop h-20 w-full">
+<div class="flex items-center gap-8">
+<h1 class="font-display-lg text-display-lg text-primary tracking-tighter">ASTROPERA</h1>
+<nav class="hidden md:flex gap-6">
+<a class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant hover:text-on-surface transition-colors" href="#">COMMAND</a>
+<a class="font-label-mono text-label-mono uppercase tracking-widest text-primary border-b-2 border-primary pb-1" href="#">CONTROL</a>
+<a class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant hover:text-on-surface transition-colors" href="#">COMMS</a>
+<a class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant hover:text-on-surface transition-colors" href="#">GEAR</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-primary/10 transition-all duration-300 rounded-full">
+<span class="material-symbols-outlined text-primary">notifications</span>
+</button>
+<button class="p-2 hover:bg-primary/10 transition-all duration-300 rounded-full">
+<span class="material-symbols-outlined text-primary">settings</span>
+</button>
+<div class="w-10 h-10 rounded-full border border-primary/30 overflow-hidden">
+<img alt="Commander Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfbCyF8IckDxy0t8_woiKoitkPVE2Zchb2eBQPWPcxmMYk1irMpOzGt90E99UHIetIofNR0EU993AGCQr1pYUWY4Cu6eQEggdaLaZbLXadz1EApD_ttvvly5AyPca36KGH2qCGRAHXSezAyE0Qdx7RU_Ao1h0xiOQHiEmOCsG_mzK2IngN3uTD6dNhkF597jli7Z13LxfcPLPHxYP_x1xJLCSO_qBTL0kTEDEvHk66io35b_AqEcHl9UYv5FzR9MncI9g2I4iitFQ"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-20 h-[calc(100vh-120px)] w-64 z-40 bg-surface-container-low/60 backdrop-blur-3xl border-r border-outline-variant/10 flex flex-col py-6 gap-2">
+<div class="px-6 mb-6">
+<h2 class="text-primary font-display-lg text-xl tracking-tight">ORBITAL HUD</h2>
+<p class="font-label-mono text-code-sm text-on-surface-variant/60">V0.8.2 ACTIVE</p>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 text-on-surface-variant p-4 hover:bg-surface-variant/20 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">target</span>
+<span class="font-label-mono text-label-mono">OBJECTIVES</span>
+</a>
+<a class="flex items-center gap-3 text-primary bg-primary/10 border-l-2 border-primary p-4 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">rocket_launch</span>
+<span class="font-label-mono text-label-mono">FLEET</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant p-4 hover:bg-surface-variant/20 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">radar</span>
+<span class="font-label-mono text-label-mono">SCAN</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant p-4 hover:bg-surface-variant/20 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">strategy</span>
+<span class="font-label-mono text-label-mono">TACTICAL</span>
+</a>
+</div>
+<div class="mt-auto px-6">
+<button class="w-full py-3 bg-primary text-on-primary font-label-mono text-label-mono uppercase tracking-widest clip-corners hover:opacity-90 transition-opacity">
+                SYNC ORBIT
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 pb-16 px-margin-desktop min-h-screen relative micro-dot-bg">
+<div class="scanline"></div>
+<!-- Header Section -->
+<div class="flex justify-between items-end mb-8 border-b border-outline-variant/10 pb-4">
+<div>
+<div class="flex items-center gap-2 text-tertiary mb-1">
+<span class="material-symbols-outlined text-[18px]">warning</span>
+<span class="font-label-mono text-code-sm uppercase tracking-widest">Reactor Core Beta-9</span>
+</div>
+<h1 class="font-display-lg text-4xl text-on-surface uppercase">Energy Containment HUD</h1>
+</div>
+<div class="text-right">
+<div class="font-label-mono text-code-sm text-on-surface-variant mb-1">SYSTEM UPTIME</div>
+<div class="font-code-sm text-lg text-primary">422:12:09:44</div>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Central Reactor Schematic -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-low/40 backdrop-blur-md border border-outline-variant/10 p-gutter relative overflow-hidden flashlight-card" id="main-reactor-card">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/20 to-transparent"></div>
+<div class="flex justify-between items-start mb-12">
+<div>
+<h3 class="font-label-mono text-label-mono text-primary mb-1 uppercase">Live Core Visualization</h3>
+<p class="font-code-sm text-on-surface-variant/70">Anti-Matter Inversion Tracking</p>
+</div>
+<div class="flex gap-4">
+<div class="text-center px-4 py-2 border border-outline-variant/20">
+<p class="font-label-mono text-[10px] text-on-surface-variant uppercase">Neutron Flux</p>
+<p class="font-code-sm text-primary text-xl">1.42 GeV</p>
+</div>
+<div class="text-center px-4 py-2 border border-outline-variant/20">
+<p class="font-label-mono text-[10px] text-on-surface-variant uppercase">Efficiency</p>
+<p class="font-code-sm text-primary text-xl">99.98%</p>
+</div>
+</div>
+</div>
+<!-- Reactor Schematic Placeholder -->
+<div class="relative h-[400px] flex items-center justify-center">
+<div class="absolute inset-0 opacity-20">
+<!-- Simulated Grid Lines -->
+<div class="w-full h-full border border-primary/10 grid grid-cols-6 grid-rows-4">
+<div class="border-r border-b border-primary/5"></div><div class="border-r border-b border-primary/5"></div><div class="border-r border-b border-primary/5"></div><div class="border-r border-b border-primary/5"></div><div class="border-r border-b border-primary/5"></div><div class="border-b border-primary/5"></div>
+<div class="border-r border-b border-primary/5"></div><div class="border-r border-b border-primary/5"></div><div class="border-r border-b border-primary/5"></div><div class="border-r border-b border-primary/5"></div><div class="border-r border-b border-primary/5"></div><div class="border-b border-primary/5"></div>
+<div class="border-r border-b border-primary/5"></div><div class="border-r border-b border-primary/5"></div><div class="border-r border-b border-primary/5"></div><div class="border-r border-b border-primary/5"></div><div class="border-r border-b border-primary/5"></div><div class="border-b border-primary/5"></div>
+<div class="border-r border-primary/5"></div><div class="border-r border-primary/5"></div><div class="border-r border-primary/5"></div><div class="border-r border-primary/5"></div><div class="border-r border-primary/5"></div><div></div>
+</div>
+</div>
+<!-- The Reactor Core Visual (SVG-like styling) -->
+<div class="relative w-64 h-64 rounded-full border-[12px] border-primary/5 flex items-center justify-center magma-pulse">
+<div class="w-48 h-48 rounded-full border-4 border-dashed border-primary/20 animate-spin" style="animation-duration: 20s"></div>
+<div class="absolute w-32 h-32 rounded-full bg-gradient-to-tr from-tertiary-container via-tertiary to-primary-container blur-2xl opacity-40"></div>
+<div class="absolute flex flex-col items-center">
+<span class="font-label-mono text-tertiary text-xs">STABILITY</span>
+<span class="font-display-lg text-4xl text-on-surface">CRITICAL</span>
+</div>
+<!-- Reticle Brackets -->
+<div class="absolute -top-4 -left-4 w-8 h-8 border-t-2 border-l-2 border-primary"></div>
+<div class="absolute -top-4 -right-4 w-8 h-8 border-t-2 border-r-2 border-primary"></div>
+<div class="absolute -bottom-4 -left-4 w-8 h-8 border-b-2 border-l-2 border-primary"></div>
+<div class="absolute -bottom-4 -right-4 w-8 h-8 border-b-2 border-r-2 border-primary"></div>
+</div>
+<!-- Floating Data Points -->
+<div class="absolute top-10 right-10 flex flex-col gap-4">
+<div class="bg-surface-container-highest/60 border-l-2 border-tertiary p-3">
+<div class="font-label-mono text-[10px] text-on-surface-variant">TEMP DELTA</div>
+<div class="font-code-sm text-tertiary">+1,240.5 K/s</div>
+</div>
+<div class="bg-surface-container-highest/60 border-l-2 border-primary p-3">
+<div class="font-label-mono text-[10px] text-on-surface-variant">PRESSURE</div>
+<div class="font-code-sm text-primary">12.5 GPa</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Side Metric Column -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-gutter">
+<!-- Metrics List -->
+<div class="bg-surface-container-low/40 backdrop-blur-md border border-outline-variant/10 p-6 flashlight-card">
+<h3 class="font-label-mono text-label-mono text-on-surface-variant mb-6 uppercase tracking-widest">Sub-System Status</h3>
+<div class="space-y-4">
+<div class="flex justify-between items-center group cursor-default">
+<div class="flex items-center gap-3">
+<div class="w-1 h-6 bg-primary group-hover:shadow-[0_0_10px_rgba(173,198,255,1)] transition-shadow"></div>
+<span class="font-code-sm text-on-surface">Magnetic Containment</span>
+</div>
+<span class="font-code-sm text-primary">94.2%</span>
+</div>
+<div class="flex justify-between items-center group cursor-default">
+<div class="flex items-center gap-3">
+<div class="w-1 h-6 bg-tertiary-container magma-pulse"></div>
+<span class="font-code-sm text-on-surface">Thermal Venting</span>
+</div>
+<span class="font-code-sm text-tertiary">OVERLOAD</span>
+</div>
+<div class="flex justify-between items-center group cursor-default">
+<div class="flex items-center gap-3">
+<div class="w-1 h-6 bg-primary group-hover:shadow-[0_0_10px_rgba(173,198,255,1)] transition-shadow"></div>
+<span class="font-code-sm text-on-surface">Plasma Density</span>
+</div>
+<span class="font-code-sm text-primary">1.82 kg/m³</span>
+</div>
+<div class="flex justify-between items-center group cursor-default">
+<div class="flex items-center gap-3">
+<div class="w-1 h-6 bg-primary group-hover:shadow-[0_0_10px_rgba(173,198,255,1)] transition-shadow"></div>
+<span class="font-code-sm text-on-surface">Radiation Shield</span>
+</div>
+<span class="font-code-sm text-primary">ACTIVE</span>
+</div>
+</div>
+</div>
+<!-- Warning Panel -->
+<div class="bg-tertiary-container/10 border border-tertiary-container/40 p-6 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 opacity-20">
+<span class="material-symbols-outlined text-6xl">priority_high</span>
+</div>
+<h3 class="font-label-mono text-label-mono text-tertiary mb-2 uppercase tracking-widest">Thermal Warning</h3>
+<p class="font-code-sm text-on-tertiary-fixed mb-4">Inversion containment field showing 14% deviation from baseline. Secondary coolant cycle 4 bypassed.</p>
+<div class="h-1 bg-surface-variant/30 w-full rounded-full overflow-hidden">
+<div class="h-full bg-tertiary-container w-[88%] animate-pulse"></div>
+</div>
+<p class="font-code-sm text-[10px] mt-2 text-tertiary/70 uppercase">Threshold: 90.0% | Current: 88.4%</p>
+</div>
+<!-- Action Cards Grid -->
+<div class="grid grid-cols-1 gap-4 mt-auto">
+<button class="bracket-l relative flex items-center justify-between p-4 bg-surface-container-high/60 border border-outline-variant/10 text-on-surface-variant hover:text-primary hover:border-primary transition-all duration-300">
+<div class="flex flex-col items-start">
+<span class="font-label-mono text-xs uppercase opacity-60">System Proc</span>
+<span class="font-code-sm font-bold">COOLANT FLUSH</span>
+</div>
+<span class="material-symbols-outlined">waves</span>
+</button>
+<button class="bracket-l relative flex items-center justify-between p-4 bg-surface-container-high/60 border border-outline-variant/10 text-on-surface-variant hover:text-primary hover:border-primary transition-all duration-300">
+<div class="flex flex-col items-start">
+<span class="font-label-mono text-xs uppercase opacity-60">Regulate Field</span>
+<span class="font-code-sm font-bold">PLASMA INJECTION</span>
+</div>
+<span class="material-symbols-outlined">opacity</span>
+</button>
+<button class="bracket-l relative flex items-center justify-between p-4 bg-error-container/20 border border-error/20 text-error hover:bg-error-container/40 hover:border-error transition-all duration-300">
+<div class="flex flex-col items-start">
+<span class="font-label-mono text-xs uppercase opacity-60">Emergency Protocol</span>
+<span class="font-code-sm font-bold">SAFETY PURGE</span>
+</div>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">emergency_home</span>
+</button>
+</div>
+</div>
+</div>
+<!-- History Graph (Bottom section) -->
+<div class="mt-gutter bg-surface-container-low/40 border border-outline-variant/10 p-6 flashlight-card">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-label-mono text-label-mono text-on-surface-variant uppercase tracking-widest">Energy Output Variance</h3>
+<div class="flex gap-4">
+<span class="font-label-mono text-[10px] text-primary">● STABLE</span>
+<span class="font-label-mono text-[10px] text-tertiary">● VOLATILE</span>
+</div>
+</div>
+<div class="h-32 flex items-end gap-1 px-4">
+<!-- Simple bar representation -->
+<div class="bg-primary/20 w-full h-[40%] hover:bg-primary/40 transition-all cursor-crosshair"></div>
+<div class="bg-primary/20 w-full h-[45%] hover:bg-primary/40 transition-all cursor-crosshair"></div>
+<div class="bg-primary/20 w-full h-[38%] hover:bg-primary/40 transition-all cursor-crosshair"></div>
+<div class="bg-primary/20 w-full h-[52%] hover:bg-primary/40 transition-all cursor-crosshair"></div>
+<div class="bg-primary/20 w-full h-[60%] hover:bg-primary/40 transition-all cursor-crosshair"></div>
+<div class="bg-tertiary/20 w-full h-[85%] hover:bg-tertiary/40 transition-all cursor-crosshair magma-pulse"></div>
+<div class="bg-tertiary/20 w-full h-[78%] hover:bg-tertiary/40 transition-all cursor-crosshair"></div>
+<div class="bg-primary/20 w-full h-[45%] hover:bg-primary/40 transition-all cursor-crosshair"></div>
+<div class="bg-primary/20 w-full h-[40%] hover:bg-primary/40 transition-all cursor-crosshair"></div>
+<div class="bg-primary/20 w-full h-[35%] hover:bg-primary/40 transition-all cursor-crosshair"></div>
+<div class="bg-primary/20 w-full h-[42%] hover:bg-primary/40 transition-all cursor-crosshair"></div>
+<div class="bg-primary/20 w-full h-[48%] hover:bg-primary/40 transition-all cursor-crosshair"></div>
+<div class="bg-primary/20 w-full h-[50%] hover:bg-primary/40 transition-all cursor-crosshair"></div>
+<div class="bg-primary/20 w-full h-[45%] hover:bg-primary/40 transition-all cursor-crosshair"></div>
+<div class="bg-tertiary/20 w-full h-[92%] hover:bg-tertiary/40 transition-all cursor-crosshair magma-pulse"></div>
+<div class="bg-primary/20 w-full h-[40%] hover:bg-primary/40 transition-all cursor-crosshair"></div>
+<div class="bg-primary/20 w-full h-[38%] hover:bg-primary/40 transition-all cursor-crosshair"></div>
+</div>
+<div class="flex justify-between mt-2 font-code-sm text-[9px] text-on-surface-variant/40">
+<span>T-Minus 60m</span>
+<span>T-Minus 30m</span>
+<span>Now</span>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="fixed bottom-0 w-full z-50 h-10 bg-surface-container-lowest/80 backdrop-blur-md border-t border-outline-variant/30 flex justify-between items-center px-margin-desktop w-full">
+<div class="font-code-sm text-code-sm uppercase text-on-surface-variant/60">
+            © 2142 ASTROPERA COMMAND
+        </div>
+<div class="flex gap-8">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_5px_#adc6ff]"></span>
+<span class="font-code-sm text-code-sm uppercase text-secondary">LIFE SUPPORT: 98%</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed-dim"></span>
+<span class="font-code-sm text-code-sm uppercase text-secondary">FUEL: 42.1% UNIT</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_5px_#adc6ff]"></span>
+<span class="font-code-sm text-code-sm uppercase text-secondary">ORBIT STABLE</span>
+</div>
+</div>
+</footer>
+<script>
+        // Flashlight effect for cards
+        const cards = document.querySelectorAll('.flashlight-card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // Simple animation logic for numbers
+        function updateEfficiency() {
+            const efficiencies = [99.98, 99.97, 99.99, 99.98, 99.96];
+            const target = document.querySelector('.font-code-sm.text-primary.text-xl:last-child');
+            if (target) {
+                const randomEff = efficiencies[Math.floor(Math.random() * efficiencies.length)];
+                target.textContent = randomEff + '%';
+            }
+        }
+        setInterval(updateEfficiency, 3000);
+    </script>
+</body></html>

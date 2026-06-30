@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cosmic Oracle | Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400..900;1,400..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --glow-color: rgba(233, 196, 0, 0.15);
+            --violet-nebula: rgba(71, 25, 201, 0.2);
+        }
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+            overflow-x: hidden;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .sacred-grid {
+            background-image: 
+                linear-gradient(to right, rgba(233, 196, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(233, 196, 0, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .glass-panel {
+            backdrop-filter: blur(20px);
+            background: rgba(14, 14, 14, 0.7);
+            border: 1px solid rgba(77, 71, 50, 0.3);
+        }
+        .gold-shimmer {
+            background: linear-gradient(90deg, transparent, rgba(233, 196, 0, 0.2), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 4s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-gold {
+            filter: drop-shadow(0 0 8px rgba(233, 196, 0, 0.4));
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#d2fffe",
+                    "on-tertiary-container": "#006a6b",
+                    "tertiary-fixed-dim": "#26dcdd",
+                    "primary": "#fff6df",
+                    "error-container": "#93000a",
+                    "surface-container": "#201f1f",
+                    "surface-container-low": "#1c1b1b",
+                    "surface-container-lowest": "#0e0e0e",
+                    "on-secondary-fixed-variant": "#4719c9",
+                    "on-primary-container": "#705e00",
+                    "on-surface": "#e5e2e1",
+                    "on-surface-variant": "#d0c6ab",
+                    "surface-variant": "#353534",
+                    "surface-dim": "#131313",
+                    "surface-bright": "#3a3939",
+                    "surface-container-high": "#2a2a2a",
+                    "surface-tint": "#e9c400",
+                    "primary-fixed-dim": "#e9c400",
+                    "on-secondary": "#30009b",
+                    "inverse-on-surface": "#313030",
+                    "primary-container": "#ffd700",
+                    "secondary-fixed-dim": "#cabeff",
+                    "on-primary-fixed-variant": "#544600",
+                    "on-primary-fixed": "#221b00",
+                    "on-error-container": "#ffdad6",
+                    "secondary-fixed": "#e6deff",
+                    "tertiary-container": "#4af0f1",
+                    "on-tertiary-fixed": "#002020",
+                    "on-secondary-container": "#b8aaff",
+                    "on-tertiary-fixed-variant": "#004f50",
+                    "background": "#131313",
+                    "surface-container-highest": "#353534",
+                    "inverse-primary": "#705d00",
+                    "surface": "#131313",
+                    "outline-variant": "#4d4732",
+                    "outline": "#999077",
+                    "error": "#ffb4ab",
+                    "on-primary": "#3a3000",
+                    "tertiary-fixed": "#56f9f9",
+                    "inverse-surface": "#e5e2e1",
+                    "primary-fixed": "#ffe16d",
+                    "on-background": "#e5e2e1",
+                    "on-tertiary": "#003737",
+                    "secondary": "#cabeff",
+                    "on-error": "#690005",
+                    "on-secondary-fixed": "#1c0062"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-sm": "8px",
+                    "unit": "4px",
+                    "stack-lg": "48px",
+                    "margin-desktop": "64px",
+                    "stack-md": "24px",
+                    "gutter": "24px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "body-md": ["JetBrains Mono"],
+                    "label-caps": ["JetBrains Mono"],
+                    "headline-md": ["Bodoni Moda"],
+                    "headline-lg": ["Bodoni Moda"],
+                    "mono-data": ["JetBrains Mono"],
+                    "body-lg": ["JetBrains Mono"],
+                    "display-lg": ["Bodoni Moda"],
+                    "headline-lg-mobile": ["Bodoni Moda"]
+            },
+            "fontSize": {
+                    "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.15em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                    "headline-lg": ["40px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "mono-data": ["13px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                    "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background selection:bg-primary-fixed-dim/30">
+<!-- NAVIGATION SHELL: TOP BAR -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-desktop py-4 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20">
+<div class="font-display-lg text-headline-md text-primary-fixed-dim tracking-tighter">Cosmic Oracle</div>
+<div class="hidden md:flex items-center gap-stack-lg">
+<a class="font-body-md text-body-md uppercase tracking-widest text-primary border-b-2 border-primary pb-1" href="#">Birth Charts</a>
+<a class="font-body-md text-body-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Daily Oracles</a>
+<a class="font-body-md text-body-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Future Projections</a>
+<a class="font-body-md text-body-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Star Maps</a>
+</div>
+<div class="flex items-center gap-stack-md">
+<button class="p-2 hover:bg-primary-container/10 transition-all duration-300 rounded-full scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-primary-fixed-dim">account_circle</span>
+</button>
+</div>
+</nav>
+<!-- SIDE NAVIGATION -->
+<aside class="hidden xl:flex flex-col h-screen w-80 fixed left-0 py-stack-md bg-surface-container-lowest border-r border-outline-variant/10 shadow-2xl shadow-black/50 z-40 pt-24">
+<div class="px-6 mb-stack-lg">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full border border-primary-fixed-dim flex items-center justify-center bg-surface-variant/30">
+<span class="material-symbols-outlined text-primary-fixed-dim" style="font-variation-settings: 'FILL' 1;">wb_sunny</span>
+</div>
+<div>
+<div class="font-headline-md text-primary text-lg">Master Astronomer</div>
+<div class="font-mono-data text-mono-data text-on-surface-variant">Ascendant in Scorpio</div>
+</div>
+</div>
+<button class="w-full py-3 bg-secondary-container text-on-secondary-container font-mono-data text-mono-data rounded-none border-l-4 border-primary-fixed-dim uppercase tracking-widest hover:brightness-110 transition-all">
+                Upgrade to Zenith
+            </button>
+</div>
+<nav class="flex-grow">
+<div class="flex flex-col">
+<a class="flex items-center gap-4 px-6 py-4 bg-secondary-container text-on-secondary-container border-l-4 border-primary-fixed-dim" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-mono-data text-mono-data">Saved Ascendants</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant hover:bg-surface-variant/30 transition-all translate-x-0 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">notifications_active</span>
+<span class="font-mono-data text-mono-data">Celestial Alerts</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant hover:bg-surface-variant/30 transition-all translate-x-0 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">history_edu</span>
+<span class="font-mono-data text-mono-data">Ecliptic History</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant hover:bg-surface-variant/30 transition-all translate-x-0 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">diamond</span>
+<span class="font-mono-data text-mono-data">Sacred Geometry</span>
+</a>
+</div>
+</nav>
+<div class="px-6 border-t border-outline-variant/10 pt-4">
+<a class="flex items-center gap-4 py-2 text-on-surface-variant hover:text-tertiary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-mono-data text-mono-data uppercase">Settings</span>
+</a>
+<a class="flex items-center gap-4 py-2 text-on-surface-variant hover:text-tertiary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-mono-data text-mono-data uppercase">Log Out</span>
+</a>
+</div>
+</aside>
+<!-- MAIN CANVAS -->
+<main class="min-h-screen pt-24 xl:pl-80 bg-surface sacred-grid relative">
+<!-- Nebula Effect -->
+<div class="absolute inset-0 overflow-hidden pointer-events-none">
+<div class="absolute top-1/4 -right-1/4 w-[800px] h-[800px] bg-secondary-container/10 rounded-full blur-[120px]"></div>
+<div class="absolute bottom-1/4 -left-1/4 w-[600px] h-[600px] bg-tertiary-container/5 rounded-full blur-[100px]"></div>
+</div>
+<div class="max-w-[1600px] mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg relative z-10">
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-gutter">
+<!-- LEFT: Natal Alignment Summary -->
+<section class="xl:col-span-3 order-2 xl:order-1 flex flex-col gap-stack-md">
+<div class="glass-panel p-6 relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-full h-0.5 bg-primary-fixed-dim"></div>
+<div class="flex justify-between items-start mb-6">
+<h3 class="font-headline-md text-primary-fixed-dim text-lg uppercase tracking-wider">Natal Alignment</h3>
+<span class="material-symbols-outlined text-primary-fixed-dim/50">alarm_on</span>
+</div>
+<div class="space-y-stack-md">
+<div class="flex items-center gap-4 group/item">
+<div class="w-10 h-10 border border-outline-variant flex items-center justify-center text-primary-fixed-dim group-hover/item:border-primary-fixed transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">wb_sunny</span>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant">Sun</p>
+<p class="font-mono-data text-mono-data text-primary text-lg">Scorpio 14° 22'</p>
+</div>
+</div>
+<div class="flex items-center gap-4 group/item">
+<div class="w-10 h-10 border border-outline-variant flex items-center justify-center text-secondary-fixed-dim group-hover/item:border-secondary-fixed transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">brightness_2</span>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant">Moon</p>
+<p class="font-mono-data text-mono-data text-primary text-lg">Leo 02° 45'</p>
+</div>
+</div>
+<div class="flex items-center gap-4 group/item">
+<div class="w-10 h-10 border border-outline-variant flex items-center justify-center text-tertiary-fixed-dim group-hover/item:border-tertiary-fixed transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">change_history</span>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant">Ascendant</p>
+<p class="font-mono-data text-mono-data text-primary text-lg">Scorpio 29° 11'</p>
+</div>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-outline-variant/20">
+<p class="font-mono-data text-xs text-on-surface-variant leading-relaxed">
+                                Current transits suggest a peak in <span class="text-tertiary-fixed-dim">mercurial energy</span>. Communication with higher consciousness is optimized for the next 4 cycles.
+                            </p>
+</div>
+</div>
+<div class="glass-panel p-6 bg-gradient-to-br from-surface-container-low to-surface-container-lowest">
+<h4 class="font-label-caps text-label-caps text-primary mb-4">Planetary Velocities</h4>
+<div class="space-y-4">
+<div class="h-1 bg-surface-variant w-full overflow-hidden">
+<div class="h-full bg-primary-fixed-dim gold-shimmer" style="width: 74%"></div>
+</div>
+<div class="flex justify-between font-mono-data text-[10px] text-on-surface-variant">
+<span>Mars Retrograde</span>
+<span>-0.12° / cycle</span>
+</div>
+<div class="h-1 bg-surface-variant w-full overflow-hidden">
+<div class="h-full bg-secondary-fixed-dim" style="width: 42%"></div>
+</div>
+<div class="flex justify-between font-mono-data text-[10px] text-on-surface-variant">
+<span>Venus Direct</span>
+<span>+1.04° / cycle</span>
+</div>
+</div>
+</div>
+</section>
+<!-- CENTER: Interactive 3D Birth Chart -->
+<section class="xl:col-span-6 order-1 xl:order-2">
+<div class="glass-panel aspect-square w-full relative flex items-center justify-center overflow-hidden border-primary-fixed-dim/20 shadow-[0_0_100px_rgba(233,196,0,0.05)]">
+<!-- Technical Brackets -->
+<div class="absolute top-4 left-4 w-12 h-12 border-t-2 border-l-2 border-primary-fixed-dim/40"></div>
+<div class="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-primary-fixed-dim/40"></div>
+<div class="absolute bottom-4 left-4 w-12 h-12 border-b-2 border-l-2 border-primary-fixed-dim/40"></div>
+<div class="absolute bottom-4 right-4 w-12 h-12 border-b-2 border-r-2 border-primary-fixed-dim/40"></div>
+<!-- 3D Shader Placeholder -->
+<div class="absolute inset-0 z-0">
+
+</div>
+<!-- Interaction Overlay -->
+<div class="relative z-10 text-center flex flex-col items-center">
+<div class="w-80 h-80 border border-primary-fixed-dim/20 rounded-full flex items-center justify-center p-8 backdrop-blur-sm">
+<div class="w-full h-full border-[0.5px] border-primary-fixed-dim/40 rounded-full relative animate-[spin_60s_linear_infinite]">
+<!-- Orbiting Glyphs -->
+<div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 bg-surface border border-primary-fixed-dim flex items-center justify-center">
+<span class="material-symbols-outlined text-[12px] text-primary-fixed-dim">wb_sunny</span>
+</div>
+<div class="absolute bottom-1/4 right-0 translate-x-1/2 w-6 h-6 bg-surface border border-secondary-fixed-dim flex items-center justify-center">
+<span class="material-symbols-outlined text-[12px] text-secondary-fixed-dim">brightness_3</span>
+</div>
+</div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="text-center">
+<p class="font-display-lg text-4xl text-primary-fixed-dim">14.3°</p>
+<p class="font-mono-data text-xs text-on-surface-variant uppercase tracking-widest mt-2">Current Elevation</p>
+</div>
+</div>
+</div>
+<div class="mt-12 space-y-2">
+<button class="px-8 py-2 border border-primary-fixed-dim text-primary font-mono-data text-sm hover:bg-primary-fixed-dim/10 transition-all uppercase tracking-tighter">
+                                    Rotate Axis
+                                </button>
+<p class="text-[10px] text-outline uppercase tracking-widest opacity-60">System Ready: Orbital Resonance Active</p>
+</div>
+</div>
+<!-- Watermark -->
+<div class="absolute bottom-8 right-8 pointer-events-none opacity-5">
+<svg height="200" viewbox="0 0 100 100" width="200">
+<circle cx="50" cy="50" fill="none" r="40" stroke="currentColor"></circle>
+<polygon fill="none" points="50,10 90,50 50,90 10,50" stroke="currentColor"></polygon>
+<rect fill="none" height="60" stroke="currentColor" transform="rotate(45 50 50)" width="60" x="20" y="20"></rect>
+</svg>
+</div>
+</div>
+</section>
+<!-- RIGHT: Daily Oracle Feed -->
+<section class="xl:col-span-3 order-3 flex flex-col gap-stack-md">
+<h3 class="font-headline-md text-primary text-xl uppercase tracking-widest border-b border-primary/20 pb-4">Daily Oracles</h3>
+<div class="flex flex-col gap-4">
+<!-- Card 1 -->
+<div class="glass-panel group hover:border-primary-fixed-dim transition-all duration-500 overflow-hidden">
+<div class="h-32 w-full relative">
+<img class="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 transition-all duration-700" data-alt="A moody, high-contrast digital abstract representing the void of deep space with subtle, glowing golden geometric lines intersecting a central dark sphere. The lighting is ethereal and minimal, dominated by deep blacks and obsidian tones with sharp, razor-thin golden highlights. The aesthetic is Mystical Brutalism with a technological precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZOY8B6-5Bmoej7XcgFQeft-Pwwhql4720wLJXESHcQxHX9skvVjksH_g0SNXE6Wq5yFfqyM9PVVDMT2bce4YxiqEfHDO2XQpmXDzl6dV5wo3da3GNs5s3X8ZEbt0RFXRWC_ZWQ_p-GzA-ptPuBrzbPXbM1oecHXuDxg2OJmq5pQ1Gmwm7Ra6Qf_HU6uih3NucmRJGlbBBmD2nhIVstiJYEzT3rgcVwOi62nwBtXkFPbh2Po-8gYbJOurQj9Z3g2MjL8A2_mNEEgs"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest to-transparent"></div>
+<div class="absolute bottom-2 left-4">
+<span class="px-2 py-1 bg-primary text-on-primary font-mono-data text-[10px] uppercase">Immediate</span>
+</div>
+</div>
+<div class="p-4">
+<h5 class="font-headline-md text-primary text-md mb-2">The Threshold</h5>
+<p class="font-mono-data text-xs text-on-surface-variant leading-relaxed">
+                                    A convergence of Martian energy and Lunar rest. Avoid decisive action between 14:00 and 18:00 UTC.
+                                </p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="glass-panel group hover:border-tertiary-fixed transition-all duration-500 overflow-hidden">
+<div class="p-4 bg-tertiary-container/5 border-b border-outline-variant/10 flex justify-between items-center">
+<span class="font-label-caps text-[10px] text-tertiary-fixed">Oracle #421</span>
+<span class="material-symbols-outlined text-tertiary-fixed text-sm">diamond</span>
+</div>
+<div class="p-4">
+<h5 class="font-headline-md text-primary text-md mb-2">Cognitive Echoes</h5>
+<p class="font-mono-data text-xs text-on-surface-variant leading-relaxed">
+                                    Your Scorpio sun enters the eighth house of deep transformation. Unexpected data flows are anticipated.
+                                </p>
+<button class="mt-4 text-[10px] uppercase font-bold text-tertiary-fixed-dim flex items-center gap-2 group-hover:gap-4 transition-all">
+                                    Decrypt Frequency <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="glass-panel p-4 border-dashed border-outline-variant/40 hover:border-solid transition-all">
+<div class="flex items-center gap-3 opacity-60">
+<span class="material-symbols-outlined text-secondary-fixed">lock</span>
+<span class="font-mono-data text-xs uppercase tracking-widest">Locked Zenith Insight</span>
+</div>
+</div>
+</div>
+</section>
+<!-- BOTTOM: Future Forecast Timeline -->
+<section class="xl:col-span-12 order-4 mt-stack-lg">
+<div class="glass-panel p-8">
+<div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
+<div>
+<h3 class="font-headline-md text-primary text-2xl mb-1">Future Forecast</h3>
+<p class="font-mono-data text-sm text-on-surface-variant uppercase tracking-widest">Projection: Next 7 Orbital Cycles</p>
+</div>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 bg-primary-fixed-dim"></div>
+<span class="font-mono-data text-[10px] text-on-surface-variant uppercase">Solar Transits</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 bg-secondary-fixed-dim"></div>
+<span class="font-mono-data text-[10px] text-on-surface-variant uppercase">Lunar Phases</span>
+</div>
+</div>
+</div>
+<div class="relative h-48 w-full border-b border-outline-variant/20 overflow-hidden">
+<!-- Timeline SVG Graph -->
+<svg class="absolute inset-0 w-full h-full preserve-3d" viewbox="0 0 1000 200">
+<defs>
+<lineargradient id="grad-gold" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" style="stop-color:rgba(233, 196, 0, 0)"></stop>
+<stop offset="50%" style="stop-color:rgba(233, 196, 0, 0.4)"></stop>
+<stop offset="100%" style="stop-color:rgba(233, 196, 0, 0)"></stop>
+</lineargradient>
+</defs>
+<path class="animate-[dash_10s_linear_infinite]" d="M0,100 Q150,20 300,100 T600,100 T1000,100" fill="none" stroke="url(#grad-gold)" stroke-dasharray="10 5" stroke-width="2"></path>
+<path d="M0,150 Q200,80 400,150 T800,150" fill="none" opacity="0.3" stroke="#cabeff" stroke-width="1"></path>
+<!-- Events -->
+<circle cx="300" cy="100" fill="#e9c400" r="4"></circle>
+<circle cx="600" cy="100" fill="#e9c400" r="4"></circle>
+<circle cx="900" cy="100" fill="#e9c400" r="4"></circle>
+</svg>
+<!-- Timeline Markers -->
+<div class="absolute bottom-0 left-0 w-full flex justify-between px-2 py-4">
+<div class="flex flex-col items-center">
+<div class="h-4 w-px bg-outline-variant"></div>
+<span class="font-mono-data text-[10px] mt-2 text-on-surface-variant">OCT 24</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="h-4 w-px bg-outline-variant"></div>
+<span class="font-mono-data text-[10px] mt-2 text-on-surface-variant">OCT 27</span>
+</div>
+<div class="flex flex-col items-center opacity-40">
+<div class="h-4 w-px bg-outline-variant"></div>
+<span class="font-mono-data text-[10px] mt-2 text-on-surface-variant">OCT 30</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="h-4 w-px bg-outline-variant"></div>
+<span class="font-mono-data text-[10px] mt-2 text-on-surface-variant">NOV 02</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="h-4 w-px bg-outline-variant"></div>
+<span class="font-mono-data text-[10px] mt-2 text-on-surface-variant">NOV 05</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-8">
+<div class="border-l border-primary-fixed-dim/40 pl-4">
+<p class="font-label-caps text-[10px] text-on-surface-variant mb-1">Max Amplitude</p>
+<p class="font-headline-md text-primary text-xl">Oct 28</p>
+</div>
+<div class="border-l border-outline-variant/40 pl-4">
+<p class="font-label-caps text-[10px] text-on-surface-variant mb-1">Retrograde End</p>
+<p class="font-headline-md text-primary text-xl">Nov 14</p>
+</div>
+<div class="border-l border-outline-variant/40 pl-4">
+<p class="font-label-caps text-[10px] text-on-surface-variant mb-1">Void-of-Course</p>
+<p class="font-headline-md text-primary text-xl">04:12H</p>
+</div>
+<div class="border-l border-outline-variant/40 pl-4">
+<p class="font-label-caps text-[10px] text-on-surface-variant mb-1">Aspect Ratio</p>
+<p class="font-headline-md text-primary text-xl">1.618</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- FOOTER -->
+<footer class="w-full bg-surface-container-high/90 backdrop-blur-md border-t border-primary/20 py-stack-sm px-margin-desktop relative z-50">
+<div class="flex flex-col md:flex-row justify-between items-center gap-stack-sm w-full py-6">
+<div class="flex flex-col items-center md:items-start">
+<span class="font-label-caps text-label-caps text-primary uppercase">© 2024 Cosmic Oracle</span>
+<span class="font-mono-data text-[10px] text-on-surface-variant mt-1">Planetary Positions: Mercury 14° R, Moon Waxing Crescent.</span>
+</div>
+<div class="flex gap-stack-lg">
+<a class="font-mono-data text-mono-data uppercase text-on-surface-variant hover:text-tertiary-fixed transition-all" href="#">Privacy Policy</a>
+<a class="font-mono-data text-mono-data uppercase text-on-surface-variant hover:text-tertiary-fixed transition-all" href="#">Data Sources</a>
+<a class="font-mono-data text-mono-data uppercase text-on-surface-variant hover:text-tertiary-fixed transition-all" href="#">Contact Council</a>
+</div>
+</div>
+</footer>
+<!-- INTERACTION SCRIPTS -->
+<script>
+        // Micro-interaction for cards
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mouseenter', () => {
+                panel.style.transform = 'translateY(-2px)';
+                panel.style.boxShadow = '0 10px 30px -10px rgba(0,0,0,0.5)';
+            });
+            panel.addEventListener('mouseleave', () => {
+                panel.style.transform = 'translateY(0)';
+                panel.style.boxShadow = 'none';
+            });
+        });
+
+        // Floating Action Button Simulation (contextual check)
+        // Hidden on dashboard as per rules? Or shown for specific action? 
+        // Let's add a "Scan" button that only appears on focal charts
+    </script>
+</body></html>

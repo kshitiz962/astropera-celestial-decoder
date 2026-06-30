@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+<!-- STITCH_THREEJS_START:ANIMATION_4 class="fixed inset-0 w-full h-full bg-transparent" -->
+<div class="fixed inset-0 w-full h-full bg-transparent" style="display:block;">
+<script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
+<div id="threejs-container-ANIMATION_4" style="width:100%;height:100%"></div>
+<script>
+(function() {
+  const container = document.getElementById('threejs-container-ANIMATION_4');
+  const devicePixelRatio = window.devicePixelRatio || 1;
+  const scene = new THREE.Scene();
+const width = container.clientWidth || window.innerWidth;
+const height = container.clientHeight || window.innerHeight;
+const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+renderer.setSize(width, height);
+container.appendChild(renderer.domElement);
+
+// Create a futuristic 3D "Command Sphere" or Star Core
+const geometry = new THREE.IcosahedronGeometry(2, 4);
+const material = new THREE.MeshPhongMaterial({
+    color: 0x3A86FF,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.3,
+    emissive: 0x3A86FF,
+    emissiveIntensity: 0.5
+});
+const core = new THREE.Mesh(geometry, material);
+scene.add(core);
+
+// Inner solid glowing core
+const innerGeo = new THREE.IcosahedronGeometry(1.2, 2);
+const innerMat = new THREE.MeshStandardMaterial({
+    color: 0xFFD700,
+    emissive: 0xFFD700,
+    emissiveIntensity: 1.0,
+    roughness: 0.1,
+    metalness: 0.5
+});
+const innerCore = new THREE.Mesh(innerGeo, innerMat);
+scene.add(innerCore);
+
+// Add light
+const pointLight = new THREE.PointLight(0x3A86FF, 1.5, 100);
+pointLight.position.set(5, 5, 5);
+scene.add(pointLight);
+
+const ambientLight = new THREE.AmbientLight(0x404040);
+scene.add(ambientLight);
+
+camera.position.z = 8;
+
+const animate = function () {
+    requestAnimationFrame(animate);
+    core.rotation.y += 0.005;
+    core.rotation.x += 0.002;
+    innerCore.rotation.y -= 0.008;
+    
+    // Pulse effect
+    const time = Date.now() * 0.001;
+    innerCore.scale.setScalar(1 + Math.sin(time * 2) * 0.05);
+    
+    renderer.render(scene, camera);
+};
+
+window.addEventListener('resize', () => {
+    const w = container.clientWidth || window.innerWidth;
+    const h = container.clientHeight || window.innerHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+});
+
+animate();
+})();
+</script>
+</div>
+<!-- STITCH_THREEJS_END:ANIMATION_4 -->
+</body>
+</html>

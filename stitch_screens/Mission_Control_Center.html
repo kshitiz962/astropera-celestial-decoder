@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ASTROPERA | Mission Control</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Geist:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(1000%); }
+        }
+        .scanline-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        .scanline-effect::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, rgba(173, 198, 255, 0.2), transparent);
+            animation: scanline 8s linear infinite;
+            pointer-events: none;
+        }
+        .glass-panel {
+            backdrop-filter: blur(40px);
+            background: rgba(12, 14, 18, 0.7);
+            border: 1px solid rgba(140, 144, 159, 0.1);
+            clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+        }
+        .bracket-card {
+            position: relative;
+        }
+        .bracket-card::before, .bracket-card::after {
+            content: "";
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-color: #adc6ff;
+            border-style: solid;
+            opacity: 0.4;
+        }
+        .bracket-card::before { top: 0; left: 0; border-width: 1px 0 0 1px; }
+        .bracket-card::after { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+
+        .flashlight-effect:hover {
+            background: radial-gradient(circle at var(--x) var(--y), rgba(173, 198, 255, 0.1) 0%, transparent 80%);
+        }
+
+        .pulse-alert {
+            animation: pulse-glow 2s infinite ease-in-out;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(255, 87, 26, 0.2); border-color: rgba(255, 87, 26, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(255, 87, 26, 0.5); border-color: rgba(255, 87, 26, 0.8); }
+        }
+
+        body {
+            background-color: #111417;
+            color: #e1e2e7;
+            overflow: hidden;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #414754; }
+    </style>
+</head>
+<body class="font-body-rt text-body-rt">
+<!-- Background Shader -->
+<!-- STITCH_SHADER_START:ANIMATION_3 class="fixed inset-0 w-full h-full opacity-40 z-0 pointer-events-none" -->
+<div class="fixed inset-0 w-full h-full opacity-40 z-0 pointer-events-none" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_3" style="display:block;width:100%;height:100%"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_3');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+varying vec2 v_texCoord;
+uniform float u_time;
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+
+float hash(vec2 p) {
+    p = fract(p * vec2(123.34, 456.21));
+    p += dot(p, p + 45.32);
+    return fract(p.x * p.y);
+}
+
+float noise(vec2 p) {
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    float a = hash(i);
+    float b = hash(i + vec2(1.0, 0.0));
+    float c = hash(i + vec2(0.0, 1.0));
+    float d = hash(i + vec2(1.0, 1.0));
+    vec2 u = f * f * (3.0 - 2.0 * f);
+    return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
+}
+
+void main() {
+    vec2 uv = v_texCoord;
+    vec2 p = (v_texCoord - 0.5) * (u_resolution.x / u_resolution.y);
+    
+    // Background deep obsidian space
+    vec3 color = vec3(0.02, 0.03, 0.06);
+    
+    // Flowing nebula/gas effect
+    float n = noise(p * 2.0 + u_time * 0.05);
+    n += 0.5 * noise(p * 4.0 - u_time * 0.1);
+    
+    vec3 nebula = vec3(0.2, 0.1, 0.4) * n * 0.2;
+    color += nebula;
+    
+    // Distant stars
+    float stars = pow(hash(uv * 100.0), 20.0) * 0.5;
+    color += stars;
+    
+    // Subtle scanlines
+    float scanline = sin(uv.y * 800.0) * 0.02;
+    color -= scanline;
+    
+    // Vignette
+    float vignette = 1.0 - smoothstep(0.4, 1.2, length(p));
+    color *= vignette;
+
+    gl_FragColor = vec4(color, 1.0);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_3 -->
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-background/80 backdrop-blur-xl border-b border-outline-variant/20">
+<div class="flex items-center gap-6">
+<span class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-tighter uppercase">ASTROPERA</span>
+<nav class="hidden md:flex items-center gap-8 ml-12">
+<a class="text-on-surface-variant font-medium pb-1 font-label-mono text-label-mono hover:text-primary hover:bg-surface-variant/10 transition-all" href="#">COMMAND</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-mono text-label-mono" href="#">CONTROL</a>
+<a class="text-on-surface-variant font-medium pb-1 font-label-mono text-label-mono hover:text-primary hover:bg-surface-variant/10 transition-all" href="#">COMMS</a>
+<a class="text-on-surface-variant font-medium pb-1 font-label-mono text-label-mono hover:text-primary hover:bg-surface-variant/10 transition-all" href="#">GEAR</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-tertiary-container rounded-full"></span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-outline-variant/30">
+<div class="text-right hidden sm:block">
+<p class="font-label-mono text-label-mono text-primary">ADMIRAL VANCE</p>
+<p class="text-[10px] text-outline uppercase tracking-widest">Sector 7-G</p>
+</div>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Side Navigation Bar -->
+<aside class="fixed left-0 top-20 h-[calc(100vh-140px)] z-40 flex flex-col bg-surface/40 backdrop-blur-3xl border-r border-outline-variant/10 w-20 md:w-64 transition-all duration-300">
+<div class="flex-1 py-8 overflow-y-auto custom-scrollbar">
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-4 text-on-surface-variant px-4 py-3 hover:bg-primary/5 hover:text-primary transition-colors font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined">target</span>
+<span class="hidden md:inline">OBJECTIVES</span>
+</a>
+<a class="flex items-center gap-4 bg-primary/10 text-primary border-l-4 border-primary px-4 py-3 font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">rocket_launch</span>
+<span class="hidden md:inline">FLEET</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-4 py-3 hover:bg-primary/5 hover:text-primary transition-colors font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined">radar</span>
+<span class="hidden md:inline">SCAN</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-4 py-3 hover:bg-primary/5 hover:text-primary transition-colors font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined">shield</span>
+<span class="hidden md:inline">TACTICAL</span>
+</a>
+</div>
+</div>
+<div class="p-4 border-t border-outline-variant/10">
+<button class="w-full bg-primary text-on-primary font-label-mono text-label-mono py-4 px-2 uppercase tracking-tighter hover:bg-primary-container transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">sync</span>
+<span class="hidden md:inline">SYNC ORBIT</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-20 md:ml-64 pt-24 pb-16 px-6 md:px-12 min-h-screen relative z-10 grid grid-cols-12 gap-6 overflow-y-auto h-screen custom-scrollbar">
+<!-- Left: Sector Threat Level -->
+<section class="col-span-12 lg:col-span-3 flex flex-col gap-6">
+<div class="glass-panel p-6 scanline-effect border-tertiary-container/30 pulse-alert">
+<div class="flex justify-between items-center mb-4">
+<h2 class="font-headline-md text-headline-md text-tertiary uppercase tracking-tight">THREAT LEVEL</h2>
+<span class="px-2 py-1 bg-tertiary-container/20 text-tertiary font-label-mono text-[10px] border border-tertiary-container/40">CRITICAL</span>
+</div>
+<div class="relative h-48 w-full bg-surface-container overflow-hidden border border-outline-variant/20">
+<img class="w-full h-full object-cover opacity-60" data-alt="A high-contrast deep space nebula filled with intense magma-orange gas clouds and dark obsidian dust pillars. The scene is framed by a digital tactical interface overlay with scanning reticles and data readouts. The lighting is dramatic, emphasizing the volatile energy of the celestial formation in a professional aerospace command center aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBm7djekfe19_PmjrjDMZviH3TL8f69vXo1fPHpQMBevvm1WtXHOQRtH1bXNsoEnRbvAgZs7ml_VwjoqNCh_VEQlifcsfBb-rcDXn5DuCoNJ0en0EdjFH4ZOAOXRZoKteRrTzz7HAx4aevoM30wzRsE9LudmXfrt5h4zvIlaiQY4lm8Rxf_4USCv2dawydOX4Z3TL_y4gFwiRAG_Np844saTrOlpHhDEzigIwB-9m-sR8s0gC8wUYAUjG_wKFrZXn6L1KbldqBB2zg"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-32 h-32 border-2 border-tertiary/40 rounded-full animate-ping opacity-20"></div>
+<div class="absolute w-full h-[1px] bg-tertiary/20 top-1/2"></div>
+<div class="absolute h-full w-[1px] bg-tertiary/20 left-1/2"></div>
+</div>
+</div>
+<div class="mt-4 space-y-2">
+<div class="flex justify-between font-label-mono text-[10px]">
+<span class="text-outline">HOSTILE PRESENCE</span>
+<span class="text-tertiary">94.2%</span>
+</div>
+<div class="h-1 bg-surface-variant">
+<div class="h-full bg-tertiary-container" style="width: 94%"></div>
+</div>
+</div>
+</div>
+<!-- Mission Directives -->
+<div class="glass-panel p-6 flex-1 flex flex-col">
+<h3 class="font-headline-md text-headline-md text-primary uppercase mb-4">DIRECTIVES</h3>
+<div class="space-y-4">
+<div class="p-3 border-l-2 border-primary bg-primary/5">
+<p class="font-label-mono text-[11px] text-primary mb-1">PRIORITY 01</p>
+<p class="text-sm font-medium">RECOVER DATA CORE FROM SECTOR 7-G</p>
+</div>
+<div class="p-3 border-l-2 border-outline-variant bg-surface-variant/20 opacity-70">
+<p class="font-label-mono text-[11px] text-outline mb-1">PRIORITY 02</p>
+<p class="text-sm font-medium">ESTABLISH QUANTUM LINK IN NEBULA-4</p>
+</div>
+<div class="p-3 border-l-2 border-outline-variant bg-surface-variant/20 opacity-70">
+<p class="font-label-mono text-[11px] text-outline mb-1">PRIORITY 03</p>
+<p class="text-sm font-medium">ESCORT FREIGHTER 'IO-CARRIER'</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Center: Fleet Status Panel -->
+<section class="col-span-12 lg:col-span-9 flex flex-col gap-6">
+<!-- Action Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+<button class="bracket-card glass-panel p-5 flex items-center justify-between group hover:border-primary/50 transition-all">
+<div>
+<p class="font-label-mono text-label-mono text-primary">ACTION: 01</p>
+<h4 class="font-headline-md text-headline-md uppercase">RE-FUEL</h4>
+</div>
+<span class="material-symbols-outlined text-4xl text-primary opacity-40 group-hover:opacity-100 transition-opacity">ev_station</span>
+</button>
+<button class="bracket-card glass-panel p-5 flex items-center justify-between group hover:border-primary/50 transition-all">
+<div>
+<p class="font-label-mono text-label-mono text-primary">ACTION: 02</p>
+<h4 class="font-headline-md text-headline-md uppercase">REPAIR</h4>
+</div>
+<span class="material-symbols-outlined text-4xl text-primary opacity-40 group-hover:opacity-100 transition-opacity">build</span>
+</button>
+<button class="bracket-card glass-panel p-5 flex items-center justify-between group hover:border-primary/50 transition-all">
+<div>
+<p class="font-label-mono text-label-mono text-primary">ACTION: 03</p>
+<h4 class="font-headline-md text-headline-md uppercase">RE-ARM</h4>
+</div>
+<span class="material-symbols-outlined text-4xl text-primary opacity-40 group-hover:opacity-100 transition-opacity">shield_with_heart</span>
+</button>
+</div>
+<!-- Fleet List -->
+<div class="glass-panel flex-1 flex flex-col overflow-hidden">
+<div class="p-6 border-b border-outline-variant/10 flex justify-between items-center">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary uppercase">ACTIVE FLEET STATUS</h2>
+<p class="font-label-mono text-[11px] text-outline">MONITORING 12 VESSELS IN SECTOR 7-G</p>
+</div>
+<div class="flex gap-2">
+<div class="w-3 h-3 bg-primary rounded-full animate-pulse"></div>
+<span class="font-label-mono text-[10px] text-primary">LIVE DATA STREAM</span>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="font-label-mono text-label-mono text-outline bg-surface-variant/10">
+<th class="px-6 py-4 font-medium">VESSEL ID</th>
+<th class="px-6 py-4 font-medium">TYPE</th>
+<th class="px-6 py-4 font-medium">COORDINATES</th>
+<th class="px-6 py-4 font-medium">FUEL</th>
+<th class="px-6 py-4 font-medium text-right">STATUS</th>
+</tr>
+</thead>
+<tbody class="font-label-mono text-sm">
+<tr class="border-b border-outline-variant/10 hover:bg-primary/5 transition-colors group cursor-pointer">
+<td class="px-6 py-4 font-bold text-on-surface">AP-VALKYRIE</td>
+<td class="px-6 py-4 text-outline">STRIKE-X</td>
+<td class="px-6 py-4 text-primary">042.88 // 119.22</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-24 h-1.5 bg-surface-variant">
+<div class="h-full bg-primary" style="width: 82%"></div>
+</div>
+<span>82%</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<span class="px-2 py-0.5 bg-primary/10 text-primary border border-primary/20 text-[10px]">STABLE</span>
+</td>
+</tr>
+<tr class="border-b border-outline-variant/10 hover:bg-primary/5 transition-colors group cursor-pointer">
+<td class="px-6 py-4 font-bold text-on-surface">AP-ODYSSEY</td>
+<td class="px-6 py-4 text-outline">COMMAND</td>
+<td class="px-6 py-4 text-primary">056.12 // 098.45</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-24 h-1.5 bg-surface-variant">
+<div class="h-full bg-primary" style="width: 64%"></div>
+</div>
+<span>64%</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<span class="px-2 py-0.5 bg-primary/10 text-primary border border-primary/20 text-[10px]">ORBITING</span>
+</td>
+</tr>
+<tr class="border-b border-outline-variant/10 bg-tertiary-container/5 hover:bg-tertiary-container/10 transition-colors group cursor-pointer">
+<td class="px-6 py-4 font-bold text-on-surface">AP-RAPTOR</td>
+<td class="px-6 py-4 text-outline">SCOUT</td>
+<td class="px-6 py-4 text-tertiary">088.43 // 221.01</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-24 h-1.5 bg-surface-variant">
+<div class="h-full bg-tertiary-container animate-pulse" style="width: 14%"></div>
+</div>
+<span class="text-tertiary">14%</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<span class="px-2 py-0.5 bg-tertiary-container/20 text-tertiary border border-tertiary-container/40 text-[10px] animate-pulse">WARNING</span>
+</td>
+</tr>
+<tr class="border-b border-outline-variant/10 hover:bg-primary/5 transition-colors group cursor-pointer">
+<td class="px-6 py-4 font-bold text-on-surface">AP-NOMAD</td>
+<td class="px-6 py-4 text-outline">CARGO</td>
+<td class="px-6 py-4 text-primary">012.33 // 445.92</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-24 h-1.5 bg-surface-variant">
+<div class="h-full bg-primary" style="width: 92%"></div>
+</div>
+<span>92%</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<span class="px-2 py-0.5 bg-primary/10 text-primary border border-primary/20 text-[10px]">DOCKED</span>
+</td>
+</tr>
+<tr class="border-b border-outline-variant/10 hover:bg-primary/5 transition-colors group cursor-pointer">
+<td class="px-6 py-4 font-bold text-on-surface">AP-PHANTOM</td>
+<td class="px-6 py-4 text-outline">STEALTH</td>
+<td class="px-6 py-4 text-primary">UNK // UNK</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-24 h-1.5 bg-surface-variant">
+<div class="h-full bg-primary" style="width: 45%"></div>
+</div>
+<span>45%</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<span class="px-2 py-0.5 bg-surface-variant text-outline border border-outline-variant/40 text-[10px]">CLOAKED</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-6 border-t border-outline-variant/10 flex justify-between items-center">
+<div class="flex gap-4">
+<div class="flex flex-col">
+<span class="font-label-mono text-[9px] text-outline">NETWORK LATENCY</span>
+<span class="font-label-mono text-sm text-primary">12ms</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-mono text-[9px] text-outline">UPLINK STRENGTH</span>
+<span class="font-label-mono text-sm text-primary">98%</span>
+</div>
+</div>
+<button class="bg-primary hover:bg-primary-container text-on-primary-container px-8 py-3 font-label-mono text-label-mono uppercase tracking-widest transition-all scale-95 hover:scale-100 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">sync_alt</span>
+                        RE-SYNC ALL NODES
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer / Status Bar -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-12 bg-surface-container-lowest/90 border-t border-outline-variant/30 backdrop-blur-md">
+<div class="flex items-center gap-8">
+<span class="font-label-mono text-label-mono text-tertiary animate-pulse-slow uppercase">© 2142 ASTROPERA INTERSTELLAR</span>
+<div class="hidden sm:flex items-center gap-6">
+<span class="font-label-mono text-label-mono text-outline hover:text-tertiary-container transition-colors cursor-default">SIGNAL: 98%</span>
+<span class="font-label-mono text-label-mono text-outline hover:text-tertiary-container transition-colors cursor-default">O2: STABLE</span>
+<span class="font-label-mono text-label-mono text-outline hover:text-tertiary-container transition-colors cursor-default">FUEL: 84%</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary text-sm">wifi_tethering</span>
+<span class="font-label-mono text-[10px] text-primary uppercase">Secure Channel Active</span>
+</div>
+</footer>
+<script>
+        // Micro-interaction for mouse-tracking radial gradient (flashlight effect)
+        document.querySelectorAll('.flashlight-effect').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--x', `${x}px`);
+                card.style.setProperty('--y', `${y}px`);
+            });
+        });
+
+        // Simulating tactical data updates
+        setInterval(() => {
+            const latencies = ['12ms', '14ms', '11ms', '15ms', '9ms'];
+            const randomLatency = latencies[Math.floor(Math.random() * latencies.length)];
+            const latencyElement = document.querySelector('.flex.flex-col:first-child .text-primary');
+            if(latencyElement) latencyElement.innerText = randomLatency;
+        }, 3000);
+    </script>
+</body></html>

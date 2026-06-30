@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cosmic Oracle - Star Maps</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Bodoni+Moda:ital,wght@0,500;0,600;0,700;1,500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#d2fffe",
+                        "on-tertiary-container": "#006a6b",
+                        "tertiary-fixed-dim": "#26dcdd",
+                        "primary": "#fff6df",
+                        "error-container": "#93000a",
+                        "surface-container": "#201f1f",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-secondary-fixed-variant": "#4719c9",
+                        "on-primary-container": "#705e00",
+                        "on-surface": "#e5e2e1",
+                        "on-surface-variant": "#d0c6ab",
+                        "surface-variant": "#353534",
+                        "surface-dim": "#131313",
+                        "surface-bright": "#3a3939",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-tint": "#e9c400",
+                        "primary-fixed-dim": "#e9c400",
+                        "on-secondary": "#30009b",
+                        "inverse-on-surface": "#313030",
+                        "primary-container": "#ffd700",
+                        "secondary-fixed-dim": "#cabeff",
+                        "on-primary-fixed-variant": "#544600",
+                        "on-primary-fixed": "#221b00",
+                        "on-error-container": "#ffdad6",
+                        "secondary-container": "#4719c9",
+                        "secondary-fixed": "#e6deff",
+                        "tertiary-container": "#4af0f1",
+                        "on-tertiary-fixed": "#002020",
+                        "on-secondary-container": "#b8aaff",
+                        "on-tertiary-fixed-variant": "#004f50",
+                        "background": "#131313",
+                        "surface-container-highest": "#353534",
+                        "inverse-primary": "#705d00",
+                        "surface": "#131313",
+                        "outline-variant": "#4d4732",
+                        "outline": "#999077",
+                        "error": "#ffb4ab",
+                        "on-primary": "#3a3000",
+                        "tertiary-fixed": "#56f9f9",
+                        "inverse-surface": "#e5e2e1",
+                        "primary-fixed": "#ffe16d",
+                        "on-background": "#e5e2e1",
+                        "on-tertiary": "#003737",
+                        "secondary": "#cabeff",
+                        "on-error": "#690005",
+                        "on-secondary-fixed": "#1c0062"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "unit": "4px",
+                        "stack-lg": "48px",
+                        "margin-desktop": "64px",
+                        "stack-md": "24px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["JetBrains Mono"],
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-md": ["Bodoni Moda"],
+                        "headline-lg": ["Bodoni Moda"],
+                        "mono-data": ["JetBrains Mono"],
+                        "body-lg": ["JetBrains Mono"],
+                        "display-lg": ["Bodoni Moda"],
+                        "headline-lg-mobile": ["Bodoni Moda"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.15em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                        "headline-lg": ["40px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "mono-data": ["13px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}]
+                    }
+                }
+            }
+        };
+    </script>
+<style>
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .star-map-canvas {
+            background: radial-gradient(circle at center, #1c1b1b 0%, #0e0e0e 100%);
+            position: relative;
+        }
+
+        /* Mystical Grid Pattern */
+        .polar-grid {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200vw;
+            height: 200vw;
+            border-radius: 50%;
+            border: 1px solid rgba(233, 196, 0, 0.05);
+            background-image: 
+                radial-gradient(circle, rgba(233, 196, 0, 0.05) 1px, transparent 1px),
+                repeating-conic-gradient(from 0deg, transparent 0 29.5deg, rgba(233, 196, 0, 0.03) 30deg);
+            background-size: 100px 100px, 100% 100%;
+        }
+
+        .leylines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .leylines.active {
+            opacity: 0.4;
+        }
+
+        .constellation-node {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .constellation-node:hover {
+            filter: drop-shadow(0 0 8px rgba(233, 196, 0, 0.8));
+            transform: scale(1.1);
+        }
+
+        .glass-panel {
+            backdrop-filter: blur(20px);
+            background: rgba(14, 14, 14, 0.7);
+            border: 1px solid rgba(233, 196, 0, 0.1);
+        }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(86, 249, 249, 0.1);
+            position: absolute;
+            top: 0;
+            animation: scan 8s linear infinite;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            from { top: 0%; }
+            to { top: 100%; }
+        }
+
+        .glow-point {
+            background: radial-gradient(circle, rgba(86, 249, 249, 0.15) 0%, transparent 70%);
+            width: 300px;
+            height: 300px;
+            position: absolute;
+            pointer-events: none;
+        }
+
+        /* Material Symbols Customization */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-desktop py-4 bg-surface/80 backdrop-blur-xl border-b border-primary/20">
+<div class="font-display-lg text-headline-md text-primary-fixed-dim tracking-tighter">Cosmic Oracle</div>
+<nav class="hidden md:flex gap-stack-lg items-center">
+<a class="font-body-md text-body-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Birth Charts</a>
+<a class="font-body-md text-body-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Daily Oracles</a>
+<a class="font-body-md text-body-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Future Projections</a>
+<a class="font-body-md text-body-md uppercase tracking-widest text-primary border-b-2 border-primary pb-1" href="#">Star Maps</a>
+</nav>
+<div class="flex items-center gap-stack-md">
+<button class="hover:bg-primary-container/10 p-2 rounded-full transition-all duration-300">
+<span class="material-symbols-outlined text-primary">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Star Map Canvas Container -->
+<main class="relative w-full h-screen overflow-hidden star-map-canvas pt-20">
+<div class="scanline"></div>
+<div class="glow-point top-1/4 left-1/4"></div>
+<div class="glow-point bottom-1/4 right-1/4"></div>
+<!-- Interactive Background Animation -->
+
+<!-- Polar Grid Structure -->
+<div class="polar-grid" id="starField">
+<!-- Simulated Constellations -->
+<div class="absolute inset-0 flex items-center justify-center">
+<!-- Scorpio -->
+<div class="constellation-node absolute" onclick="showWisdom('Scorpio', 'The sting of truth reveals the hidden path to rebirth.')" style="top: 35%; left: 45%;">
+<span class="material-symbols-outlined text-primary-fixed-dim text-4xl" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span class="block mt-2 font-mono-data text-label-caps text-on-surface-variant text-center">SCORPIO</span>
+</div>
+<!-- Orion -->
+<div class="constellation-node absolute" onclick="showWisdom('Orion', 'Precision in action is the highest form of spiritual alignment.')" style="top: 55%; left: 60%;">
+<span class="material-symbols-outlined text-primary-fixed-dim text-4xl" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="block mt-2 font-mono-data text-label-caps text-on-surface-variant text-center">ORION</span>
+</div>
+<!-- Pleiades -->
+<div class="constellation-node absolute" onclick="showWisdom('Pleiades', 'Seven sisters whisper the ancient frequencies of the source.')" style="top: 42%; left: 30%;">
+<span class="material-symbols-outlined text-primary-fixed-dim text-3xl">flare</span>
+<span class="block mt-2 font-mono-data text-label-caps text-on-surface-variant text-center">PLEIADES</span>
+</div>
+<!-- Sirius -->
+<div class="constellation-node absolute" onclick="showWisdom('Sirius', 'The blue light of intelligence illuminates the shadow of ignorance.')" style="top: 20%; left: 70%;">
+<span class="material-symbols-outlined text-primary-fixed-dim text-5xl" style="font-variation-settings: 'FILL' 1;">brightness_high</span>
+<span class="block mt-2 font-mono-data text-label-caps text-on-surface-variant text-center">SIRIUS</span>
+</div>
+</div>
+<!-- Leyline Overlays -->
+<svg class="leylines w-full h-full" id="leylineMap" viewbox="0 0 1000 1000">
+<circle cx="500" cy="500" fill="none" r="300" stroke="#56f9f9" stroke-dasharray="5 10" stroke-width="0.5"></circle>
+<line stroke="#56f9f9" stroke-width="0.5" x1="100" x2="900" y1="100" y2="900"></line>
+<line stroke="#56f9f9" stroke-width="0.5" x1="900" x2="100" y1="100" y2="900"></line>
+<path d="M 500 200 L 800 500 L 500 800 L 200 500 Z" fill="none" stroke="#56f9f9" stroke-width="0.5"></path>
+</svg>
+</div>
+<!-- Floating Controls: Left (Minimalist) -->
+<aside class="fixed left-8 top-1/2 -translate-y-1/2 z-40 flex flex-col gap-stack-md">
+<div class="glass-panel p-4 flex flex-col items-center gap-stack-md rounded-none border-l-4 border-primary-fixed-dim">
+<button class="text-on-surface-variant hover:text-primary transition-colors" title="Zoom In">
+<span class="material-symbols-outlined">zoom_in</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors" title="Zoom Out">
+<span class="material-symbols-outlined">zoom_out</span>
+</button>
+<div class="w-8 h-[1px] bg-outline-variant/30"></div>
+<button class="text-on-surface-variant hover:text-primary transition-colors" title="Reset Orientation">
+<span class="material-symbols-outlined">explore</span>
+</button>
+</div>
+</aside>
+<!-- Floating Controls: Right (Filters) -->
+<aside class="fixed right-8 top-1/2 -translate-y-1/2 z-40 flex flex-col gap-stack-md">
+<div class="glass-panel p-6 flex flex-col gap-stack-md w-64">
+<h3 class="font-label-caps text-label-caps text-primary border-b border-primary/20 pb-2 mb-2">Navigation Filters</h3>
+<div class="flex items-center justify-between group cursor-pointer" onclick="toggleLeylines()">
+<span class="font-mono-data text-mono-data text-on-surface-variant group-hover:text-primary">Spiritual Leylines</span>
+<div class="w-10 h-5 border border-outline rounded-full relative transition-colors duration-300" id="leylineToggle">
+<div class="absolute top-1 left-1 w-3 h-3 bg-outline rounded-full transition-all duration-300" id="leylineIndicator"></div>
+</div>
+</div>
+<div class="flex items-center justify-between group cursor-pointer">
+<span class="font-mono-data text-mono-data text-on-surface-variant group-hover:text-primary">Zodiac Bounds</span>
+<div class="w-10 h-5 border border-primary-fixed-dim bg-primary-fixed-dim/20 rounded-full relative">
+<div class="absolute top-1 right-1 w-3 h-3 bg-primary-fixed-dim rounded-full"></div>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-outline-variant/30">
+<h4 class="font-label-caps text-[10px] text-outline mb-2">ACTIVE COORDINATES</h4>
+<p class="font-mono-data text-[11px] text-tertiary-fixed-dim">DEC: +16° 30' 33.4"</p>
+<p class="font-mono-data text-[11px] text-tertiary-fixed-dim">RA: 4h 35m 55s</p>
+</div>
+</div>
+</aside>
+<!-- Time Travel Control: Bottom -->
+<div class="fixed bottom-12 left-1/2 -translate-x-1/2 z-40">
+<div class="glass-panel px-8 py-4 flex items-center gap-stack-lg border-t-2 border-primary-fixed-dim">
+<div class="flex flex-col">
+<span class="font-label-caps text-[10px] text-outline">TEMPORAL SHIFT</span>
+<span class="font-headline-md text-headline-md text-primary tracking-widest" id="currentTimeDisplay">20.12.2024</span>
+</div>
+<div class="flex-1 min-w-[300px] h-8 flex items-center relative group">
+<div class="w-full h-[1px] bg-outline-variant"></div>
+<div class="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-primary rounded-none rotate-45 border border-black shadow-lg shadow-primary/20 cursor-grab active:cursor-grabbing"></div>
+<!-- Time Markers -->
+<div class="absolute left-0 -bottom-4 font-mono-data text-[10px] text-outline">1900</div>
+<div class="absolute right-0 -bottom-4 font-mono-data text-[10px] text-outline">2100</div>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary-container/10 border border-primary/30 text-primary font-label-caps text-label-caps hover:bg-primary-container/30 transition-all duration-300">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                    SYNC NOW
+                </button>
+</div>
+</div>
+<!-- Star Wisdom Popup (Hidden by default) -->
+<div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[60] hidden" id="wisdomPopup">
+<div class="glass-panel p-stack-lg max-w-md border-t-4 border-tertiary-fixed-dim relative">
+<button class="absolute top-4 right-4 text-outline hover:text-primary transition-colors" onclick="closeWisdom()">
+<span class="material-symbols-outlined">close</span>
+</button>
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 flex items-center justify-center border border-tertiary-fixed-dim text-tertiary-fixed-dim">
+<span class="material-symbols-outlined text-3xl">auto_awesome</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-primary uppercase" id="wisdomTitle">ORION</h2>
+<span class="font-label-caps text-[10px] text-tertiary-fixed-dim">ANCIENT FREQUENCY IDENTIFIED</span>
+</div>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface leading-relaxed italic" id="wisdomContent">
+                    "Precision in action is the highest form of spiritual alignment."
+                </p>
+<div class="mt-6 pt-4 border-t border-outline-variant/30 flex justify-between items-center">
+<span class="font-mono-data text-mono-data text-outline">MAGNITUDE: 1.14</span>
+<button class="text-tertiary-fixed-dim hover:underline font-label-caps text-label-caps">DOWNLOAD DATA</button>
+</div>
+</div>
+</div>
+<!-- Overlay for Modal -->
+<div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[55] hidden" id="modalOverlay" onclick="closeWisdom()"></div>
+</main>
+<!-- SideNavBar (Contextual Mini) -->
+<aside class="fixed left-0 top-0 h-screen w-16 bg-surface-container-lowest border-r border-outline-variant/10 z-[100] flex flex-col items-center py-stack-md gap-stack-lg">
+<div class="font-headline-md text-primary">Ω</div>
+<nav class="flex flex-col gap-stack-md">
+<button class="p-3 text-on-surface-variant hover:bg-surface-variant/30 rounded-none transition-all border-l-4 border-transparent hover:border-primary-fixed-dim">
+<span class="material-symbols-outlined">auto_awesome</span>
+</button>
+<button class="p-3 bg-secondary-container text-on-secondary-container rounded-none border-l-4 border-primary-fixed-dim">
+<span class="material-symbols-outlined">map</span>
+</button>
+<button class="p-3 text-on-surface-variant hover:bg-surface-variant/30 rounded-none transition-all">
+<span class="material-symbols-outlined">history_edu</span>
+</button>
+<button class="p-3 text-on-surface-variant hover:bg-surface-variant/30 rounded-none transition-all">
+<span class="material-symbols-outlined">diamond</span>
+</button>
+</nav>
+<div class="mt-auto flex flex-col gap-stack-sm">
+<button class="p-3 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="p-3 text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined">logout</span>
+</button>
+</div>
+</aside>
+<!-- Footer -->
+<footer class="fixed bottom-0 w-full px-margin-desktop py-2 bg-surface-container-high/90 backdrop-blur-md border-t border-primary/20 z-50 flex flex-col md:flex-row justify-between items-center text-[10px] font-mono-data text-tertiary-fixed-dim uppercase tracking-widest">
+<div>© 2024 Cosmic Oracle. Planetary Positions: Mercury 14° R, Moon Waxing Crescent.</div>
+<div class="flex gap-stack-md">
+<a class="hover:text-primary transition-opacity" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-opacity" href="#">Astronomical Data Sources</a>
+<a class="hover:text-primary transition-opacity" href="#">Contact High Council</a>
+</div>
+</footer>
+<script>
+        function toggleLeylines() {
+            const lines = document.getElementById('leylineMap');
+            const toggle = document.getElementById('leylineToggle');
+            const indicator = document.getElementById('leylineIndicator');
+            
+            if (lines.classList.contains('active')) {
+                lines.classList.remove('active');
+                toggle.classList.remove('bg-tertiary-container/30', 'border-tertiary-fixed-dim');
+                indicator.classList.remove('translate-x-5', 'bg-tertiary-fixed-dim');
+                indicator.classList.add('left-1');
+            } else {
+                lines.classList.add('active');
+                toggle.classList.add('bg-tertiary-container/30', 'border-tertiary-fixed-dim');
+                indicator.classList.add('translate-x-5', 'bg-tertiary-fixed-dim');
+                indicator.classList.remove('left-1');
+            }
+        }
+
+        function showWisdom(title, content) {
+            document.getElementById('wisdomTitle').innerText = title;
+            document.getElementById('wisdomContent').innerText = `"${content}"`;
+            document.getElementById('wisdomPopup').classList.remove('hidden');
+            document.getElementById('modalOverlay').classList.remove('hidden');
+        }
+
+        function closeWisdom() {
+            document.getElementById('wisdomPopup').classList.add('hidden');
+            document.getElementById('modalOverlay').classList.add('hidden');
+        }
+
+        // Draggable-like simulation for time
+        let isDragging = false;
+        document.addEventListener('mousemove', (e) => {
+            // Placeholder for real interaction logic
+        });
+
+        // Atmosphere: Subtle parallax or drift
+        const starField = document.getElementById('starField');
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX - window.innerWidth / 2) / 100;
+            const y = (e.clientY - window.innerHeight / 2) / 100;
+            starField.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+        });
+    </script>
+</body></html>

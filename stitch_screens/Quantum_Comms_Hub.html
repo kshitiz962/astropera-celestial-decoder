@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quantum Comms Hub | ASTROPERA</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Geist:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "outline": "#8c909f",
+                "tertiary": "#ffb59e",
+                "on-error": "#690005",
+                "on-secondary-fixed": "#221b00",
+                "tertiary-fixed": "#ffdbd0",
+                "on-surface-variant": "#c2c6d6",
+                "on-surface": "#e1e2e7",
+                "on-secondary-container": "#725f00",
+                "inverse-surface": "#e1e2e7",
+                "on-error-container": "#ffdad6",
+                "background": "#111417",
+                "secondary-fixed": "#ffe16d",
+                "on-primary-fixed-variant": "#004494",
+                "on-secondary-fixed-variant": "#544600",
+                "primary-fixed": "#d8e2ff",
+                "on-tertiary-container": "#521300",
+                "on-tertiary-fixed-variant": "#852400",
+                "on-secondary": "#3a3000",
+                "surface-bright": "#37393d",
+                "tertiary-container": "#ff571a",
+                "surface-variant": "#323539",
+                "secondary-fixed-dim": "#e9c400",
+                "surface": "#111417",
+                "primary": "#adc6ff",
+                "surface-tint": "#adc6ff",
+                "surface-dim": "#111417",
+                "error": "#ffb4ab",
+                "on-primary-fixed": "#001a41",
+                "on-tertiary-fixed": "#3a0b00",
+                "primary-container": "#4c8eff",
+                "surface-container-high": "#282a2e",
+                "secondary-container": "#ffdb3c",
+                "secondary": "#fff9ef",
+                "inverse-primary": "#005ac2",
+                "surface-container-lowest": "#0c0e12",
+                "on-primary-container": "#00285d",
+                "surface-container": "#1d2023",
+                "on-tertiary": "#5e1700",
+                "on-background": "#e1e2e7",
+                "inverse-on-surface": "#2e3134",
+                "on-primary": "#002e69",
+                "outline-variant": "#414754",
+                "surface-container-low": "#191c1f",
+                "tertiary-fixed-dim": "#ffb59e",
+                "error-container": "#93000a",
+                "surface-container-highest": "#323539",
+                "primary-fixed-dim": "#adc6ff"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "unit": "4px",
+                "margin-mobile": "16px",
+                "grid-columns": "12",
+                "margin-desktop": "48px",
+                "gutter": "24px"
+            },
+            "fontFamily": {
+                "body-rt": ["Inter"],
+                "label-mono": ["JetBrains Mono"],
+                "headline-md": ["Geist"],
+                "display-lg": ["Geist"],
+                "code-sm": ["JetBrains Mono"],
+                "display-lg-mobile": ["Geist"]
+            },
+            "fontSize": {
+                "body-rt": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                "label-mono": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "code-sm": ["11px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .tech-grid {
+            background-image: 
+                linear-gradient(to right, rgba(173, 198, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(173, 198, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .bracket-tl { border-top: 2px solid currentColor; border-left: 2px solid currentColor; width: 12px; height: 12px; position: absolute; top: -2px; left: -2px; }
+        .bracket-tr { border-top: 2px solid currentColor; border-right: 2px solid currentColor; width: 12px; height: 12px; position: absolute; top: -2px; right: -2px; }
+        .bracket-bl { border-bottom: 2px solid currentColor; border-left: 2px solid currentColor; width: 12px; height: 12px; position: absolute; bottom: -2px; left: -2px; }
+        .bracket-br { border-bottom: 2px solid currentColor; border-right: 2px solid currentColor; width: 12px; height: 12px; position: absolute; bottom: -2px; right: -2px; }
+
+        .flashlight-effect:hover {
+            background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(173, 198, 255, 0.15) 0%, transparent 80%);
+        }
+
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(173, 198, 255, 0.2);
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+
+        .glitch-text:hover {
+            text-shadow: 2px 0 #ff571a, -2px 0 #adc6ff;
+        }
+
+        body {
+            background-color: #111417;
+            cursor: crosshair;
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #0c0e12; }
+        ::-webkit-scrollbar-thumb { background: #414754; }
+        ::-webkit-scrollbar-thumb:hover { background: #adc6ff; }
+    </style>
+</head>
+<body class="font-body-rt text-on-background selection:bg-primary/30 tech-grid">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-background/80 backdrop-blur-xl border-b border-outline-variant/20">
+<div class="flex items-center gap-8">
+<span class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-tighter uppercase">ASTROPERA</span>
+<nav class="hidden md:flex gap-6">
+<a class="text-on-surface-variant font-medium pb-1 hover:text-primary hover:bg-surface-variant/10 transition-all" href="#">COMMAND</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1" href="#">COMMS</a>
+<a class="text-on-surface-variant font-medium pb-1 hover:text-primary hover:bg-surface-variant/10 transition-all" href="#">CONTROL</a>
+<a class="text-on-surface-variant font-medium pb-1 hover:text-primary hover:bg-surface-variant/10 transition-all" href="#">GEAR</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">settings</span></button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-tertiary-container rounded-full animate-pulse"></span>
+</button>
+<div class="w-10 h-10 rounded-full border border-primary/30 flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-20 h-[calc(100vh-140px)] z-40 flex flex-col bg-surface/40 backdrop-blur-3xl border-r border-outline-variant/10 w-20 md:w-64 transition-all duration-300">
+<div class="p-6 hidden md:block">
+<div class="font-label-mono text-label-mono text-primary mb-1">ADMIRAL VANCE</div>
+<div class="font-headline-md text-headline-md text-on-surface uppercase tracking-widest">SECTOR 7-G</div>
+</div>
+<nav class="flex-1">
+<div class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-primary transition-colors cursor-pointer group">
+<span class="material-symbols-outlined">target</span>
+<span class="font-label-mono text-label-mono hidden md:block">OBJECTIVES</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-primary transition-colors cursor-pointer group">
+<span class="material-symbols-outlined">rocket_launch</span>
+<span class="font-label-mono text-label-mono hidden md:block">FLEET</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-primary transition-colors cursor-pointer group">
+<span class="material-symbols-outlined">radar</span>
+<span class="font-label-mono text-label-mono hidden md:block">SCAN</span>
+</div>
+<div class="flex items-center gap-4 bg-primary/10 text-primary border-l-4 border-primary px-6 py-4 group">
+<span class="material-symbols-outlined">shield</span>
+<span class="font-label-mono text-label-mono hidden md:block">TACTICAL</span>
+</div>
+</nav>
+<div class="p-6">
+<button class="w-full py-3 bg-primary text-on-primary font-label-mono text-label-mono uppercase tracking-tighter hover:opacity-90 active:scale-95 transition-all">
+                SYNC ORBIT
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pt-24 pb-16 md:pl-72 md:pr-12 px-margin-mobile min-h-screen">
+<!-- Header & Waveform -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-gutter mb-8">
+<div class="lg:col-span-8 flex flex-col justify-end">
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface leading-none mb-2">QUANTUM COMMS HUB</h1>
+<div class="flex items-center gap-4 text-primary">
+<span class="font-label-mono text-label-mono">SECURE LINK ESTABLISHED</span>
+<div class="h-[1px] flex-1 bg-primary/20"></div>
+<span class="font-label-mono text-label-mono">FREQ: 142.8 GHZ</span>
+</div>
+</div>
+<div class="lg:col-span-4 bg-surface-container-low border border-outline-variant/10 p-6 relative overflow-hidden h-40">
+<div class="bracket-tl text-primary"></div><div class="bracket-br text-primary"></div>
+<div class="flex justify-between items-start mb-4">
+<span class="font-label-mono text-label-mono text-primary">SIGNAL INTEGRITY</span>
+<span class="font-label-mono text-label-mono text-secondary-fixed">99.8%</span>
+</div>
+<!-- Waveform Visualization -->
+<div class="absolute inset-x-0 bottom-0 h-24">
+
+</div>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Comms Stream -->
+<div class="lg:col-span-8 space-y-gutter">
+<div class="bg-surface-container-lowest/60 backdrop-blur-md border border-outline-variant/20 p-6 relative">
+<div class="flex justify-between items-center mb-6">
+<h2 class="font-headline-md text-headline-md text-on-surface">COMMUNICATION STREAM</h2>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed animate-pulse"></span>
+<span class="font-label-mono text-label-mono text-outline">LIVE DECRYPTING...</span>
+</div>
+</div>
+<div class="space-y-4 max-h-[600px] overflow-y-auto pr-4 font-label-mono text-label-mono">
+<!-- Log Entry 1 -->
+<div class="group border-l-2 border-primary/30 pl-4 py-2 hover:border-primary transition-colors">
+<div class="flex justify-between text-outline text-[10px] mb-1">
+<span>[2142.08.12 14:02:11]</span>
+<span class="text-secondary-fixed">ORIGIN: DEEP_SPACE_STATION_B</span>
+</div>
+<div class="text-on-surface">ENCRYPTED DATA PACKET RECEIVED. VERIFYING PARITY BITS...</div>
+<div class="text-primary mt-1 opacity-60">&gt;&gt; HASH: 0x4fA72...A92</div>
+</div>
+<!-- Log Entry 2 -->
+<div class="group border-l-2 border-secondary-fixed/30 pl-4 py-2 hover:border-secondary-fixed transition-colors bg-secondary-fixed/5">
+<div class="flex justify-between text-outline text-[10px] mb-1">
+<span>[2142.08.12 14:05:44]</span>
+<span class="text-primary">ORIGIN: COMMAND_VEHICLE_ALPHA</span>
+</div>
+<div class="text-secondary-fixed">URGENT: SECTOR 7-G ANOMALY DETECTED. RETRIEVE TACTICAL OVERLAY.</div>
+<div class="mt-2 flex gap-2">
+<span class="px-2 py-1 bg-secondary-fixed/10 text-secondary-fixed border border-secondary-fixed/20 text-[10px]">DECRYPTED</span>
+<span class="px-2 py-1 bg-primary/10 text-primary border border-primary/20 text-[10px]">TACTICAL</span>
+</div>
+</div>
+<!-- Log Entry 3 (Simulated Stream) -->
+<div class="group border-l-2 border-outline-variant/30 pl-4 py-2 hover:border-primary transition-colors">
+<div class="flex justify-between text-outline text-[10px] mb-1">
+<span>[2142.08.12 14:08:12]</span>
+<span>ORIGIN: UNKNOWN</span>
+</div>
+<div class="text-outline-variant italic">Waiting for decryption handshake...</div>
+</div>
+<div class="group border-l-2 border-primary/30 pl-4 py-2">
+<div class="flex justify-between text-outline text-[10px] mb-1">
+<span>[2142.08.12 14:10:00]</span>
+<span class="text-primary">SYSTEM</span>
+</div>
+<div class="text-on-surface">ROUTINE DIAGNOSTICS COMPLETE. ALL ARRAYS STABLE.</div>
+</div>
+</div>
+<div class="mt-6 flex items-center gap-4">
+<div class="flex-1 relative">
+<input class="w-full bg-surface-container border-b border-outline-variant focus:border-primary focus:ring-0 text-label-mono font-label-mono py-3 px-4 transition-all" placeholder="INPUT COMMAND..." type="text"/>
+</div>
+<button class="bg-primary text-on-primary px-6 py-3 font-label-mono text-label-mono uppercase flex items-center gap-2 hover:bg-primary-container transition-all active:scale-95">
+                            EXECUTE <span class="material-symbols-outlined text-sm">keyboard_return</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Right Column: Tools & Keypad -->
+<div class="lg:col-span-4 space-y-gutter">
+<!-- Encryption Key Module -->
+<div class="bg-surface-container-high border border-outline-variant/10 p-6 relative">
+<div class="bracket-tl text-secondary-fixed"></div>
+<div class="font-label-mono text-label-mono text-secondary-fixed mb-4">ENCRYPTION KEY INPUT</div>
+<div class="grid grid-cols-3 gap-2 mb-4">
+<button class="aspect-square bg-surface border border-outline-variant/20 font-label-mono text-lg text-on-surface hover:bg-secondary-fixed hover:text-on-secondary transition-all flex items-center justify-center">1</button>
+<button class="aspect-square bg-surface border border-outline-variant/20 font-label-mono text-lg text-on-surface hover:bg-secondary-fixed hover:text-on-secondary transition-all flex items-center justify-center">2</button>
+<button class="aspect-square bg-surface border border-outline-variant/20 font-label-mono text-lg text-on-surface hover:bg-secondary-fixed hover:text-on-secondary transition-all flex items-center justify-center">3</button>
+<button class="aspect-square bg-surface border border-outline-variant/20 font-label-mono text-lg text-on-surface hover:bg-secondary-fixed hover:text-on-secondary transition-all flex items-center justify-center">4</button>
+<button class="aspect-square bg-surface border border-outline-variant/20 font-label-mono text-lg text-on-surface hover:bg-secondary-fixed hover:text-on-secondary transition-all flex items-center justify-center">5</button>
+<button class="aspect-square bg-surface border border-outline-variant/20 font-label-mono text-lg text-on-surface hover:bg-secondary-fixed hover:text-on-secondary transition-all flex items-center justify-center">6</button>
+<button class="aspect-square bg-surface border border-outline-variant/20 font-label-mono text-lg text-on-surface hover:bg-secondary-fixed hover:text-on-secondary transition-all flex items-center justify-center">7</button>
+<button class="aspect-square bg-surface border border-outline-variant/20 font-label-mono text-lg text-on-surface hover:bg-secondary-fixed hover:text-on-secondary transition-all flex items-center justify-center">8</button>
+<button class="aspect-square bg-surface border border-outline-variant/20 font-label-mono text-lg text-on-surface hover:bg-secondary-fixed hover:text-on-secondary transition-all flex items-center justify-center">9</button>
+<button class="aspect-square bg-surface border border-outline-variant/20 font-label-mono text-lg text-on-surface hover:bg-secondary-fixed hover:text-on-secondary transition-all flex items-center justify-center">CLR</button>
+<button class="aspect-square bg-surface border border-outline-variant/20 font-label-mono text-lg text-on-surface hover:bg-secondary-fixed hover:text-on-secondary transition-all flex items-center justify-center">0</button>
+<button class="aspect-square bg-surface border border-outline-variant/20 font-label-mono text-lg text-on-surface hover:bg-secondary-fixed hover:text-on-secondary transition-all flex items-center justify-center">ENT</button>
+</div>
+<div class="h-2 w-full bg-surface-container-lowest border border-outline-variant/20 overflow-hidden">
+<div class="h-full bg-secondary-fixed transition-all duration-700" style="width: 65%;"></div>
+</div>
+</div>
+<!-- Action Cards -->
+<div class="space-y-4">
+<!-- Action Card 1 -->
+<div class="flashlight-effect bg-surface-container-low border border-outline-variant/10 p-5 flex items-center justify-between cursor-pointer group hover:border-primary/50 transition-all relative overflow-hidden">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">send</span>
+</div>
+<div>
+<h3 class="font-label-mono text-label-mono text-on-surface group-hover:text-primary">SEND SIGNAL</h3>
+<p class="text-[10px] text-outline">OUTBOUND QUANTUM BURST</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-transform group-hover:translate-x-1">chevron_right</span>
+<div class="scan-line pointer-events-none"></div>
+</div>
+<!-- Action Card 2 -->
+<div class="flashlight-effect bg-surface-container-low border border-outline-variant/10 p-5 flex items-center justify-between cursor-pointer group hover:border-secondary-fixed/50 transition-all relative overflow-hidden">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-secondary-fixed/10 border border-secondary-fixed/20 flex items-center justify-center text-secondary-fixed">
+<span class="material-symbols-outlined">lock_open</span>
+</div>
+<div>
+<h3 class="font-label-mono text-label-mono text-on-surface group-hover:text-secondary-fixed">DECRYPT LOGS</h3>
+<p class="text-[10px] text-outline">RUN BRUTE-FORCE ALGORITHM</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-secondary-fixed transition-transform group-hover:translate-x-1">chevron_right</span>
+<div class="scan-line pointer-events-none" style="animation-delay: 1.5s;"></div>
+</div>
+<!-- Action Card 3 -->
+<div class="flashlight-effect bg-surface-container-low border border-outline-variant/10 p-5 flex items-center justify-between cursor-pointer group hover:border-tertiary-container/50 transition-all relative overflow-hidden">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-tertiary-container/10 border border-tertiary-container/20 flex items-center justify-center text-tertiary-container">
+<span class="material-symbols-outlined">visibility_off</span>
+</div>
+<div>
+<h3 class="font-label-mono text-label-mono text-on-surface group-hover:text-tertiary-container">MASK IDENTITY</h3>
+<p class="text-[10px] text-outline">ENGAGE SIGNAL CLOAKING</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-tertiary-container transition-transform group-hover:translate-x-1">chevron_right</span>
+</div>
+</div>
+<!-- Asset Card -->
+<div class="rounded-lg overflow-hidden border border-outline-variant/10 h-64 relative group">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="A cinematic view of the Earth from high orbit, with delicate blue atmospheric glows and shimmering city lights. The scene is framed by the dark, metallic hull of a luxury spacecraft, with a high-tech obsidian and electric blue aesthetic. The lighting is moody and sharp, emphasizing the contrast between the vast darkness of space and the vibrant planet below." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhvfcUf_KrhpEFs5Acw-Q-j2ek-jG6K6dALcUHWOgIOfo-Z_lN5JrO3IiRLm3WJaqoEcnOxsRJP6mn2mCGnv4VBFppaTksMVCzB2yhqdWhV5Rf4BwkLjUK7XtiJNtOr3BOjF6aCGRi1DqPzYVh0Wvy8K-gz38pdoi7wYNMwOAfIB5Kx6oCvDHt7JKtKDUR81CVfyAhtIyweqvP-BGA8wtQyZKIiI-k05q6h3P4zJVj77GdxZfBVXkeSTg7PGVkCMmgqigrs9d65Ys"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<div class="absolute bottom-4 left-4">
+<div class="font-label-mono text-[10px] text-primary">VISUAL FEED: ORBITAL_CAM_01</div>
+<div class="text-[10px] text-outline">STATUS: NOMINAL</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-12 bg-surface-container-lowest/90 backdrop-blur-md border-t border-outline-variant/30">
+<div class="font-label-mono text-label-mono text-tertiary animate-pulse-slow">© 2142 ASTROPERA INTERSTELLAR</div>
+<div class="flex gap-6">
+<span class="font-label-mono text-label-mono text-tertiary font-bold">SIGNAL: 98%</span>
+<span class="font-label-mono text-label-mono text-outline">O2: STABLE</span>
+<span class="font-label-mono text-label-mono text-outline">FUEL: 84%</span>
+</div>
+</footer>
+<script>
+        // Mouse tracking for flashlight effect
+        document.addEventListener('mousemove', e => {
+            const elements = document.querySelectorAll('.flashlight-effect');
+            elements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                el.style.setProperty('--mouse-x', `${x}px`);
+                el.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // Simple typing effect for terminal simulation
+        const messages = [
+            "[2142.08.12 14:12:01] INCOMING VOID BURST...",
+            "[2142.08.12 14:12:05] PARITY SYNC: 100%",
+            "[2142.08.12 14:12:10] SIGNAL STRENGTH DEGRADING IN SECTOR 9"
+        ];
+        
+        let msgIndex = 0;
+        const stream = document.querySelector('.max-h-\\[600px\\]');
+        
+        setInterval(() => {
+            if (msgIndex < messages.length) {
+                const entry = document.createElement('div');
+                entry.className = "group border-l-2 border-primary/30 pl-4 py-2 opacity-0 transition-opacity duration-500";
+                entry.innerHTML = `
+                    <div class="flex justify-between text-outline text-[10px] mb-1">
+                        <span>${messages[msgIndex].split(']')[0]}]</span>
+                        <span class="text-secondary-fixed">REMOTE_PING</span>
+                    </div>
+                    <div class="text-on-surface">${messages[msgIndex].split(']')[1]}</div>
+                `;
+                stream.appendChild(entry);
+                setTimeout(() => entry.classList.remove('opacity-0'), 100);
+                stream.scrollTop = stream.scrollHeight;
+                msgIndex++;
+            }
+        }, 8000);
+    </script>
+</body></html>

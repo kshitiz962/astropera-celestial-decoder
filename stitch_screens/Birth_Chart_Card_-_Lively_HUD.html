@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400..900;1,400..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline-variant": "#4d4732",
+                    "tertiary": "#d2fffe",
+                    "on-secondary-fixed": "#1c0062",
+                    "tertiary-fixed": "#56f9f9",
+                    "on-tertiary-fixed": "#002020",
+                    "on-tertiary-container": "#006a6b",
+                    "on-surface-variant": "#d0c6ab",
+                    "on-background": "#e5e2e1",
+                    "surface-bright": "#3a3939",
+                    "primary-fixed": "#ffe16d",
+                    "surface-container-low": "#1c1b1b",
+                    "primary": "#fff6df",
+                    "tertiary-fixed-dim": "#26dcdd",
+                    "on-secondary-fixed-variant": "#4719c9",
+                    "on-secondary-container": "#b8aaff",
+                    "surface-container-high": "#2a2a2a",
+                    "on-tertiary-fixed-variant": "#004f50",
+                    "inverse-primary": "#705d00",
+                    "on-surface": "#e5e2e1",
+                    "outline": "#999077",
+                    "background": "#131313",
+                    "on-tertiary": "#003737",
+                    "on-primary-fixed-variant": "#544600",
+                    "surface-tint": "#e9c400",
+                    "on-primary-container": "#705e00",
+                    "inverse-surface": "#e5e2e1",
+                    "on-primary-fixed": "#221b00",
+                    "on-error": "#690005",
+                    "surface-container": "#201f1f",
+                    "inverse-on-surface": "#313030",
+                    "on-secondary": "#30009b",
+                    "on-error-container": "#ffdad6",
+                    "surface": "#131313",
+                    "surface-container-highest": "#353534",
+                    "secondary-fixed-dim": "#cabeff",
+                    "secondary-container": "#4719c9",
+                    "primary-fixed-dim": "#e9c400",
+                    "tertiary-container": "#4af0f1",
+                    "secondary-fixed": "#e6deff",
+                    "secondary": "#cabeff",
+                    "error": "#ffb4ab",
+                    "primary-container": "#ffd700",
+                    "surface-container-lowest": "#0e0e0e",
+                    "surface-dim": "#131313",
+                    "on-primary": "#3a3000",
+                    "surface-variant": "#353534",
+                    "error-container": "#93000a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "margin-desktop": "64px",
+                    "stack-sm": "8px",
+                    "stack-lg": "48px",
+                    "gutter": "24px",
+                    "stack-md": "24px",
+                    "unit": "4px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Bodoni Moda"],
+                    "body-md": ["JetBrains Mono"],
+                    "body-lg": ["JetBrains Mono"],
+                    "label-caps": ["JetBrains Mono"],
+                    "headline-lg-mobile": ["Bodoni Moda"],
+                    "headline-lg": ["Bodoni Moda"],
+                    "display-lg": ["Bodoni Moda"],
+                    "mono-data": ["JetBrains Mono"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                    "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.15em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "headline-lg": ["40px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "mono-data": ["13px", {"lineHeight": "1.4", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0e0e0e;
+            color: #e5e2e1;
+            overflow-x: hidden;
+        }
+
+        .cosmic-obsidian {
+            background: radial-gradient(circle at 50% 50%, #1a1505 0%, #0e0e0e 100%);
+            position: relative;
+        }
+
+        .nebula-gradient {
+            background: linear-gradient(220deg, rgba(255, 215, 0, 0.03) 0%, rgba(10, 8, 2, 0) 50%, rgba(255, 215, 0, 0.02) 100%);
+            animation: nebula-drift 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes nebula-drift {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.1) translate(10px, 10px); }
+        }
+
+        .celestial-glow-gold {
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.15), inset 0 0 15px rgba(255, 215, 0, 0.05);
+        }
+
+        .sigil-rotate-fast {
+            animation: rotate-sigil 40s linear infinite;
+        }
+
+        @keyframes rotate-sigil {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hud-bracket {
+            width: 20px;
+            height: 20px;
+            border-color: #FFD700;
+            opacity: 0.6;
+        }
+
+        .blinking-cursor {
+            width: 2px;
+            height: 14px;
+            background-color: #FFD700;
+            animation: blink 1s step-end infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .math-data-float {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: rgba(255, 215, 0, 0.15);
+            position: absolute;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-margin-mobile md:p-margin-desktop">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/40 backdrop-blur-xl border-b border-outline-variant/20 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20">
+<div class="font-display-lg text-[32px] md:text-display-lg text-primary tracking-tighter">ASTROPERA</div>
+<div class="hidden md:flex gap-gutter font-body-md text-on-surface-variant uppercase tracking-widest text-[12px]">
+<a class="hover:text-on-surface transition-colors" href="#">COMMAND</a>
+<a class="hover:text-on-surface transition-colors" href="#">CONTROL</a>
+<a class="hover:text-on-surface transition-colors" href="#">COMMS</a>
+<a class="hover:text-on-surface transition-colors" href="#">GEAR</a>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:bg-primary/10 p-2 transition-all duration-300">notifications</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:bg-primary/10 p-2 transition-all duration-300">settings</span>
+<div class="w-10 h-10 overflow-hidden border border-primary/30">
+<img alt="Commander Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8wWE2HLhyPkcBpdfDRvWbax7OBOxrm1IggLYBVLP-NOQ_HhzWtMkQMPdN7ZGJ1HBnxrutOeTR8doeNdVg1C3l2GvVrPRkpnJMm6XSOWdsSXPSaVm1eD2mzuymBBO11kDMjyBE6DoaSQlvvoSrJcl6dW2dPSM9TmmBF9q9oT70Jc5NhImAAoSIemYXg3DcnYHMYqo54GP1-m5SDzeQg61QyDGTeG4ygElU78N1klm2nic7aU1sM_LFtep3BDqr-04D92p5NlZHko0"/>
+</div>
+</div>
+</nav>
+<!-- Side Navigation -->
+<aside class="hidden md:flex fixed left-0 top-20 h-[calc(100vh-120px)] w-64 z-40 bg-surface-container-low/60 backdrop-blur-3xl border-r border-outline-variant/10 flex-col py-6 gap-2">
+<div class="px-6 mb-8">
+<div class="font-body-md text-[10px] text-primary opacity-60 tracking-widest">ORBITAL HUD</div>
+<div class="font-body-md text-[12px] text-primary font-bold">V0.8.2 ACTIVE</div>
+</div>
+<div class="flex flex-col">
+<a class="flex items-center gap-3 text-primary bg-primary/10 border-l-2 border-primary p-4 cursor-pointer" href="#">
+<span class="material-symbols-outlined">target</span>
+<span class="font-body-md uppercase text-[12px]">OBJECTIVES</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant p-4 hover:bg-surface-variant/20 cursor-pointer transition-all" href="#">
+<span class="material-symbols-outlined">rocket_launch</span>
+<span class="font-body-md uppercase text-[12px]">FLEET</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant p-4 hover:bg-surface-variant/20 cursor-pointer transition-all" href="#">
+<span class="material-symbols-outlined">radar</span>
+<span class="font-body-md uppercase text-[12px]">SCAN</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant p-4 hover:bg-surface-variant/20 cursor-pointer transition-all" href="#">
+<span class="material-symbols-outlined">strategy</span>
+<span class="font-body-md uppercase text-[12px]">TACTICAL</span>
+</a>
+</div>
+<div class="mt-auto px-4">
+<button class="w-full py-4 border border-primary text-primary font-body-md text-[12px] hover:bg-primary/10 transition-all">SYNC ORBIT</button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="relative z-10 flex items-center justify-center w-full mt-20 mb-10 px-4">
+<!-- The Birth Chart Card -->
+<section class="cosmic-obsidian group relative w-full max-w-[420px] aspect-[3/4] border border-outline-variant/40 flex flex-col items-center justify-between overflow-hidden shadow-2xl">
+<!-- Nebula Background -->
+<div class="absolute inset-0 nebula-gradient opacity-40"></div>
+<!-- Harmonic Data Points -->
+<div class="math-data-float top-12 left-12">LAT: 34.0522° N</div>
+<div class="math-data-float top-16 left-12">LNG: 118.2437° W</div>
+<div class="math-data-float bottom-12 right-12">Φ: 1.6180339</div>
+<div class="math-data-float bottom-16 right-12">Δ: 24.892 rad/s</div>
+<div class="math-data-float top-1/3 right-8 rotate-90">ALIGNMENT: MARS/ASC</div>
+<!-- HUD Brackets -->
+<div class="absolute top-6 left-6 hud-bracket border-t border-l"></div>
+<div class="absolute top-6 right-6 hud-bracket border-t border-r"></div>
+<div class="absolute bottom-6 left-6 hud-bracket border-b border-l"></div>
+<div class="absolute bottom-6 right-6 hud-bracket border-b border-r"></div>
+<!-- Rotating Sigil Background -->
+<div class="absolute inset-0 flex items-center justify-center opacity-[0.08] pointer-events-none sigil-rotate-fast scale-[1.8]">
+<svg fill="none" height="600" stroke="#FFD700" stroke-width="0.5" viewbox="0 0 100 100" width="600">
+<circle cx="50" cy="50" r="48" stroke-dasharray="2,2"></circle>
+<circle cx="50" cy="50" r="35"></circle>
+<path d="M50 2 L50 98 M2 50 L98 50" stroke-width="0.2"></path>
+<path d="M15 15 L85 85 M15 85 L85 15" stroke-width="0.2"></path>
+<polygon points="50,5 95,50 50,95 5,50" stroke-width="0.5"></polygon>
+</svg>
+</div>
+<!-- Header -->
+<div class="w-full flex justify-between items-center p-8 z-10">
+<span class="font-mono-data text-[10px] text-primary/40 tracking-[0.4em]">INIT_CALIBRATION</span>
+<span class="font-headline-md italic text-primary/60 text-lg">IX</span>
+</div>
+<!-- Central Medallion -->
+<div class="relative flex flex-col items-center gap-6 z-10">
+<div class="relative group/medallion">
+<!-- Outer Glowing Ring -->
+<div class="absolute -inset-6 rounded-full border border-primary-container/20 celestial-glow-gold animate-pulse"></div>
+<div class="absolute -inset-4 rounded-full border border-primary-container/10"></div>
+<div class="relative w-32 h-32 rounded-full border border-primary-container/60 flex items-center justify-center bg-black/60 backdrop-blur-md shadow-[0_0_20px_rgba(255,215,0,0.1)]">
+<span class="material-symbols-outlined text-primary-container text-6xl transition-transform duration-700 group-hover/medallion:scale-110" style="font-variation-settings: 'FILL' 1;">astronomy</span>
+<!-- Rotating HUD Ring -->
+<div class="absolute inset-2 border-2 border-dashed border-primary-container/30 rounded-full sigil-rotate-fast" style="animation-duration: 15s;"></div>
+</div>
+</div>
+<div class="text-center space-y-3">
+<h1 class="font-headline-lg text-primary tracking-[0.1em] text-3xl">Birth Chart</h1>
+<div class="flex items-center justify-center gap-4">
+<div class="h-[1px] w-12 bg-gradient-to-r from-transparent to-primary-container/40"></div>
+<div class="w-1.5 h-1.5 bg-primary-container rotate-45"></div>
+<div class="h-[1px] w-12 bg-gradient-to-l from-transparent to-primary-container/40"></div>
+</div>
+</div>
+</div>
+<!-- Description -->
+<div class="text-center px-10 z-10">
+<p class="font-body-md italic text-on-surface-variant/80 leading-relaxed text-[15px]">
+                Synthesizing cosmic coordinates and planetary math to render your unique ascendant wheel.
+            </p>
+</div>
+<!-- CTA Section -->
+<div class="w-full p-8 z-10">
+<div class="flex items-center justify-between bg-primary/5 border border-primary/20 p-4 hover:border-primary/50 transition-all cursor-pointer group/cta">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary-container shadow-[0_0_8px_#FFD700] animate-pulse"></div>
+<span class="font-mono-data text-primary uppercase tracking-[0.2em] text-[12px]">Generate Map</span>
+<span class="blinking-cursor"></span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-mono-data text-primary/40 text-[10px]">SYNC_READY</span>
+<span class="material-symbols-outlined text-primary-container group-hover/cta:translate-x-1 transition-transform">arrow_forward_ios</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="fixed bottom-0 w-full z-50 h-10 bg-surface-container-lowest/90 backdrop-blur-md border-t border-outline-variant/30 flex justify-between items-center px-margin-mobile md:px-margin-desktop">
+<div class="font-body-md text-secondary/50 uppercase text-[9px] tracking-widest">© 2142 ASTROPERA COMMAND // SYSTEM_STABLE</div>
+<div class="hidden md:flex gap-6 font-body-md text-on-surface-variant/50 uppercase text-[9px] tracking-widest">
+<span class="hover:text-secondary transition-colors cursor-default">LIFE SUPPORT: 98%</span>
+<span class="hover:text-secondary transition-colors cursor-default">FUEL: 42.1% UNIT</span>
+<span class="text-secondary-fixed">ORBIT STABLE</span>
+</div>
+</footer>
+<script>
+    // Parallax effect for the card and elements
+    const section = document.querySelector('section');
+    const medallion = document.querySelector('.group\\/medallion');
+    const brackets = document.querySelectorAll('.hud-bracket');
+    
+    document.addEventListener('mousemove', (e) => {
+        const xAxis = (window.innerWidth / 2 - e.pageX) / 60;
+        const yAxis = (window.innerHeight / 2 - e.pageY) / 60;
+        
+        section.style.transform = `perspective(1000px) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        
+        // Internal elements move slightly differently for depth
+        if (medallion) {
+            medallion.style.transform = `translate(${xAxis * 0.5}px, ${yAxis * 0.5}px)`;
+        }
+
+        brackets.forEach(bracket => {
+            bracket.style.transform = `translate(${xAxis * -0.2}px, ${yAxis * -0.2}px)`;
+        });
+    });
+
+    // Grain texture overlay
+    const noise = document.createElement('div');
+    noise.style.position = 'fixed';
+    noise.style.top = '0';
+    noise.style.left = '0';
+    noise.style.width = '100%';
+    noise.style.height = '100%';
+    noise.style.pointerEvents = 'none';
+    noise.style.opacity = '0.03';
+    noise.style.zIndex = '9999';
+    noise.style.background = 'url("https://www.transparenttextures.com/patterns/stardust.png")';
+    document.body.appendChild(noise);
+</script>
+</body></html>

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ASTROPERA | Daily Horoscope</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400..900;1,400..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --stellar-violet: #B06EF0;
+            --void-deep: #140824;
+            --void-black: #080310;
+        }
+
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+            overflow-x: hidden;
+        }
+
+        .void-gradient {
+            background: radial-gradient(circle at center, #240a45 0%, #080310 100%);
+        }
+
+        .nebula-texture {
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(176, 110, 240, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(176, 110, 240, 0.1) 0%, transparent 50%);
+        }
+
+        .scanlines {
+            background: linear-gradient(
+                to bottom,
+                transparent 50%,
+                rgba(176, 110, 240, 0.03) 50%
+            );
+            background-size: 100% 4px;
+        }
+
+        .inner-glow-top {
+            box-shadow: inset 0 1px 0 0 rgba(255, 246, 223, 0.1);
+        }
+
+        .stellar-glow {
+            filter: drop-shadow(0 0 15px rgba(176, 110, 240, 0.6));
+        }
+
+        @keyframes rotate-sigil {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes particle-orbit {
+            0% { transform: rotate(0deg) translateX(60px) rotate(0deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: rotate(360deg) translateX(60px) rotate(-360deg); opacity: 0; }
+        }
+
+        .animate-sigil {
+            animation: rotate-sigil 120s linear infinite;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--stellar-violet);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .sacred-grid {
+            background-image: 
+                linear-gradient(to right, rgba(176, 110, 240, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(176, 110, 240, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                "outline-variant": "#4d4732",
+                "tertiary": "#d2fffe",
+                "on-secondary-fixed": "#1c0062",
+                "tertiary-fixed": "#56f9f9",
+                "on-tertiary-fixed": "#002020",
+                "on-tertiary-container": "#006a6b",
+                "on-surface-variant": "#d0c6ab",
+                "on-background": "#e5e2e1",
+                "surface-bright": "#3a3939",
+                "primary-fixed": "#ffe16d",
+                "surface-container-low": "#1c1b1b",
+                "primary": "#fff6df",
+                "tertiary-fixed-dim": "#26dcdd",
+                "on-secondary-fixed-variant": "#4719c9",
+                "on-secondary-container": "#b8aaff",
+                "surface-container-high": "#2a2a2a",
+                "on-tertiary-fixed-variant": "#004f50",
+                "inverse-primary": "#705d00",
+                "on-surface": "#e5e2e1",
+                "outline": "#999077",
+                "background": "#131313",
+                "on-tertiary": "#003737",
+                "on-primary-fixed-variant": "#544600",
+                "surface-tint": "#e9c400",
+                "on-primary-container": "#705e00",
+                "inverse-surface": "#e5e2e1",
+                "on-primary-fixed": "#221b00",
+                "on-error": "#690005",
+                "surface-container": "#201f1f",
+                "inverse-on-surface": "#313030",
+                "on-secondary": "#30009b",
+                "on-error-container": "#ffdad6",
+                "surface": "#131313",
+                "surface-container-highest": "#353534",
+                "secondary-fixed-dim": "#cabeff",
+                "secondary-container": "#4719c9",
+                "primary-fixed-dim": "#e9c400",
+                "tertiary-container": "#4af0f1",
+                "secondary-fixed": "#e6deff",
+                "secondary": "#cabeff",
+                "error": "#ffb4ab",
+                "primary-container": "#ffd700",
+                "surface-container-lowest": "#0e0e0e",
+                "surface-dim": "#131313",
+                "on-primary": "#3a3000",
+                "surface-variant": "#353534",
+                "error-container": "#93000a",
+                "stellar-violet": "#B06EF0"
+              },
+              "fontFamily": {
+                "headline-md": ["Bodoni Moda"],
+                "body-md": ["JetBrains Mono"],
+                "body-lg": ["JetBrains Mono"],
+                "label-caps": ["JetBrains Mono"],
+                "headline-lg": ["Bodoni Moda"],
+                "display-lg": ["Bodoni Moda"],
+                "mono-data": ["JetBrains Mono"],
+                "label-mono": ["JetBrains Mono"]
+              },
+              "spacing": {
+                "margin-desktop": "64px",
+                "stack-sm": "8px",
+                "stack-lg": "48px",
+                "gutter": "24px",
+                "stack-md": "24px",
+                "unit": "4px"
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="font-body-md text-on-surface selection:bg-stellar-violet selection:text-white">
+<!-- Top Navigation -->
+<header class="fixed top-0 w-full z-50 bg-surface/40 backdrop-blur-xl border-b border-outline-variant/20 inner-glow-top flex justify-between items-center px-margin-desktop h-20">
+<div class="font-display-lg text-primary tracking-tighter text-[28px] md:text-[32px]">ASTROPERA</div>
+<nav class="hidden md:flex gap-8">
+<a class="font-label-mono text-[12px] uppercase tracking-widest text-primary border-b-2 border-primary pb-1" href="#">COMMAND</a>
+<a class="font-label-mono text-[12px] uppercase tracking-widest text-on-surface-variant hover:text-on-surface transition-colors" href="#">CONTROL</a>
+<a class="font-label-mono text-[12px] uppercase tracking-widest text-on-surface-variant hover:text-on-surface transition-colors" href="#">COMMS</a>
+<a class="font-label-mono text-[12px] uppercase tracking-widest text-on-surface-variant hover:text-on-surface transition-colors" href="#">GEAR</a>
+</nav>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-colors" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-colors" data-icon="settings">settings</span>
+<div class="w-10 h-10 border border-outline-variant rounded-full overflow-hidden">
+<img alt="Commander Avatar" class="w-full h-full object-cover" data-alt="A futuristic portrait of a space commander" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDapueCNNVrG3OHLuMhsxa-RSWEtHZTpkvA09XaX5z8DBnJKIO5QHEGmwZWVMqIxqJq3p3xZmX4riRy6jYkDq96JkMT54eGUZ5rkB1TMJWI0gdEHnq8jnsmd0uExSfWvLny8ysYnJ66Gd2uvliLFDIj9lhKVQe4mB9X-MBniue3BQ4bwYZ7q03qBqi8r0rs5Rc1foo4ol2IvnV_UzYFrSo3fAIw1q9vAbS5Zf8AN3HPsRLCh2C6CD2UumLcx7c0iYGM3YdY6oyLsdI"/>
+</div>
+</div>
+</header>
+<!-- Side Navigation -->
+<aside class="fixed left-0 top-20 h-[calc(100vh-120px)] w-64 z-40 bg-surface-container-low/60 backdrop-blur-3xl border-r border-outline-variant/10 hidden md:flex flex-col py-6 gap-2">
+<div class="px-6 mb-8">
+<div class="text-primary font-label-mono text-[10px] tracking-widest opacity-50 mb-1 uppercase">ORBITAL HUD</div>
+<div class="text-on-surface-variant font-label-mono text-[12px]">V0.8.2 ACTIVE</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-3 text-on-surface-variant p-4 hover:bg-surface-variant/20 hover:translate-x-1 transition-all duration-200 cursor-pointer active:scale-98">
+<span class="material-symbols-outlined" data-icon="target">target</span>
+<span class="font-label-mono text-[12px] uppercase tracking-widest">OBJECTIVES</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant p-4 hover:bg-surface-variant/20 hover:translate-x-1 transition-all duration-200 cursor-pointer active:scale-98">
+<span class="material-symbols-outlined" data-icon="rocket_launch">rocket_launch</span>
+<span class="font-label-mono text-[12px] uppercase tracking-widest">FLEET</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant p-4 hover:bg-surface-variant/20 hover:translate-x-1 transition-all duration-200 cursor-pointer active:scale-98">
+<span class="material-symbols-outlined" data-icon="radar">radar</span>
+<span class="font-label-mono text-[12px] uppercase tracking-widest">SCAN</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant p-4 hover:bg-surface-variant/20 hover:translate-x-1 transition-all duration-200 cursor-pointer active:scale-98">
+<span class="material-symbols-outlined" data-icon="strategy">strategy</span>
+<span class="font-label-mono text-[12px] uppercase tracking-widest">TACTICAL</span>
+</div>
+</div>
+<div class="mt-auto px-6">
+<button class="w-full py-3 border border-primary/30 font-label-mono text-[11px] uppercase tracking-[0.2em] text-primary hover:bg-primary/10 transition-all">
+                SYNC ORBIT
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pt-32 pb-20 md:pl-72 px-margin-mobile md:pr-margin-desktop min-h-screen sacred-grid relative overflow-hidden">
+<!-- Decorative Background Element -->
+<div class="absolute -right-20 top-40 w-96 h-96 bg-stellar-violet/10 blur-[120px] rounded-full pointer-events-none"></div>
+<!-- Section Header -->
+<div class="relative z-10 mb-12">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">NEURAL FORECASTS</h2>
+<p class="font-body-md text-on-surface-variant max-w-lg">Access real-time celestial telemetry data cross-referenced with your personal natal positioning.</p>
+</div>
+<!-- The Daily Horoscope Card (Redesigned) -->
+<div class="relative max-w-3xl w-full mx-auto md:mx-0">
+<!-- Bracket Decoration -->
+<div class="absolute -top-4 -left-4 w-12 h-12 border-t-2 border-l-2 border-stellar-violet/40"></div>
+<div class="absolute -bottom-4 -right-4 w-12 h-12 border-b-2 border-r-2 border-stellar-violet/40"></div>
+<div class="relative void-gradient nebula-texture border border-stellar-violet/30 overflow-hidden shadow-[0_0_50px_rgba(36,10,69,0.5)]">
+<!-- Scanline Overlay -->
+<div class="absolute inset-0 scanlines opacity-40 pointer-events-none"></div>
+<!-- Floating HUD Data Points -->
+<div class="absolute top-8 right-8 text-right hidden sm:block">
+<div class="font-label-mono text-[10px] text-stellar-violet uppercase tracking-tighter opacity-70">Neural Drift</div>
+<div class="font-mono-data text-[14px] text-white">σ = 0.0034</div>
+</div>
+<div class="absolute top-8 left-8 text-left hidden sm:block">
+<div class="font-label-mono text-[10px] text-stellar-violet uppercase tracking-tighter opacity-70">Celestial Lon</div>
+<div class="font-mono-data text-[14px] text-white">142° 11' 22"</div>
+</div>
+<div class="relative z-10 py-16 px-8 flex flex-col items-center text-center">
+<!-- Central Glowing Sigil with Light Trails -->
+<div class="relative mb-12 group">
+<!-- Orbiting Particles -->
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="particle" style="animation: particle-orbit 3s linear infinite;"></div>
+<div class="particle" style="animation: particle-orbit 4s linear infinite 0.5s;"></div>
+<div class="particle" style="animation: particle-orbit 2.5s linear infinite 1.2s;"></div>
+<div class="particle" style="animation: particle-orbit 5s linear infinite 2s;"></div>
+</div>
+<!-- Rotating Geometry -->
+<div class="absolute -inset-12 flex items-center justify-center opacity-20 pointer-events-none scale-125">
+<svg class="w-full h-full animate-sigil" viewbox="0 0 100 100">
+<circle class="text-stellar-violet" cx="50" cy="50" fill="none" r="45" stroke="currentColor" stroke-width="0.5"></circle>
+<path class="text-stellar-violet" d="M50 5 L95 27.5 L95 72.5 L50 95 L5 72.5 L5 27.5 Z" fill="none" stroke="currentColor" stroke-width="0.5"></path>
+<path class="text-stellar-violet" d="M50 0 L100 50 L50 100 L0 50 Z" fill="none" stroke="currentColor" stroke-width="0.2"></path>
+</svg>
+</div>
+<!-- Central Star -->
+<div class="w-28 h-28 rounded-full bg-stellar-violet/20 border border-stellar-violet/40 flex items-center justify-center stellar-glow relative z-20 transition-all duration-500 group-hover:bg-stellar-violet/30 group-hover:scale-110">
+<span class="material-symbols-outlined text-[56px] text-stellar-violet" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<!-- Content Text -->
+<h1 class="font-display-lg text-[48px] md:text-[56px] leading-none text-white mb-6 tracking-widest uppercase">DAILY HOROSCOPE</h1>
+<div class="flex items-center gap-4 mb-8 w-full max-w-sm">
+<div class="flex-1 h-px bg-gradient-to-r from-transparent via-stellar-violet/50 to-transparent"></div>
+<div class="font-label-mono text-[12px] text-stellar-violet/80 tracking-[0.3em]">ALIGNMENT III</div>
+<div class="flex-1 h-px bg-gradient-to-r from-transparent via-stellar-violet/50 to-transparent"></div>
+</div>
+<p class="font-body-lg text-on-surface-variant leading-relaxed max-w-lg mb-12">
+                        Examine today’s transit alignments and read custom AI-curated energy readings for your zodiac sign. The cosmic telemetry suggests a significant flux in communicative channels.
+                    </p>
+<!-- Redesigned CTA -->
+<button class="relative px-12 py-5 group/btn bg-void-black/40 border border-stellar-violet/60 transition-all duration-500 hover:border-stellar-violet hover:bg-stellar-violet/10">
+<span class="relative z-10 font-label-mono text-[14px] uppercase tracking-[0.3em] text-white flex items-center gap-6">
+                            Read Forecast
+                            <span class="relative flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-stellar-violet opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-stellar-violet shadow-[0_0_8px_#B06EF0]"></span>
+</span>
+</span>
+<!-- Technical Border Accents -->
+<div class="absolute top-0 left-0 w-2 h-2 border-t border-l border-stellar-violet"></div>
+<div class="absolute top-0 right-0 w-2 h-2 border-t border-r border-stellar-violet"></div>
+<div class="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-stellar-violet"></div>
+<div class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-stellar-violet"></div>
+</button>
+</div>
+<!-- Glass Sheen Overlay -->
+<div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none opacity-30"></div>
+</div>
+<!-- Shadow/Glow Base -->
+<div class="absolute -bottom-12 left-1/2 -translate-x-1/2 w-4/5 h-16 bg-stellar-violet/30 blur-[80px] pointer-events-none rounded-full"></div>
+</div>
+<!-- Additional Technical Readouts -->
+<div class="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl">
+<div class="p-6 border border-outline-variant/20 bg-surface-container-lowest/40 backdrop-blur-sm group hover:border-stellar-violet/40 transition-colors">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-stellar-violet" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-mono-data text-[11px] text-on-surface-variant">ALIGN_01</span>
+</div>
+<div class="font-label-mono text-[12px] uppercase text-primary mb-2">Mercurial Retrograde</div>
+<p class="text-[12px] text-on-surface-variant opacity-70">Probability shift detected in communicative channels. Expect noise.</p>
+</div>
+<div class="p-6 border border-outline-variant/20 bg-surface-container-lowest/40 backdrop-blur-sm group hover:border-stellar-violet/40 transition-colors">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-stellar-violet" data-icon="waves">waves</span>
+<span class="font-mono-data text-[11px] text-on-surface-variant">ALIGN_02</span>
+</div>
+<div class="font-label-mono text-[12px] uppercase text-primary mb-2">Lunar Phase Flux</div>
+<p class="text-[12px] text-on-surface-variant opacity-70">Psychic resonance levels peak at 0400Z. Emotional shielding active.</p>
+</div>
+<div class="p-6 border border-outline-variant/20 bg-surface-container-lowest/40 backdrop-blur-sm group hover:border-stellar-violet/40 transition-colors">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-stellar-violet" data-icon="grid_view">grid_view</span>
+<span class="font-mono-data text-[11px] text-on-surface-variant">ALIGN_03</span>
+</div>
+<div class="font-label-mono text-[12px] uppercase text-primary mb-2">Zodiac Cluster</div>
+<p class="text-[12px] text-on-surface-variant opacity-70">Major transit occurring in the 8th House. Transformative cycles imminent.</p>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="fixed bottom-0 w-full z-50 h-10 bg-surface-container-lowest/80 backdrop-blur-md border-t border-outline-variant/30 flex justify-between items-center px-margin-desktop">
+<div class="font-label-mono text-[10px] text-on-surface-variant/60 uppercase">© 2142 ASTROPERA COMMAND</div>
+<div class="flex gap-6">
+<span class="font-label-mono text-[10px] text-secondary hover:text-secondary-fixed transition-colors cursor-pointer">LIFE SUPPORT: 98%</span>
+<span class="font-label-mono text-[10px] text-on-surface-variant/60 hover:text-secondary transition-colors cursor-pointer">FUEL: 42.1% UNIT</span>
+<span class="font-label-mono text-[10px] text-on-surface-variant/60 hover:text-secondary transition-colors cursor-pointer">ORBIT STABLE</span>
+</div>
+</footer>
+<!-- Interactive Layer: Click Particle Effect -->
+<script>
+        document.addEventListener('click', (e) => {
+            const particle = document.createElement('div');
+            particle.className = 'fixed pointer-events-none z-[100] w-4 h-4 border border-stellar-violet rounded-full opacity-100 transition-all duration-700 ease-out';
+            particle.style.left = `${e.clientX - 8}px`;
+            particle.style.top = `${e.clientY - 8}px`;
+            document.body.appendChild(particle);
+            
+            requestAnimationFrame(() => {
+                particle.style.transform = 'scale(4)';
+                particle.style.opacity = '0';
+            });
+
+            setTimeout(() => particle.remove(), 700);
+        });
+    </script>
+</body></html>
