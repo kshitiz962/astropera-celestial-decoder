@@ -1,5 +1,5 @@
 {
-  "totalVisits": 284,
+  "totalVisits": 287,
   "uniqueVisitors": 2,
   "visitorIds": [
     "70acb5b04adc4f322250e60aa6d518109825f9f738b416731c97415a552d2954",
@@ -1423,6 +1423,21 @@
     },
     {
       "timestamp": "2026-06-30T13:08:12.475Z",
+      "isNew": false,
+      "page": "/"
+    },
+    {
+      "timestamp": "2026-06-30T13:10:37.699Z",
+      "isNew": false,
+      "page": "/"
+    },
+    {
+      "timestamp": "2026-06-30T13:10:43.574Z",
+      "isNew": false,
+      "page": "/"
+    },
+    {
+      "timestamp": "2026-06-30T13:10:44.390Z",
       "isNew": false,
       "page": "/"
     }

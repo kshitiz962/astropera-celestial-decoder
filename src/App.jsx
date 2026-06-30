@@ -216,6 +216,10 @@ export default function App() {
 
       lenisRef.current = lenis;
 
+      // Force scroll to top immediately to prevent browser scroll restoration glitches
+      lenis.scrollTo(0, { immediate: true });
+      window.scrollTo(0, 0);
+
       function raf(time) {
         lenis.raf(time);
         requestAnimationFrame(raf);
