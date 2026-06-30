@@ -136,7 +136,7 @@ export default function App() {
         console.error("Error parsing saved profile:", e);
       }
     }
-    return null; // Guest user starts as null every load
+    return "Libra"; // Default guest user to Libra instead of null to bypass the gate
   });
   const [showSignDropdown, setShowSignDropdown] = useState(false);
   const [decoderSynced, setDecoderSynced] = useState(false);
@@ -930,44 +930,7 @@ export default function App() {
           <FeedbackConsole onClose={() => setShowFeedback(false)} />
         )}
 
-        {/* Zodiac Sign Selection Entry Gate */}
-        {!userSign && (
-          <div className="zodiac-sign-gate">
-            <div className="gate-content">
-              <h2 className="gate-title">SELECT YOUR CELESTIAL ALIGNMENT</h2>
-              <p className="gate-subtitle">Establish telemetry connection to calibrate your planetary transits.</p>
-              
-              <div className="zodiac-gate-grid">
-                {[
-                  { name: "Aries", glyph: "♈", dates: "Mar 21 - Apr 19" },
-                  { name: "Taurus", glyph: "♉", dates: "Apr 20 - May 20" },
-                  { name: "Gemini", glyph: "♊", dates: "May 21 - Jun 20" },
-                  { name: "Cancer", glyph: "♋", dates: "Jun 21 - Jul 22" },
-                  { name: "Leo", glyph: "♌", dates: "Jul 23 - Aug 22" },
-                  { name: "Virgo", glyph: "♍", dates: "Aug 23 - Sep 22" },
-                  { name: "Libra", glyph: "♎", dates: "Sep 23 - Oct 22" },
-                  { name: "Scorpio", glyph: "♏", dates: "Oct 23 - Nov 21" },
-                  { name: "Sagittarius", glyph: "♐", dates: "Nov 22 - Dec 21" },
-                  { name: "Capricorn", glyph: "♑", dates: "Dec 22 - Jan 19" },
-                  { name: "Aquarius", glyph: "♒", dates: "Jan 20 - Feb 18" },
-                  { name: "Pisces", glyph: "♓", dates: "Feb 19 - Mar 20" }
-                ].map(sign => (
-                  <button 
-                    key={sign.name}
-                    className="zodiac-gate-btn"
-                    onClick={() => {
-                      setUserSign(sign.name);
-                    }}
-                  >
-                    <span className="gate-btn-glyph">{sign.glyph}</span>
-                    <span className="gate-btn-name">{sign.name.toUpperCase()}</span>
-                    <span className="gate-btn-dates">{sign.dates}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
+
 
       </div>
     </div>
