@@ -285,20 +285,62 @@ export default function App() {
     return () => cancelAnimationFrame(frameId);
   }, []);
 
+  // One-shot entrance animation on mount
+  useEffect(() => {
+    gsap.timeline()
+      .fromTo(".navbar",
+        { y: -25, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1.2, ease: "power3.out" }
+      )
+      .fromTo(".hero-main-title", 
+        { y: 50, opacity: 0, filter: "blur(20px)" }, 
+        { y: 0, opacity: 0.3, filter: "blur(0px)", duration: 1.8, ease: "power4.out" },
+        "-=0.9"
+      )
+      .fromTo(".hero-eyebrow",
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1.0, duration: 1.0, ease: "power3.out" },
+        "<0.2"
+      )
+      .fromTo(".hero-headline",
+        { y: 40, opacity: 0, filter: "blur(10px)" },
+        { y: 0, opacity: 1.0, filter: "blur(0px)", duration: 1.2, ease: "power3.out" },
+        "<0.2"
+      )
+      .fromTo(".hero-subtitle",
+        { opacity: 0, scale: 0.95 },
+        { opacity: 1.0, scale: 1.0, duration: 1.0, ease: "power3.out" },
+        "<0.3"
+      )
+      .fromTo(".hero-description-container",
+        { opacity: 0, y: 20 },
+        { opacity: 1.0, y: 0, duration: 1.0, ease: "power2.out" },
+        "<0.3"
+      )
+      .fromTo(".hero-celestial-seal-console",
+        { opacity: 0, y: 15, pointerEvents: "none" },
+        { opacity: 1.0, y: 0, pointerEvents: "auto", duration: 1.0, ease: "power2.out" },
+        "<0.4"
+      )
+      .fromTo(".hud-metrics, .scroll-indicator, .floating-scrollspy",
+        { opacity: 0 },
+        { opacity: 1, duration: 1.2, ease: "power2.out" },
+        "-=0.6"
+      );
+  }, []);
+
   // GSAP ScrollTrigger setup
   useEffect(() => {
-    // 1. Scrub scrollProgress ref from 0.0 to 1.0 based on page scroll
-    gsap.to(scrollProgress, {
-      current: 1.0,
-      ease: "none",
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top top",
-        end: "bottom bottom",
-        scrub: 0.5,
-        onUpdate: (self) => {
-          const progress = self.progress;
-          setScrollProgressPercent(Math.floor(progress * 100));
+    // 1. Setup ScrollTrigger to track progress and sync ref directly (prevents freezing/squashing on engine switch)
+    ScrollTrigger.create({
+      trigger: containerRef.current,
+      start: "top top",
+      end: "bottom bottom",
+      scrub: 0.5,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        scrollProgress.current = progress; // Update ref directly for the 3D canvas
+        setScrollProgressPercent(Math.floor(progress * 100));
 
           // A. Calculate Stage Index based on the redesigned scroll sequence
           // Stage 0: 0.0 - 0.15 (Hero)
@@ -397,50 +439,7 @@ export default function App() {
             setIsCtaHovered(false);
           }
         }
-      }
-    });
-
-    // 2. Entrance Animation (one-shot, runs automatically on mount/reset)
-    gsap.timeline()
-      .fromTo(".navbar",
-        { y: -25, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1.2, ease: "power3.out" }
-      )
-      .fromTo(".hero-main-title", 
-        { y: 50, opacity: 0, filter: "blur(20px)" }, 
-        { y: 0, opacity: 0.3, filter: "blur(0px)", duration: 1.8, ease: "power4.out" },
-        "-=0.9"
-      )
-      .fromTo(".hero-eyebrow",
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1.0, duration: 1.0, ease: "power3.out" },
-        "<0.2"
-      )
-      .fromTo(".hero-headline",
-        { y: 40, opacity: 0, filter: "blur(10px)" },
-        { y: 0, opacity: 1.0, filter: "blur(0px)", duration: 1.2, ease: "power3.out" },
-        "<0.2"
-      )
-      .fromTo(".hero-subtitle",
-        { opacity: 0, scale: 0.95 },
-        { opacity: 1.0, scale: 1.0, duration: 1.0, ease: "power3.out" },
-        "<0.3"
-      )
-      .fromTo(".hero-description-container",
-        { opacity: 0, y: 20 },
-        { opacity: 1.0, y: 0, duration: 1.0, ease: "power2.out" },
-        "<0.3"
-      )
-      .fromTo(".hero-celestial-seal-console",
-        { opacity: 0, y: 15, pointerEvents: "none" },
-        { opacity: 1.0, y: 0, pointerEvents: "auto", duration: 1.0, ease: "power2.out" },
-        "<0.4"
-      )
-      .fromTo(".hud-metrics, .scroll-indicator, .floating-scrollspy",
-        { opacity: 0 },
-        { opacity: 1, duration: 1.2, ease: "power2.out" },
-        "-=0.6"
-      );
+      });
 
     // 2.5 Exit Timeline (scroll-scrubbed: stays settled first, then fades out rapidly before first card at 0.15)
     const exitTimeline = gsap.timeline({
@@ -483,7 +482,7 @@ export default function App() {
     return () => {
       ScrollTrigger.getAll().forEach(t => t.kill());
     };
-  }, []);
+  }, [cosmicMode]);
 
   const handlePrimaryCtaClick = () => {
     setShowGenerator(true);
