@@ -40,6 +40,23 @@ export default function FeedbackConsole({ onClose }) {
   useEffect(() => {
     if (step !== 'transmitting') return;
 
+    // Send actual email notification to creator in the background via Formsubmit.co
+    fetch("https://formsubmit.co/ajax/kshitizranu6@gmail.com", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        name: formData.name,
+        rating: `${formData.rating} Stars`,
+        comments: formData.comments,
+        _subject: `Astropera Feedback from ${formData.name}`
+      })
+    })
+      .then(res => res.json())
+      .catch(err => console.error("Error submitting feedback email:", err));
+
     let logIndex = 0;
     const interval = setInterval(() => {
       if (logIndex < transmissionLogs.length) {
@@ -58,11 +75,6 @@ export default function FeedbackConsole({ onClose }) {
             timestamp: new Date().toISOString()
           });
           localStorage.setItem('astropera_saved_feedbacks', JSON.stringify(feedbacks));
-
-          // Also trigger a mailto to notify the creator
-          const emailSubject = encodeURIComponent(`Astropera Feedback from ${formData.name}`);
-          const emailBody = encodeURIComponent(`Name: ${formData.name}\nRating: ${formData.rating} Stars\n\nComments:\n${formData.comments}`);
-          window.location.href = `mailto:feedback@astropera.co?subject=${emailSubject}&body=${emailBody}`;
 
           setStep('success');
         }, 800);

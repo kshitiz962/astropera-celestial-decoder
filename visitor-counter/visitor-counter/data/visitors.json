@@ -1,5 +1,5 @@
 {
-  "totalVisits": 307,
+  "totalVisits": 309,
   "uniqueVisitors": 3,
   "visitorIds": [
     "70acb5b04adc4f322250e60aa6d518109825f9f738b416731c97415a552d2954",
@@ -1541,6 +1541,16 @@
       "timestamp": "2026-07-01T14:27:27.578Z",
       "isNew": false,
       "page": "/"
+    },
+    {
+      "timestamp": "2026-07-01T14:32:58.400Z",
+      "isNew": false,
+      "page": "/dev.html"
+    },
+    {
+      "timestamp": "2026-07-01T14:32:58.414Z",
+      "isNew": false,
+      "page": "/dev.html"
     }
   ]
 }

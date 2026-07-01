@@ -186,7 +186,13 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    const touch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    setIsTouchDevice(touch);
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    const isMobile = /android|iphone|ipad|ipod/i.test(ua);
+    if (isMobile) {
+      setCosmicMode('interactive');
+    }
   }, []);
 
   // HUD variables for rolling metrics
