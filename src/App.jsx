@@ -714,7 +714,7 @@ export default function App() {
             <div className="hero-content-block">
               <div className="hero-eyebrow">
                 <span className="eyebrow-node"></span>
-                <span className="eyebrow-text">ASTROPERA // CELESTIAL ENGINE v1.0</span>
+                <span className="eyebrow-text">CELESTIAL ENGINE // v1.0</span>
                 <span className="eyebrow-node"></span>
               </div>
 
