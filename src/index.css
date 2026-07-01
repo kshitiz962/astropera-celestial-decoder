@@ -3723,13 +3723,12 @@ body::after {
   height: 6px;
 }
 
-/* Premium Cyber Warning Scroll Lock Box - Bottom Aligned & Compact */
+/* Premium Cyber Warning Scroll Lock Box - Bottom Right Corner */
 .scroll-lock-notice {
   position: fixed;
-  bottom: 5.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 420px;
+  bottom: 2.5rem;
+  right: 4.5rem;
+  width: 380px;
   height: 95px;
   background: rgba(12, 3, 7, 0.95);
   border: 2px solid #ff0055;
@@ -3746,12 +3745,12 @@ body::after {
   padding: 10px 14px;
   font-family: var(--font-mono);
   pointer-events: none;
-  animation: warningGlitchBottom 0.15s infinite alternate;
+  animation: warningGlitchRight 0.15s infinite alternate;
 }
 
-@keyframes warningGlitchBottom {
-  0% { transform: translateX(-50%) skew(0deg); border-color: #ff0055; }
-  100% { transform: translateX(-50%) skew(0.3deg) scale(1.01); border-color: #ff5500; }
+@keyframes warningGlitchRight {
+  0% { transform: skew(0deg); border-color: #ff0055; }
+  100% { transform: skew(0.3deg) scale(1.01); border-color: #ff5500; }
 }
 
 .warning-scanner-line {
