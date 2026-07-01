@@ -28,15 +28,26 @@ export default function Header({ cosmicMode, onToggleCosmicMode }) {
       });
   }, []);
 
-  const handleScrollToTop = (e) => {
-    e.preventDefault();
+  const scrollToTarget = (targetPercent) => {
     if (cosmicMode !== '3d') {
       onToggleCosmicMode('3d');
+      setTimeout(() => {
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        window.dispatchEvent(new CustomEvent('lenis-scroll-to', {
+          detail: { target: maxScroll * targetPercent, duration: 1.6 }
+        }));
+      }, 250);
+    } else {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      window.dispatchEvent(new CustomEvent('lenis-scroll-to', {
+        detail: { target: maxScroll * targetPercent, duration: 1.6 }
+      }));
     }
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+  };
+
+  const handleScrollToTop = (e) => {
+    e.preventDefault();
+    scrollToTarget(0.0);
   };
 
   return (
@@ -54,16 +65,7 @@ export default function Header({ cosmicMode, onToggleCosmicMode }) {
             className="nav-link" 
             onClick={(e) => { 
               e.preventDefault(); 
-              if (cosmicMode !== '3d') {
-                onToggleCosmicMode('3d');
-                setTimeout(() => {
-                  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-                  window.scrollTo({ top: maxScroll * 0.16, behavior: 'smooth' }); 
-                }, 100);
-              } else {
-                const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-                window.scrollTo({ top: maxScroll * 0.16, behavior: 'smooth' }); 
-              }
+              scrollToTarget(0.16);
             }}
           >
             Arcana
@@ -75,16 +77,7 @@ export default function Header({ cosmicMode, onToggleCosmicMode }) {
             className="nav-link" 
             onClick={(e) => { 
               e.preventDefault(); 
-              if (cosmicMode !== '3d') {
-                onToggleCosmicMode('3d');
-                setTimeout(() => {
-                  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-                  window.scrollTo({ top: maxScroll, behavior: 'smooth' }); 
-                }, 100);
-              } else {
-                const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-                window.scrollTo({ top: maxScroll, behavior: 'smooth' }); 
-              }
+              scrollToTarget(1.0);
             }}
           >
             Channel Us

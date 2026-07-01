@@ -250,14 +250,25 @@ export default function App() {
         }
       };
 
+      const handleScrollTo = (e) => {
+        const { target, duration } = e.detail;
+        if (lenisRef.current) {
+          lenisRef.current.scrollTo(target, { immediate: false, duration: duration || 1.5 });
+        } else {
+          window.scrollTo({ top: target, behavior: 'smooth' });
+        }
+      };
+
       window.addEventListener('lock-scroll', handleLock);
       window.addEventListener('unlock-scroll', handleUnlock);
+      window.addEventListener('lenis-scroll-to', handleScrollTo);
 
       return () => {
         lenis.destroy();
         lenisRef.current = null;
         window.removeEventListener('lock-scroll', handleLock);
         window.removeEventListener('unlock-scroll', handleUnlock);
+        window.removeEventListener('lenis-scroll-to', handleScrollTo);
       };
     }, []);
 
@@ -325,7 +336,7 @@ export default function App() {
         { opacity: 1.0, y: 0, pointerEvents: "auto", duration: 1.0, ease: "power2.out" },
         "<0.4"
       )
-      .fromTo(".hud-metrics, .scroll-indicator, .floating-scrollspy",
+      .fromTo(".hud-metrics, .scroll-indicator",
         { opacity: 0 },
         { opacity: 1, duration: 1.2, ease: "power2.out" },
         "-=0.6"
@@ -849,39 +860,7 @@ export default function App() {
           <span>DESCENT PROFILE {scrollProgressPercent}%</span>
         </div>
 
-        {/* Floating Scrollspy Navigation (Right Sidebar) */}
-        {cosmicMode === '3d' && (
-          <div className="floating-scrollspy">
-            {[
-              { id: 0, num: "00", label: "OBSERVATORY", depth: 0.0 },
-              { id: 1, num: "01", label: "BIRTH GATE", depth: 0.16 },
-              { id: 2, num: "02", label: "DECRYPTER", depth: 0.26 },
-              { id: 3, num: "03", label: "ARCANA DECK", depth: 0.41 },
-              { id: 4, num: "04", label: "DECODER", depth: 0.56 },
-              { id: 5, num: "05", label: "SINGULARITY", depth: 0.72 }
-            ].map(sec => {
-              const isActive = currentStage === sec.id;
-              return (
-                <div 
-                  key={sec.id}
-                  className={`scrollspy-node-wrap ${isActive ? 'active' : ''}`}
-                  onClick={() => {
-                    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-                    window.scrollTo({
-                      top: maxScroll * sec.depth,
-                      behavior: 'smooth'
-                    });
-                  }}
-                >
-                  <span className="scrollspy-label">{sec.num} // {sec.label}</span>
-                  <div className="scrollspy-dot">
-                    <div className="scrollspy-dot-inner"></div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
+
 
         {/* Scroll Sections spacing to generate viewport trigger limits */}
         <div className="scroll-sections">
