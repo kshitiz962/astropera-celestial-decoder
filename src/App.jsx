@@ -230,11 +230,6 @@ export default function App() {
         ScrollTrigger.update();
       });
 
-      gsap.ticker.add((time) => {
-        lenis.raf(time * 1000);
-      });
-      gsap.ticker.lagSmoothing(0);
-
       // Scroll locking / force-stopping listeners (for drop/blast transition)
       const handleLock = () => {
         if (lenisRef.current) {
@@ -443,30 +438,8 @@ export default function App() {
         }
       });
 
-    // 2.5 Exit Timeline (scroll-scrubbed: stays settled first, then fades out rapidly before first card at 0.15)
-    const exitTimeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top top",
-        end: "14% top",
-        scrub: 0.3
-      }
-    });
 
-    exitTimeline
-      // Settle buffer: does nothing for the first 35% of the scroll distance (up to ~5% scroll progress)
-      .to({}, { duration: 0.35 })
-      // Fade out and clear everything rapidly in the remaining 65% distance (from 5% to 14% scroll progress)
-      .to(".hero-main-title", {
-        y: -100,
-        opacity: 0,
-        duration: 0.65
-      })
-      .to(".hero-eyebrow", { y: -45, opacity: 0, duration: 0.65 }, "<")
-      .to(".hero-headline", { y: -50, opacity: 0, duration: 0.65 }, "<")
-      .to(".hero-subtitle", { y: -35, opacity: 0, duration: 0.65 }, "<")
-      .to(".hero-description-container", { y: -30, opacity: 0, duration: 0.65 }, "<")
-      .to(".hero-celestial-seal-console", { y: -20, opacity: 0, pointerEvents: "none", duration: 0.65 }, "<");
+
 
     // 3. Fade out introductory notice on scroll
     gsap.to(".introduction-overlay", {
@@ -725,7 +698,15 @@ export default function App() {
           />
         ) : (
           /* Title Overlay: Anchored in 3D center depth */
-          <div className="title-overlay">
+          <div 
+            className="title-overlay"
+            style={{
+              opacity: Math.max(0, Math.min(1, 1 - (scrollProgressPercent / 10))),
+              pointerEvents: scrollProgressPercent < 8 ? 'auto' : 'none',
+              transition: 'opacity 0.15s ease-out, transform 0.15s ease-out',
+              transform: `translate(-50%, calc(-50% - ${scrollProgressPercent * 1.8}px))`
+            }}
+          >
             {/* Background majestic watermark title */}
             <h1 className="hero-main-title">ASTROPERA</h1>
 
