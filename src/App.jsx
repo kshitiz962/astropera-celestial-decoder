@@ -8,6 +8,7 @@ import ChartGenerator from './components/ChartGenerator';
 import FeedbackConsole from './components/FeedbackConsole';
 import HeroSection from './components/HeroSection';
 import CelestialDrawingBoard from './components/CelestialDrawingBoard';
+import Lenis from 'lenis';
 
 // Register GSAP ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -202,17 +203,16 @@ export default function App() {
 
   // Initialize Lenis smooth scroll and connect to GSAP ScrollTrigger
   useEffect(() => {
-    if (window.Lenis) {
-      const lenis = new window.Lenis({
-        duration: 1.4,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        orientation: 'vertical',
-        gestureOrientation: 'vertical',
-        smoothWheel: true,
-        wheelMultiplier: 1.0,
-        touchMultiplier: 2.0,
-        infinite: false,
-      });
+    const lenis = new Lenis({
+      duration: 1.4,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 2.0,
+      infinite: false,
+    });
 
       lenisRef.current = lenis;
 
@@ -259,8 +259,7 @@ export default function App() {
         window.removeEventListener('lock-scroll', handleLock);
         window.removeEventListener('unlock-scroll', handleUnlock);
       };
-    }
-  }, []);
+    }, []);
 
   // Fast Rolling Metrics Engine (runs continuously, simulating cosmic telemetry)
   useEffect(() => {
