@@ -114,7 +114,7 @@ export default function App() {
   const rippleProgress = useRef(0.0);
 
   // React states
-  const [scrollProgressPercent, setScrollProgressPercent] = useState(0);
+
   const [isAudioActive, setIsAudioActive] = useState(false);
   const [subtitleText, setSubtitleText] = useState(stageSubtitles[0]);
   const [isCtaHovered, setIsCtaHovered] = useState(false);
@@ -353,7 +353,21 @@ export default function App() {
       onUpdate: (self) => {
         const progress = self.progress;
         window.cosmicScrollProgress = progress; // Directly write progress to global
-        setScrollProgressPercent(Math.floor(progress * 100));
+        const percent = Math.floor(progress * 100);
+
+        // Update progress bar and text directly in DOM for performance (avoiding React state re-renders)
+        const fillEl = document.querySelector('.scroll-line-fill');
+        if (fillEl) fillEl.style.width = `${percent}%`;
+
+        const textEl = document.querySelector('.descent-profile-text');
+        if (textEl) textEl.textContent = `DESCENT PROFILE ${percent}%`;
+
+        const titleOverlay = document.querySelector('.title-overlay');
+        if (titleOverlay) {
+          titleOverlay.style.opacity = Math.max(0, Math.min(1, 1 - (percent / 10)));
+          titleOverlay.style.pointerEvents = percent < 8 ? 'auto' : 'none';
+          titleOverlay.style.transform = `translate(-50%, calc(-50% - ${percent * 1.8}px))`;
+        }
 
           // A. Calculate Stage Index based on the redesigned scroll sequence
           // Stage 0: 0.0 - 0.15 (Hero)
@@ -536,7 +550,7 @@ export default function App() {
 
         {/* Planetary Selector HUD overlay for Interactive Space */}
         {cosmicMode === 'interactive' && userSign && (
-          <div ref={hudRef} className={`planetary-influence-hud ${((scrollProgressPercent >= 15 && scrollProgressPercent < 40) || (scrollProgressPercent >= 55 && scrollProgressPercent < 70 && decoderSynced && !(selectedPlanet && !syncedPlanets.includes(selectedPlanet)))) ? 'active' : ''}`}>
+          <div ref={hudRef} className={`planetary-influence-hud ${((currentStage === 1 || currentStage === 2) || (currentStage === 4 && decoderSynced && !(selectedPlanet && !syncedPlanets.includes(selectedPlanet)))) ? 'active' : ''}`}>
             <div className="hud-title-row" style={{ position: 'relative' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span className="hud-label-tiny">TRANSIT_CALIBRATION // INTERACTIVE</span>
@@ -583,7 +597,7 @@ export default function App() {
                 { id: "Pluto", label: "♇ PLUTO", desc: "Rebirth" }
               ].map(planet => {
                 const isBtnActive = selectedPlanet === planet.id || hoveredPlanet === planet.id;
-                const isDecoderSec = scrollProgressPercent >= 55 && scrollProgressPercent < 70;
+                const isDecoderSec = currentStage === 4;
                 const isSynced = !isDecoderSec || syncedPlanets.includes(planet.id);
                 return (
                   <button 
@@ -613,8 +627,8 @@ export default function App() {
 
         {/* Holographic Center Transit Influence Popup */}
         {cosmicMode === 'interactive' && hoveredPlanet && userSign && 
-          ((scrollProgressPercent >= 15 && scrollProgressPercent < 40) || 
-           (scrollProgressPercent >= 55 && scrollProgressPercent < 70 && decoderSynced)) && (
+          ((currentStage === 1 || currentStage === 2) || 
+           (currentStage === 4 && decoderSynced)) && (
           <div 
             className="center-transit-popup"
             style={{
@@ -645,7 +659,7 @@ export default function App() {
         <CelestialDrawingBoard 
           activeTarget={userSign}
           isPlanet={false}
-          isActive={cosmicMode === 'interactive' && scrollProgressPercent >= 55 && scrollProgressPercent < 70 && !decoderSynced}
+          isActive={cosmicMode === 'interactive' && currentStage === 4 && !decoderSynced}
           availablePool={[userSign, "Aries", "Taurus", "Leo", "Libra", "Scorpio"].filter((v, idx, arr) => v && arr.indexOf(v) === idx).slice(0, 6)}
           onChangeTarget={setUserSign}
           onComplete={() => {
@@ -665,8 +679,7 @@ export default function App() {
           isPlanet={true}
           isActive={
             cosmicMode === 'interactive' && 
-            scrollProgressPercent >= 55 && 
-            scrollProgressPercent < 70 && 
+            currentStage === 4 && 
             decoderSynced && 
             selectedPlanet && 
             !syncedPlanets.includes(selectedPlanet)
@@ -717,10 +730,10 @@ export default function App() {
           <div 
             className="title-overlay"
             style={{
-              opacity: Math.max(0, Math.min(1, 1 - (scrollProgressPercent / 10))),
-              pointerEvents: scrollProgressPercent < 8 ? 'auto' : 'none',
-              transition: 'opacity 0.15s ease-out, transform 0.15s ease-out',
-              transform: `translate(-50%, calc(-50% - ${scrollProgressPercent * 1.8}px))`
+              opacity: 1,
+              pointerEvents: 'auto',
+              transition: 'opacity 0.1s ease-out, transform 0.1s ease-out',
+              transform: 'translate(-50%, -50%)'
             }}
           >
             {/* Background majestic watermark title */}
@@ -854,10 +867,10 @@ export default function App() {
           <div className="scroll-line-bg">
             <div 
               className="scroll-line-fill" 
-              style={{ width: `${scrollProgressPercent}%` }}
+              style={{ width: '0%' }}
             />
           </div>
-          <span>DESCENT PROFILE {scrollProgressPercent}%</span>
+          <span className="descent-profile-text">DESCENT PROFILE 0%</span>
         </div>
 
 
@@ -872,7 +885,7 @@ export default function App() {
         </div>
 
         {/* Last Page Overlay: Zodiac Selector & Contacts */}
-        {scrollProgressPercent >= 70 && (
+        {currentStage === 5 && (
           <LastPageSection 
             ref={lastPageRef} 
             rippleOrigin={rippleOrigin}

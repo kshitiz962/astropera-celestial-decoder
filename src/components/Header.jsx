@@ -106,6 +106,7 @@ export default function Header({ cosmicMode, onToggleCosmicMode }) {
 
         <div style={{ position: 'relative' }}>
           <button 
+            className="engine-toggle-btn"
             onClick={onToggleCosmicMode}
             style={{
               background: 'rgba(8, 28, 58, 0.4)',
