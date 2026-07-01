@@ -232,6 +232,7 @@ export default function App() {
 
       // Scroll locking / force-stopping listeners (for drop/blast transition)
       const handleLock = () => {
+        document.body.style.overflow = 'hidden'; // strict browser scroll stopper
         if (lenisRef.current) {
           lenisRef.current.stop();
           const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
@@ -240,6 +241,7 @@ export default function App() {
         }
       };
       const handleUnlock = () => {
+        document.body.style.overflow = ''; // restore browser scroll
         if (lenisRef.current) {
           lenisRef.current.start();
         }
