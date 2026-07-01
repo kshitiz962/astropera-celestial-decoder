@@ -756,54 +756,7 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Awwwards-level Celestial Console CTA System */}
-              <div className="hero-celestial-seal-console">
-                {/* Primary CTA: Circular holographic astrolabe seal */}
-                <div 
-                  className="celestial-seal-widget" 
-                  onClick={handlePrimaryCtaClick}
-                  onMouseEnter={() => {
-                    if (scrollProgress.current < 0.15) {
-                      setIsCtaHovered(true);
-                    }
-                  }}
-                  onMouseLeave={() => setIsCtaHovered(false)}
-                >
-                  <div className="seal-orbit seal-orbit-outer">
-                    <div className="seal-node node-outer-1"></div>
-                    <div className="seal-node node-outer-2"></div>
-                  </div>
-                  <div className="seal-orbit seal-orbit-inner">
-                    <div className="seal-node node-inner-1"></div>
-                  </div>
-                  
-                  {/* SVG details: degrees ticks, crosshairs */}
-                  <svg viewBox="0 0 160 160" className="seal-ticks-svg">
-                    <circle cx="80" cy="80" r="72" stroke="rgba(167, 139, 250, 0.18)" strokeWidth="0.8" fill="none" strokeDasharray="3,3" />
-                    <circle cx="80" cy="80" r="58" stroke="rgba(255, 215, 0, 0.15)" strokeWidth="0.8" fill="none" />
-                    <line x1="80" y1="5" x2="80" y2="155" stroke="rgba(167, 139, 250, 0.15)" strokeWidth="0.5" strokeDasharray="4,4" />
-                    <line x1="5" y1="80" x2="155" y2="80" stroke="rgba(167, 139, 250, 0.15)" strokeWidth="0.5" strokeDasharray="4,4" />
-                    {/* Outer ticks */}
-                    <path d="M80 5 L80 12 M80 148 L80 155 M5 80 L12 80 M148 80 L155 80" stroke="rgba(255, 215, 0, 0.4)" strokeWidth="1" />
-                  </svg>
 
-                  {/* Center glass capsule button text */}
-                  <div className="seal-capsule">
-                    <span className="seal-glow-core"></span>
-                    <span className="seal-text-top">GENERATE</span>
-                    <span className="seal-text-center">COSMIC PROFILE</span>
-                    <span className="seal-text-bottom">SYS_SYNC_01</span>
-                  </div>
-                </div>
-
-                {/* Secondary CTA: Diagnostic Descent Link */}
-                <div className="descent-diag-anchor" onClick={handleSecondaryCtaClick}>
-                  <span className="diag-bracket">[</span>
-                  <span className="diag-text">SEEK_OBSERVATORY_DESCENT // 01.16</span>
-                  <span className="diag-bracket">]</span>
-                  <div className="diag-scan-sweep"></div>
-                </div>
-              </div>
             </div>
           </div>
         )}
