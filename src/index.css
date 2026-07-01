@@ -3722,3 +3722,40 @@ body::after {
   width: 6px;
   height: 6px;
 }
+
+/* Playful Scroll Lock Notice Popup */
+.scroll-lock-notice {
+  position: fixed;
+  bottom: 4.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(18, 10, 28, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.2px solid rgba(239, 68, 68, 0.55);
+  border-radius: 999px;
+  padding: 0.8rem 1.8rem;
+  z-index: 9999;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: #ef4444;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65), 0 0 15px rgba(239, 68, 68, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+  pointer-events: none;
+  animation: noticePulse 1.2s infinite alternate ease-in-out;
+}
+
+.scroll-lock-notice span {
+  font-weight: 800;
+  color: #f87171;
+  text-shadow: 0 0 6px rgba(248, 113, 113, 0.4);
+}
+
+@keyframes noticePulse {
+  0% { opacity: 0.9; transform: translate(-50%, 0) scale(1); }
+  100% { opacity: 1; transform: translate(-50%, -4px) scale(1.02); }
+}

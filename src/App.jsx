@@ -142,6 +142,7 @@ export default function App() {
   const [showSignDropdown, setShowSignDropdown] = useState(false);
   const [decoderSynced, setDecoderSynced] = useState(false);
   const [syncedPlanets, setSyncedPlanets] = useState([]);
+  const [isScrollLocked, setIsScrollLocked] = useState(false);
 
   const decoderSyncedRef = useRef(false);
   const syncedPlanetsRef = useRef([]);
@@ -233,6 +234,7 @@ export default function App() {
       // Scroll locking / force-stopping listeners (for drop/blast transition)
       const handleLock = () => {
         document.body.style.overflow = 'hidden'; // strict browser scroll stopper
+        setIsScrollLocked(true);
         if (lenisRef.current) {
           lenisRef.current.stop();
           const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
@@ -242,6 +244,7 @@ export default function App() {
       };
       const handleUnlock = () => {
         document.body.style.overflow = ''; // restore browser scroll
+        setIsScrollLocked(false);
         if (lenisRef.current) {
           lenisRef.current.start();
         }
@@ -913,8 +916,11 @@ export default function App() {
           <FeedbackConsole onClose={() => setShowFeedback(false)} />
         )}
 
-
-
+        {isScrollLocked && (
+          <div className="scroll-lock-notice">
+            <span>⚠️ SYSTEM_LOCK:</span> OH, U TRYNNA SCROLL DOWN... MUHEHE IT WON'T MOVE 😂
+          </div>
+        )}
       </div>
     </div>
   );
