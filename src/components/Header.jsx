@@ -180,17 +180,17 @@ export default function Header({ cosmicMode, onToggleCosmicMode }) {
             </div>
           )}
         </div>
-      </div>
 
-      <button className="connect-btn" onClick={() => alert("Establishing secure connection to ASTROPERA Cosmic Core...")}>
-        <span className="connect-btn-body" />
-        <span className="btn-prefix">&gt;_</span>
-        Sync Orbit
-        <span className="corner-dot dot-tl" />
-        <span className="corner-dot dot-tr" />
-        <span className="corner-dot dot-bl" />
-        <span className="corner-dot dot-br" />
-      </button>
+        <button className="connect-btn" onClick={() => alert("Establishing secure connection to ASTROPERA Cosmic Core...")}>
+          <span className="connect-btn-body" />
+          <span className="btn-prefix">&gt;_</span>
+          Sync Orbit
+          <span className="corner-dot dot-tl" />
+          <span className="corner-dot dot-tr" />
+          <span className="corner-dot dot-bl" />
+          <span className="corner-dot dot-br" />
+        </button>
+      </div>
     </nav>
   );
 }
