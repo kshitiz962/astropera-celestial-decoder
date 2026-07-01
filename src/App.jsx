@@ -918,7 +918,24 @@ export default function App() {
 
         {isScrollLocked && (
           <div className="scroll-lock-notice">
-            <span>⚠️ SYSTEM_LOCK:</span> OH, U TRYNNA SCROLL DOWN... MUHEHE IT WON'T MOVE 😂
+            <div className="warning-scanner-line" />
+            <div className="warning-diag-stripes" />
+            
+            <div className="warning-header-row">
+              <span className="warning-icon-blink">⚠️</span>
+              <span className="warning-title-text">ACCESS_VIOLATION // GRAVITY_LOCK</span>
+              <span className="warning-icon-blink">⚠️</span>
+            </div>
+            
+            <div className="warning-body-content">
+              <p className="warning-main-msg">OH, U TRYNNA SCROLL DOWN?</p>
+              <p className="warning-sub-msg">MUHEHE IT WON'T MOVE 😂</p>
+            </div>
+            
+            <div className="warning-footer-row">
+              <span className="system-status-log">SYS_CODE: 0xDEADBEEF</span>
+              <span className="system-status-blink">STABILIZING_SINGULARITY...</span>
+            </div>
           </div>
         )}
       </div>
