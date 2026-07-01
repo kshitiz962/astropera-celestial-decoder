@@ -104,7 +104,7 @@ export default function Header({ cosmicMode, onToggleCosmicMode }) {
         </li>
       </ul>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
         <div className="live-telemetry-counter" style={{ margin: 0 }}>
           <span className="pulse-dot-green"></span>
           <span className="telemetry-label">GLOBAL_VISITORS:</span>
