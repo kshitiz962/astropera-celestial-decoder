@@ -509,6 +509,11 @@ export default function App() {
   const activePlanet = hoveredPlanet || selectedPlanet || "Saturn";
   const [subLeft, subRight] = subtitleText.includes(' // ') ? subtitleText.split(' // ') : [subtitleText, ''];
 
+  const isHudActive = cosmicMode === 'interactive' && !!userSign && (
+    (currentStage === 1 || currentStage === 2) || 
+    (currentStage === 4 && decoderSynced && !(selectedPlanet && !syncedPlanets.includes(selectedPlanet)))
+  );
+
   return (
     <div ref={containerRef} className={`app-container cosmic-mode-${cosmicMode}`} style={{ position: 'relative' }}>
       
@@ -556,7 +561,7 @@ export default function App() {
 
         {/* Planetary Selector HUD overlay for Interactive Space */}
         {cosmicMode === 'interactive' && userSign && (
-          <div ref={hudRef} className={`planetary-influence-hud ${((currentStage === 1 || currentStage === 2) || (currentStage === 4 && decoderSynced && !(selectedPlanet && !syncedPlanets.includes(selectedPlanet)))) ? 'active' : ''}`}>
+          <div ref={hudRef} className={`planetary-influence-hud ${isHudActive ? 'active' : ''}`}>
             <div className="hud-title-row" style={{ position: 'relative' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span className="hud-label-tiny">TRANSIT_CALIBRATION // INTERACTIVE</span>
@@ -632,9 +637,7 @@ export default function App() {
         )}
 
         {/* Holographic Center Transit Influence Popup */}
-        {cosmicMode === 'interactive' && hoveredPlanet && userSign && 
-          ((currentStage === 1 || currentStage === 2) || 
-           (currentStage === 4 && decoderSynced)) && (
+        {hoveredPlanet && isHudActive && (
           <div 
             className="center-transit-popup"
             style={{
