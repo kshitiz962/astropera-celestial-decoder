@@ -297,8 +297,8 @@ export default function App() {
         { y: 0, opacity: 1, duration: 1.2, ease: "power3.out" }
       )
       .fromTo(".hero-main-title", 
-        { y: 50, opacity: 0, filter: "blur(20px)" }, 
-        { y: 0, opacity: 0.3, filter: "blur(0px)", duration: 1.8, ease: "power4.out" },
+        { y: 50, opacity: 0 }, 
+        { y: 0, opacity: 0.3, duration: 1.8, ease: "power4.out" },
         "-=0.9"
       )
       .fromTo(".hero-eyebrow",
@@ -307,8 +307,8 @@ export default function App() {
         "<0.2"
       )
       .fromTo(".hero-headline",
-        { y: 40, opacity: 0, filter: "blur(10px)" },
-        { y: 0, opacity: 1.0, filter: "blur(0px)", duration: 1.2, ease: "power3.out" },
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1.0, duration: 1.2, ease: "power3.out" },
         "<0.2"
       )
       .fromTo(".hero-subtitle",
@@ -461,14 +461,13 @@ export default function App() {
       .to(".hero-main-title", {
         y: -100,
         opacity: 0,
-        filter: "blur(20px)",
         duration: 0.65
       })
       .to(".hero-eyebrow", { y: -45, opacity: 0, duration: 0.65 }, "<")
-      .to(".hero-headline", { y: -50, opacity: 0, filter: "blur(12px)", duration: 0.65 }, "<")
+      .to(".hero-headline", { y: -50, opacity: 0, duration: 0.65 }, "<")
       .to(".hero-subtitle", { y: -35, opacity: 0, duration: 0.65 }, "<")
-      .to(".hero-description-container", { y: -30, opacity: 0, filter: "blur(8px)", duration: 0.65 }, "<")
-      .to(".hero-celestial-seal-console", { y: -20, opacity: 0, filter: "blur(6px)", pointerEvents: "none", duration: 0.65 }, "<");
+      .to(".hero-description-container", { y: -30, opacity: 0, duration: 0.65 }, "<")
+      .to(".hero-celestial-seal-console", { y: -20, opacity: 0, pointerEvents: "none", duration: 0.65 }, "<");
 
     // 3. Fade out introductory notice on scroll
     gsap.to(".introduction-overlay", {

@@ -58,6 +58,12 @@ body {
   min-height: 100vh;
 }
 
+.app-container {
+  width: 100%;
+  min-height: 550vh;
+  position: relative;
+}
+
 /* Canvas Container */
 .canvas-wrapper {
   position: fixed;
