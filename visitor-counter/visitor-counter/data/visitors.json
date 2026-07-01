@@ -1,9 +1,10 @@
 {
-  "totalVisits": 305,
-  "uniqueVisitors": 2,
+  "totalVisits": 306,
+  "uniqueVisitors": 3,
   "visitorIds": [
     "70acb5b04adc4f322250e60aa6d518109825f9f738b416731c97415a552d2954",
-    "26a150474b18260ba6c7491510d9d913d1b0660771ca66e88d080340ace086c4"
+    "26a150474b18260ba6c7491510d9d913d1b0660771ca66e88d080340ace086c4",
+    "3e2494dadd2e6518673aca5528bf6cfd81362d899d8376e519f3f633e4f22fa5"
   ],
   "history": [
     {
@@ -1529,6 +1530,11 @@
     {
       "timestamp": "2026-06-30T14:29:18.012Z",
       "isNew": false,
+      "page": "/"
+    },
+    {
+      "timestamp": "2026-07-01T14:20:56.070Z",
+      "isNew": true,
       "page": "/"
     }
   ]
